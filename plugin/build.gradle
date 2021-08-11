@@ -1,0 +1,57 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+}
+
+def pluginName = 'LuckyEssentials'
+group 'id.luckynetwork.dev.lyrams.lej'
+version '0.0.1'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+configurations {
+    extraLibs
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    compileOnly 'org.jetbrains:annotations:21.0.1'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'cloud.commandframework:cloud-paper:1.5.0'
+    compileOnly 'cloud.commandframework:cloud-core:1.5.0'
+    compileOnly 'cloud.commandframework:cloud-annotations:1.5.0'
+    compileOnly 'cloud.commandframework:cloud-minecraft-extras:1.5.0'
+    compileOnly 'net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT'
+
+    extraLibs project(":version-support")
+    extraLibs project(":version-support1_8")
+    extraLibs project(":version-support1_12")
+    configurations.compileOnly.extendsFrom(configurations.extraLibs)
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+jar {
+    archiveFileName = pluginName + "-" + project.version + ".jar"
+
+    from {
+        configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            "version"  : project.version.toString(),
+            "mainClass": project.group + ".$pluginName",
+            "name"     : pluginName
+    ]
+}

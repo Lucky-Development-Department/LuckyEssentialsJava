@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group 'id.luckynetwork.dev.lyrams.lej'
+version '0.0.1'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    compileOnly 'org.jetbrains:annotations:21.0.1'
+
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT'
+
+    implementation project(':version-support')
+}
