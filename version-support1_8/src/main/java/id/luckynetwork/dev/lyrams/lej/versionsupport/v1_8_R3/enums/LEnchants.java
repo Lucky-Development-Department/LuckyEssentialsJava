@@ -1,9 +1,9 @@
-package id.luckynetwork.dev.lyrams.lej.versionsupport.enums;
+package id.luckynetwork.dev.lyrams.lej.versionsupport.v1_8_R3.enums;
 
 import lombok.Getter;
 import org.bukkit.enchantments.Enchantment;
 
-@SuppressWarnings({"SpellCheckingInspection", "unused"})
+@SuppressWarnings("SpellCheckingInspection")
 public enum LEnchants {
 
     PROT(Enchantment.PROTECTION_ENVIRONMENTAL),
@@ -64,24 +64,7 @@ public enum LEnchants {
     LOTS(Enchantment.LUCK),
     LUCKOFTHESEA(Enchantment.LUCK),
     LUCK_OF_THE_SEA(Enchantment.LUCK),
-    LURE(Enchantment.LURE),
-
-    FROSTWALKER(Enchantment.FROST_WALKER),
-    FROST(Enchantment.FROST_WALKER),
-
-    MENDING(Enchantment.MENDING),
-
-    BINDINGCURSE(Enchantment.BINDING_CURSE),
-    BINDING(Enchantment.BINDING_CURSE),
-    BIND(Enchantment.BINDING_CURSE),
-
-    VANISHINGCURSE(Enchantment.VANISHING_CURSE),
-    VANISHING(Enchantment.VANISHING_CURSE),
-    VANISH(Enchantment.VANISHING_CURSE),
-
-    SWEEPINGEDGE(Enchantment.SWEEPING_EDGE),
-    SWEEPEDGE(Enchantment.SWEEPING_EDGE),
-    SWEEP(Enchantment.SWEEPING_EDGE);
+    LURE(Enchantment.LURE);
 
     @Getter
     private final Enchantment enchantment;

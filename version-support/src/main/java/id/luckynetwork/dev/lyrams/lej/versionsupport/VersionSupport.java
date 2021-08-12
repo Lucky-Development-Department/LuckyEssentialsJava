@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 public abstract class VersionSupport {
 
     private final Plugin plugin;
-    private final Cache<String, ItemStack> materialCache;
-    private final Cache<String, Enchantment> enchantmentCache;
+    public final Cache<String, ItemStack> materialCache;
+    public final Cache<String, Enchantment> enchantmentCache;
 
     public VersionSupport(Plugin plugin) {
         this.plugin = plugin;

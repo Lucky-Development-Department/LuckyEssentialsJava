@@ -46,11 +46,11 @@ public class LuckyEssentials extends JavaPlugin {
         String version = Bukkit.getServer().getClass().getName().split("\\.")[3];
         try {
             try {
-                Class<?> support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport." + version);
-                versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin"), String.class).newInstance(this, version);
+                Class<?> support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport." + version + "." + version);
+                versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin")).newInstance(this);
             } catch (ClassNotFoundException ignored) {
-                Class<?> support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1");
-                versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin"), String.class).newInstance(this, "v1_12_R1");
+                Class<?> support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.v1_12_R1");
+                versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin")).newInstance(this);
             }
         } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();

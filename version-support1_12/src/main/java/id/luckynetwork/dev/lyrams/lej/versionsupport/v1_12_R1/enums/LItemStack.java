@@ -1,4 +1,4 @@
-package id.luckynetwork.dev.lyrams.lej.versionsupport.enums;
+package id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.enums;
 
 import lombok.Getter;
 import org.bukkit.Material;
@@ -464,7 +464,25 @@ public enum LItemStack {
     LAPISLAZULI(new ItemStack(Material.INK_SACK, 1, (short) 4)),
     COMMANDBLOCK(new ItemStack(Material.COMMAND, 1, (short) 0)),
     CMD(new ItemStack(Material.COMMAND, 1, (short) 0)),
-    COMMAND_BLOCK(new ItemStack(Material.COMMAND, 1, (short) 0));
+    COMMAND_BLOCK(new ItemStack(Material.COMMAND, 1, (short) 0)),
+
+    // colorful(gay) bed
+    WHITEBED(new ItemStack(Material.BED, 1, (short) 0)),
+    ORANGEBED(new ItemStack(Material.BED, 1, (short) 1)),
+    MAGENTABED(new ItemStack(Material.BED, 1, (short) 2)),
+    LIGHTBLUEBED(new ItemStack(Material.BED, 1, (short) 3)),
+    YELLOWBED(new ItemStack(Material.BED, 1, (short) 4)),
+    LIMEBED(new ItemStack(Material.BED, 1, (short) 5)),
+    PINKBED(new ItemStack(Material.BED, 1, (short) 6)),
+    GRAYBED(new ItemStack(Material.BED, 1, (short) 7)),
+    LIGHTGRAYBED(new ItemStack(Material.BED, 1, (short) 8)),
+    CYANBED(new ItemStack(Material.BED, 1, (short) 9)),
+    PURPLEBED(new ItemStack(Material.BED, 1, (short) 10)),
+    BLUEDBED(new ItemStack(Material.BED, 1, (short) 11)),
+    BROWNBED(new ItemStack(Material.BED, 1, (short) 12)),
+    GREENBED(new ItemStack(Material.BED, 1, (short) 13)),
+    REDBED(new ItemStack(Material.BED, 1, (short) 14)),
+    BLACKBED(new ItemStack(Material.BED, 1, (short) 15));
 
     @Getter
     ItemStack itemStack;
@@ -472,6 +490,4 @@ public enum LItemStack {
     LItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
-
-
 }
