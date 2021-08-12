@@ -17,13 +17,13 @@ public class RenameCommand extends CommandClass {
 
     @CommandMethod("rename <name>")
     @CommandDescription("Renames the item that you are currently holding")
-    public void flyCommand(
+    public void renameCommand(
             final @NonNull Player player,
             final @NonNull @Argument(value = "name", description = "The new name for the held item") @Greedy String name
     ) {
         ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(player);
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            player.sendMessage(Config.PREFIX + " §cYou are not holding anything!");
+            player.sendMessage(Config.PREFIX + "§cYou are not holding anything!");
             return;
         }
 
@@ -31,6 +31,8 @@ public class RenameCommand extends CommandClass {
         itemMeta.setDisplayName(Utils.colorize(name));
 
         itemInHand.setItemMeta(itemMeta);
+
         player.updateInventory();
+        player.sendMessage(Config.PREFIX + "§eItem successfully renamed!");
     }
 }
