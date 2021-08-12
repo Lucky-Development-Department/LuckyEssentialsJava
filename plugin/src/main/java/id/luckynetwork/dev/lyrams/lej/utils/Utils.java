@@ -87,10 +87,9 @@ public class Utils {
      * <p>
      * Setting arg to '@r[n=number]' can be used to add number amount of random online player to the target set.
      * <p>
-     * Setting arg to '*[r=number1,n=number2]' can be used to add number2 amount of online players in the range of number1 to the target set.
+     * Setting arg to '@r[r=number1,n=number2]' can be used to add number2 amount of random online players in the range of number1 to the target set.
      * <p>
      * Setting arg to 'player1,player2,player3,...' can be used to add player1,player2,player3,... to the target set.
-     *
      * <p>
      * <p>
      * Is this overengineered? maybe lol
