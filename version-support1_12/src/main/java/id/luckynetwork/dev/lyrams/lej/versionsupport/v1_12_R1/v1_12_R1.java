@@ -36,20 +36,6 @@ public class v1_12_R1 extends VersionSupport {
     @Override
     public ItemStack getItemByName(String name, int amount, int damage) {
         name = name.toUpperCase();
-        ItemStack cachedItem = materialCache.getIfPresent(name);
-        if (cachedItem != null) {
-            if (amount == -1) {
-                cachedItem.setAmount(Math.max(cachedItem.getMaxStackSize(), 1));
-            } else {
-                cachedItem.setAmount(amount);
-            }
-
-            if (cachedItem.getDurability() != (short) 0) {
-                cachedItem.setDurability((short) damage);
-            }
-            return cachedItem;
-        }
-
         ItemStack itemStack = null;
         try {
             itemStack = LItemStack.valueOf(name).getItemStack();
@@ -70,11 +56,9 @@ public class v1_12_R1 extends VersionSupport {
                 itemStack.setAmount(amount);
             }
 
-            if (itemStack.getDurability() != (short) 0) {
+            if (damage != 0) {
                 itemStack.setDurability((short) damage);
             }
-
-            materialCache.put(name, itemStack);
         }
 
         return itemStack;

@@ -14,14 +14,10 @@ import java.util.concurrent.TimeUnit;
 public abstract class VersionSupport {
 
     private final Plugin plugin;
-    public final Cache<String, ItemStack> materialCache;
     public final Cache<String, Enchantment> enchantmentCache;
 
     public VersionSupport(Plugin plugin) {
         this.plugin = plugin;
-        this.materialCache = CacheBuilder.newBuilder()
-                .expireAfterAccess(1, TimeUnit.HOURS)
-                .build();
         this.enchantmentCache = CacheBuilder.newBuilder()
                 .expireAfterAccess(1, TimeUnit.HOURS)
                 .build();
