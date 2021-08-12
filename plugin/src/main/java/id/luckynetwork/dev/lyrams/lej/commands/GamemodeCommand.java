@@ -44,7 +44,7 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = Utils.getTargets(sender, targetName);
+        Set<Player> targets = this.getTargets(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
@@ -77,7 +77,7 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = Utils.getTargets(sender, targetName);
+        Set<Player> targets = this.getTargets(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
@@ -110,7 +110,7 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = Utils.getTargets(sender, targetName);
+        Set<Player> targets = this.getTargets(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
@@ -143,7 +143,7 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = Utils.getTargets(sender, targetName);
+        Set<Player> targets = this.getTargets(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
@@ -176,7 +176,7 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = Utils.getTargets(sender, targetName);
+        Set<Player> targets = this.getTargets(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
