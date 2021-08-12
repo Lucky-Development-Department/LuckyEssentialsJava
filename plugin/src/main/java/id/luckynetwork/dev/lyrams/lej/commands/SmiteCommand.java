@@ -45,9 +45,7 @@ public class SmiteCommand extends CommandClass {
         boolean others = !targets.isEmpty() && targets.size() > 1;
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eSmitten §d" + targets.size() + " §eplayers!");
-        } else if (!(sender instanceof Player)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSmitten §d" + target.getName() + "§e!"));
-        } else if (!targets.contains((Player) sender) && !targetName.equals("self")) {
+        } else if ((!(sender instanceof Player)) || (!targets.contains((Player) sender) && !targetName.equals("self"))) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSmitten §d" + target.getName() + "§e!"));
         }
     }

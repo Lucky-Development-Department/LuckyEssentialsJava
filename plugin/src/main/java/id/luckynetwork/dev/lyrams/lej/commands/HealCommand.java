@@ -42,9 +42,7 @@ public class HealCommand extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eHealed §d" + targets.size() + " §eplayers!");
-        } else if (!(sender instanceof Player)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eHealed §d" + target.getName() + "§e!"));
-        } else if (!targets.contains((Player) sender) && !targetName.equals("self")) {
+        } else if ((!(sender instanceof Player)) || (!targets.contains((Player) sender) && !targetName.equals("self"))) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eHealed §d" + target.getName() + "§e!"));
         }
     }
