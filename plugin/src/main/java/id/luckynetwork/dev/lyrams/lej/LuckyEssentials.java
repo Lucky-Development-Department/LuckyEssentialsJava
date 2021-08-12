@@ -45,15 +45,33 @@ public class LuckyEssentials extends JavaPlugin {
     private void loadVersionSupport() {
         String version = Bukkit.getServer().getClass().getName().split("\\.")[3];
         try {
-            try {
-                Class<?> support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport." + version + "." + version);
-                versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin")).newInstance(this);
-            } catch (ClassNotFoundException ignored) {
-                Class<?> support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.v1_12_R1");
-                versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin")).newInstance(this);
+            Class<?> support;
+            switch (version) {
+                case "v1_8_R3": {
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_8_R3.v1_8_R3");
+                    this.getLogger().info("Loaded version support v1_8_R3");
+                    break;
+                }
+                case "v1_9_R1":
+                case "v1_9_R2":
+                case "v1_10_R1":
+                case "v1_11_R1":
+                case "v1_12_R1": {
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.v1_12_R1");
+                    this.getLogger().info("Loaded version support v1_12_R1");
+                    break;
+                }
+                default: {
+                    this.getLogger().severe("Unsupported server version!");
+                    Bukkit.getPluginManager().disablePlugin(this);
+                    return;
+                }
             }
+
+            versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin")).newInstance(this);
         } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
+            this.getLogger().severe("Unsupported server version!");
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }
