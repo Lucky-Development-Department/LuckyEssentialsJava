@@ -38,6 +38,15 @@ public class v1_8_R3 extends VersionSupport {
         name = name.toUpperCase();
         ItemStack cachedItem = materialCache.getIfPresent(name);
         if (cachedItem != null) {
+            if (amount == -1) {
+                cachedItem.setAmount(Math.max(cachedItem.getMaxStackSize(), 1));
+            } else {
+                cachedItem.setAmount(amount);
+            }
+
+            if (cachedItem.getDurability() != (short) 0) {
+                cachedItem.setDurability((short) damage);
+            }
             return cachedItem;
         }
 
