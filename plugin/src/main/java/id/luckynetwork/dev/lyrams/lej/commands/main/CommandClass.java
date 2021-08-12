@@ -52,7 +52,7 @@ public class CommandClass {
     protected Set<Player> getTargets(CommandSender sender, @Nullable String arg) {
         Set<Player> targets = new HashSet<>();
         if (!(sender instanceof Player)) {
-            if (arg == null) {
+            if (arg == null || arg.equals("self")) {
                 sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
                 return targets;
             }
