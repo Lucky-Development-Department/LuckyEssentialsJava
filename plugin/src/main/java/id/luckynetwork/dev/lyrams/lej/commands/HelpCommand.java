@@ -12,7 +12,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class HelpCommand extends CommandClass {
 
     @CommandMethod("luckyessentials help|? [query]")
-    @CommandDescription("Information about the plugin")
+    @CommandDescription("Help menu for LuckyEssentials")
     public void helpCommand(
             final @NonNull CommandSender sender,
             final @Nullable @Argument(value = "query", description = "The subcommand or the help page") @Greedy String query
