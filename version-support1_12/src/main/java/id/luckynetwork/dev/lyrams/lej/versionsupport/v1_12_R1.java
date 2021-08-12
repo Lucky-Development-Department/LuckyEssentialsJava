@@ -1,6 +1,7 @@
 package id.luckynetwork.dev.lyrams.lej.versionsupport;
 
 import net.minecraft.server.v1_12_R1.DamageSource;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +21,11 @@ public class v1_12_R1 extends VersionSupport {
     @Override
     public void kill(Player player) {
         ((CraftPlayer) player).getHandle().damageEntity(DamageSource.OUT_OF_WORLD, 1000);
+    }
+
+    @Override
+    public double getMaxHealth(Player player) {
+        return player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
     }
 
 }

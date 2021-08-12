@@ -22,4 +22,9 @@ public class v1_8_R3 extends VersionSupport {
         ((CraftPlayer) player).getHandle().damageEntity(DamageSource.OUT_OF_WORLD, 1000);
     }
 
+    @Override
+    public double getMaxHealth(Player player) {
+        return player.getMaxHealth();
+    }
+
 }

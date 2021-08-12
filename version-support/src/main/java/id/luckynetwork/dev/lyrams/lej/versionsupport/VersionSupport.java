@@ -21,4 +21,6 @@ public abstract class VersionSupport {
 
     public abstract void kill(Player player);
 
+    public abstract double getMaxHealth(Player player);
+
 }
