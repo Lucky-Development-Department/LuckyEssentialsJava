@@ -55,13 +55,13 @@ public class Utils {
 
         if (showPermission) {
             if (command != null) {
-                sender.sendMessage(Config.PREFIX + "§cYou need to have the required permission §l" + permission + " to execute §l" + command + "§c!");
+                sender.sendMessage(Config.PREFIX + "§cYou need to have the required permission §l" + permission + " to do §l" + command + "§c!");
             } else {
                 sender.sendMessage(Config.PREFIX + "§cYou need to have the required permission §l" + permission + " to do that!");
             }
         } else {
             if (command != null) {
-                sender.sendMessage(Config.PREFIX + "§cYou don't have the required permission to execute §l" + command + "§c!");
+                sender.sendMessage(Config.PREFIX + "§cYou don't have the required permission to do §l" + command + "§c!");
             } else {
                 sender.sendMessage(Config.PREFIX + "§cYou don't have the required permission to do that!");
             }
