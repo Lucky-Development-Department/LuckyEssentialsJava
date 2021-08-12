@@ -91,7 +91,7 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.SURVIVAL);
-            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dsurvival §e!");
+            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dsurvival§e!");
         });
 
         if (others) {
@@ -126,7 +126,7 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.CREATIVE);
-            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dcreative §e!");
+            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dcreative§e!");
         });
 
         if (others) {
@@ -161,7 +161,7 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.ADVENTURE);
-            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dadventure §e!");
+            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dadventure§e!");
         });
 
         if (others) {
@@ -196,7 +196,7 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.SPECTATOR);
-            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dspectator §e!");
+            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dspectator§e!");
         });
 
         if (others) {
