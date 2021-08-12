@@ -142,7 +142,7 @@ public class TeleportCommand extends CommandClass {
                             sender.sendMessage(Config.PREFIX + "§cUnknown world: §l" + worldName + "§c!");
                             return;
                         }
-                        location.setWorld(world);
+                        clone.setWorld(world);
                     }
                     if (yaw != null) {
                         clone.setYaw(yaw);
@@ -151,9 +151,9 @@ public class TeleportCommand extends CommandClass {
                         clone.setPitch(pitch);
                     }
 
-                    sender.teleport(destination);
-                })
-                .execute(() -> sender.sendMessage(Config.PREFIX + "§eTeleported you to §d" + this.beautifyLocation(sender.getLocation()) + "§e!"));
+                    sender.teleport(clone);
+                    sender.sendMessage(Config.PREFIX + "§eTeleported you to §d" + this.beautifyLocation(sender.getLocation()) + "§e!");
+                }).execute();
     }
 
     @CommandMethod("tpw <world>")
