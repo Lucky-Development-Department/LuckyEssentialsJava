@@ -6,7 +6,7 @@ plugins {
 
 def pluginName = 'LuckyEssentials'
 group 'id.luckynetwork.dev.lyrams.lej'
-version '0.0.2-SNAPSHOT'
+version '0.0.2-ALPHA'
 
 repositories {
     mavenCentral()
