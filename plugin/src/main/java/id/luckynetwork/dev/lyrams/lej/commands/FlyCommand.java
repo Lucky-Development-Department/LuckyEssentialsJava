@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class FlyCommandClass extends CommandClass {
+public class FlyCommand extends CommandClass {
 
     @CommandMethod("fly [target] [toggle]")
     @CommandDescription("Toggles flight for you or other player")
@@ -35,16 +35,23 @@ public class FlyCommandClass extends CommandClass {
         }
 
         Set<Player> targets;
-        ToggleType toggleType = ToggleType.getToggle(toggle);
+        ToggleType toggleType;
         if (!ToggleType.getToggle(targetName).equals(ToggleType.UNKNOWN) && sender instanceof Player) {
             // the sender wants to change their own flight state
             targets = Utils.getTargets(sender, "self");
             toggleType = ToggleType.getToggle(targetName);
         } else {
             targets = Utils.getTargets(sender, targetName);
+            toggleType = ToggleType.getToggle(toggle);
         }
 
         if (targets.isEmpty()) {
+            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            return;
+        }
+
+        if (toggleType.equals(ToggleType.UNKNOWN)) {
+            sender.sendMessage(Config.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
             return;
         }
 
@@ -53,9 +60,8 @@ public class FlyCommandClass extends CommandClass {
             return;
         }
 
-        ToggleType finalToggleType = toggleType;
         targets.forEach(target -> {
-            switch (finalToggleType) {
+            switch (toggleType) {
                 case ON: {
                     target.setAllowFlight(true);
                     break;
@@ -76,6 +82,8 @@ public class FlyCommandClass extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eToggled flight for §d" + targets.size() + " §eplayers!");
+        } else {
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e!"));
         }
     }
 
