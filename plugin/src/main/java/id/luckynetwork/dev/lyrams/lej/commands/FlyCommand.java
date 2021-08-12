@@ -3,23 +3,16 @@ package id.luckynetwork.dev.lyrams.lej.commands;
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.suggestions.Suggestions;
-import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.main.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.config.Config;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FlyCommand extends CommandClass {
 
@@ -87,17 +80,4 @@ public class FlyCommand extends CommandClass {
         }
     }
 
-    @Suggestions("players")
-    public List<String> players(CommandContext<CommandSender> context, String current) {
-        return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName)
-                .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-
-    @Suggestions("toggles")
-    public List<String> toggles(CommandContext<CommandSender> context, String current) {
-        return Stream.of("on", "off", "toggle")
-                .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
-                .collect(Collectors.toList());
-    }
 }
