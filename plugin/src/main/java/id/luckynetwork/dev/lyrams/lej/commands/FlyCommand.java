@@ -75,7 +75,7 @@ public class FlyCommand extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eToggled flight for §d" + targets.size() + " §eplayers!");
-        } else {
+        } else if (sender instanceof Player && !targets.contains((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e!"));
         }
     }
