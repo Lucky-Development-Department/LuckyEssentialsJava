@@ -10,14 +10,17 @@ import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.minecraft.extras.MinecraftHelp;
 import cloud.commandframework.paper.PaperCommandManager;
+import com.google.common.base.Joiner;
 import com.google.common.reflect.ClassPath;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import lombok.Getter;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.CommandSender;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -92,19 +95,21 @@ public class LuckyEssentialsCommand {
         try {
             ClassPath classPath = ClassPath.from(plugin.getClass().getClassLoader());
             for (ClassPath.ClassInfo classInfo : classPath.getTopLevelClassesRecursive("id.luckynetwork.dev.lyrams.lej.commands")) {
-                try {
-                    Class<?> commandClass = Class.forName(classInfo.getName());
-                    if (commandClass.getName().contains(".main")) {
-                        continue;
+                if (!classInfo.getName().contains(".main")) {
+                    try {
+                        Class<?> commandClass = Class.forName(classInfo.getName());
+                        this.parseAnnotationCommands(commandClass.newInstance());
+                    } catch (Exception e) {
+                        plugin.getLogger().severe("Failed loading command class: " + classInfo.getName());
+                        e.printStackTrace();
                     }
-
-                    Object commandObject = commandClass.newInstance();
-                    this.parseAnnotationCommands(commandObject);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
+
+            Collection<@NonNull Command<CommandSender>> commands = manager.getCommands();
+            plugin.getLogger().info("Registered " + commands.size() + " commands!");
         } catch (IOException e) {
+            plugin.getLogger().severe("Failed loading command classes!");
             e.printStackTrace();
         }
     }
