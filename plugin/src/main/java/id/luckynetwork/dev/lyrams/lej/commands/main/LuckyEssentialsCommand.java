@@ -94,14 +94,16 @@ public class LuckyEssentialsCommand {
         try {
             ClassPath classPath = ClassPath.from(plugin.getClass().getClassLoader());
             for (ClassPath.ClassInfo classInfo : classPath.getTopLevelClassesRecursive("id.luckynetwork.dev.lyrams.lej.commands")) {
-                if (!classInfo.getName().contains(".main")) {
-                    try {
-                        Class<?> commandClass = Class.forName(classInfo.getName());
-                        this.parseAnnotationCommands(commandClass.newInstance());
-                    } catch (Exception e) {
-                        plugin.getLogger().severe("Failed loading command class: " + classInfo.getName());
-                        e.printStackTrace();
-                    }
+                if (classInfo.getName().endsWith("LuckyEssentialsCommand") || classInfo.getName().contains(".api")) {
+                    continue;
+                }
+
+                try {
+                    Class<?> commandClass = Class.forName(classInfo.getName());
+                    this.parseAnnotationCommands(commandClass.newInstance());
+                } catch (Exception e) {
+                    plugin.getLogger().severe("Failed loading command class: " + classInfo.getName());
+                    e.printStackTrace();
                 }
             }
 
