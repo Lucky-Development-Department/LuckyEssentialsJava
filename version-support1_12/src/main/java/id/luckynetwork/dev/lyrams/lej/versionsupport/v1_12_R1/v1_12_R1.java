@@ -1,8 +1,8 @@
 package id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1;
 
+import id.luckynetwork.dev.lyrams.lej.versionsupport.VersionSupport;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.enums.LEnchants;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.enums.LItemStack;
-import id.luckynetwork.dev.lyrams.lej.versionsupport.VersionSupport;
 import net.minecraft.server.v1_12_R1.DamageSource;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -11,6 +11,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class v1_12_R1 extends VersionSupport {
 
@@ -62,6 +66,11 @@ public class v1_12_R1 extends VersionSupport {
         }
 
         return itemStack;
+    }
+
+    @Override
+    public List<String> getEnchantments() {
+        return Arrays.stream(LEnchants.values()).map(Enum::name).collect(Collectors.toList());
     }
 
     @Override

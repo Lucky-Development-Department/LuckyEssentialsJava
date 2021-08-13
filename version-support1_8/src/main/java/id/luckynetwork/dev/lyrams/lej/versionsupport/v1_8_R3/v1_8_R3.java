@@ -11,6 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class v1_8_R3 extends VersionSupport {
 
     public v1_8_R3(Plugin plugin) {
@@ -61,6 +65,11 @@ public class v1_8_R3 extends VersionSupport {
         }
 
         return itemStack;
+    }
+
+    @Override
+    public List<String> getEnchantments() {
+        return Arrays.stream(LEnchants.values()).map(Enum::name).collect(Collectors.toList());
     }
 
     @SuppressWarnings("UnstableApiUsage")

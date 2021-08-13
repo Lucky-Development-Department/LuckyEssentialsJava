@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Getter
@@ -30,6 +31,8 @@ public abstract class VersionSupport {
     public abstract double getMaxHealth(Player player);
 
     public abstract ItemStack getItemByName(String name, int amount, int damage);
+
+    public abstract List<String> getEnchantments();
 
     public abstract Enchantment getEnchantName(String name);
 
