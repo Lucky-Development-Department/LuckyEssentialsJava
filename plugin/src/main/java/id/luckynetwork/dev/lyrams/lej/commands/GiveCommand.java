@@ -8,14 +8,12 @@ import id.luckynetwork.dev.lyrams.lej.commands.main.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.config.Config;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.HashMap;
 import java.util.Set;
 
 public class GiveCommand extends CommandClass {
@@ -133,51 +131,5 @@ public class GiveCommand extends CommandClass {
         sender.getInventory().addItem(item);
         sender.updateInventory();
         sender.sendMessage(Config.PREFIX + "§eYou have been given §d" + item.getAmount() + "x " + item.getType().toString() + "§e!");
-    }
-
-    private HashMap<Enchantment, Integer> parseEnchants(CommandSender sender, String enchants) {
-        HashMap<Enchantment, Integer> enchantmentMap = new HashMap<>();
-        if (enchants.contains(",")) {
-            String[] split = enchants.split(",");
-            for (String ench : split) {
-                if (!ench.contains(":") || ench.split(":")[0] == null || ench.split(":")[1] == null) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + ench + "§c!");
-                    continue;
-                }
-
-                Enchantment enchantment = plugin.getVersionSupport().getEnchantName(ench.split(":")[0]);
-                if (enchantment == null) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + ench + "§c!");
-                    continue;
-                }
-
-                try {
-                    int level = Integer.parseInt(ench.split(":")[1]);
-                    enchantmentMap.put(enchantment, level);
-                } catch (Exception ignored) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid enchantment level: §l " + ench + "§c!");
-                }
-            }
-        } else {
-            if (!enchants.contains(":") || enchants.split(":")[0] == null || enchants.split(":")[1] == null) {
-                sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l " + enchants + "§c!");
-                return enchantmentMap;
-            }
-
-            Enchantment enchantment = plugin.getVersionSupport().getEnchantName(enchants.split(":")[0]);
-            if (enchantment == null) {
-                sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + enchants + "§c!");
-                return enchantmentMap;
-            }
-
-            try {
-                int level = Integer.parseInt(enchants.split(":")[1]);
-                enchantmentMap.put(enchantment, level);
-            } catch (Exception ignored) {
-                sender.sendMessage(Config.PREFIX + "§cInvalid enchantment level: §l " + enchants + "§c!");
-            }
-        }
-
-        return enchantmentMap;
     }
 }

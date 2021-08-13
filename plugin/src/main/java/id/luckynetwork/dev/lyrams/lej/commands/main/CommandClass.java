@@ -7,6 +7,7 @@ import id.luckynetwork.dev.lyrams.lej.config.Config;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CommandClass {
+public abstract class CommandClass {
 
     @Getter
     protected LuckyEssentials plugin = LuckyEssentials.instance;
@@ -202,6 +203,72 @@ public class CommandClass {
         }
 
         return targets;
+    }
+
+    /**
+     * Parses a string of enchants into a hashmap with the key as the enchantment
+     * and the value as the enchantment level
+     *
+     * @param sender   the sender
+     * @param enchants the enchantments
+     * @return a HashMap with the key as the enchantment and the value as the enchantment level
+     */
+    public HashMap<Enchantment, Integer> parseEnchants(CommandSender sender, String enchants) {
+        HashMap<Enchantment, Integer> enchantmentMap = new HashMap<>();
+        if (enchants.contains(",")) {
+            String[] split = enchants.split(",");
+            for (String ench : split) {
+                if (!ench.contains(":") || ench.split(":")[0] == null || ench.split(":")[1] == null) {
+                    Enchantment enchantment = plugin.getVersionSupport().getEnchantName(ench);
+                    if (enchantment == null) {
+                        sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + ench + "§c!");
+                        continue;
+                    }
+
+                    int level = 1;
+                    enchantmentMap.put(enchantment, level);
+                } else {
+                    Enchantment enchantment = plugin.getVersionSupport().getEnchantName(ench.split(":")[0]);
+                    if (enchantment == null) {
+                        sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + ench + "§c!");
+                        continue;
+                    }
+
+                    try {
+                        int level = Integer.parseInt(ench.split(":")[1]);
+                        enchantmentMap.put(enchantment, level);
+                    } catch (Exception ignored) {
+                        sender.sendMessage(Config.PREFIX + "§cInvalid enchantment level: §l " + ench + "§c!");
+                    }
+                }
+            }
+        } else {
+            if (!enchants.contains(":") || enchants.split(":")[0] == null || enchants.split(":")[1] == null) {
+                Enchantment enchantment = plugin.getVersionSupport().getEnchantName(enchants);
+                if (enchantment == null) {
+                    sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + enchants + "§c!");
+                    return enchantmentMap;
+                }
+
+                int level = 1;
+                enchantmentMap.put(enchantment, level);
+            } else {
+                Enchantment enchantment = plugin.getVersionSupport().getEnchantName(enchants.split(":")[0]);
+                if (enchantment == null) {
+                    sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + enchants + "§c!");
+                    return enchantmentMap;
+                }
+
+                try {
+                    int level = Integer.parseInt(enchants.split(":")[1]);
+                    enchantmentMap.put(enchantment, level);
+                } catch (Exception ignored) {
+                    sender.sendMessage(Config.PREFIX + "§cInvalid enchantment level: §l " + enchants + "§c!");
+                }
+            }
+        }
+
+        return enchantmentMap;
     }
 
     @Suggestions("players")
