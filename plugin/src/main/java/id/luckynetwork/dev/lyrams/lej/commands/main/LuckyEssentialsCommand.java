@@ -107,8 +107,7 @@ public class LuckyEssentialsCommand {
                 }
             }
 
-            Collection<@NonNull Command<CommandSender>> commands = manager.getCommands();
-            plugin.getLogger().info("Registered " + commands.size() + " commands!");
+            plugin.getLogger().info("Registered " + manager.getCommands().size() + " commands!");
         } catch (IOException e) {
             plugin.getLogger().severe("Failed loading command classes!");
             e.printStackTrace();
