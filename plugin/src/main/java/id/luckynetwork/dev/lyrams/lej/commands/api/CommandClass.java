@@ -1,4 +1,4 @@
-package id.luckynetwork.dev.lyrams.lej.commands.main;
+package id.luckynetwork.dev.lyrams.lej.commands.api;
 
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;

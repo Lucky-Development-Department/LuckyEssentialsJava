@@ -1,10 +1,10 @@
-package id.luckynetwork.dev.lyrams.lej.commands;
+package id.luckynetwork.dev.lyrams.lej.commands.main;
 
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.specifier.Greedy;
-import id.luckynetwork.dev.lyrams.lej.commands.main.CommandClass;
+import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;

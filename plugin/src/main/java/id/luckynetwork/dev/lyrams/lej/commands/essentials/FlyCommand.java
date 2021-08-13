@@ -1,9 +1,9 @@
-package id.luckynetwork.dev.lyrams.lej.commands;
+package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
-import id.luckynetwork.dev.lyrams.lej.commands.main.CommandClass;
+import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.config.Config;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;

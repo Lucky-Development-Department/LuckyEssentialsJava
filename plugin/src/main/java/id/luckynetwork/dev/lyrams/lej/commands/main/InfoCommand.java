@@ -1,9 +1,9 @@
-package id.luckynetwork.dev.lyrams.lej.commands;
+package id.luckynetwork.dev.lyrams.lej.commands.main;
 
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import com.google.common.base.Joiner;
-import id.luckynetwork.dev.lyrams.lej.commands.main.CommandClass;
+import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.config.Config;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
