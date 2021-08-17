@@ -1,0 +1,7 @@
+toggled: false
+deny-message: "&cYou are not whitelisted!"
+check-mode: NAME
+whitelisted:
+  LyraMS:
+    name: LyraMS
+    uuid: c1cafc0d-17da-49a4-af29-fd69543b36b1

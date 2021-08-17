@@ -5,10 +5,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import id.luckynetwork.dev.lyrams.lej.commands.main.LuckyEssentialsCommand;
+import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.WhitelistConfig;
 import id.luckynetwork.dev.lyrams.lej.dependency.DependencyHelper;
+import id.luckynetwork.dev.lyrams.lej.listeners.ConnectionListeners;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.VersionSupport;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -16,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,11 +35,15 @@ public class LuckyEssentials extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        this.saveDefaultConfig();
         this.loadDependencies();
         this.loadVersionSupport();
+        this.loadConfigurations();
 
         this.mainCommand = new LuckyEssentialsCommand(this);
+
+        this.registerListeners(
+                new ConnectionListeners()
+        );
     }
 
     @Override
@@ -42,40 +51,13 @@ public class LuckyEssentials extends JavaPlugin {
 
     }
 
-    private void loadVersionSupport() {
-        String version = Bukkit.getServer().getClass().getName().split("\\.")[3];
-        try {
-            Class<?> support;
-            switch (version) {
-                case "v1_8_R3": {
-                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_8_R3.v1_8_R3");
-                    this.getLogger().info("Loaded version support v1_8_R3");
-                    break;
-                }
-                case "v1_9_R1":
-                case "v1_9_R2":
-                case "v1_10_R1":
-                case "v1_11_R1":
-                case "v1_12_R1": {
-                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.v1_12_R1");
-                    this.getLogger().info("Loaded version support v1_12_R1");
-                    break;
-                }
-                default: {
-                    this.getLogger().severe("Unsupported server version!");
-                    Bukkit.getPluginManager().disablePlugin(this);
-                    return;
-                }
-            }
-
-            versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin")).newInstance(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            this.getLogger().severe("Unsupported server version!");
-            Bukkit.getPluginManager().disablePlugin(this);
-        }
+    private void registerListeners(Listener... listeners) {
+        Arrays.stream(listeners).forEach(it -> Bukkit.getPluginManager().registerEvents(it, this));
     }
 
+    /**
+     * downloads and/or loads dependencies
+     */
     private void loadDependencies() {
         Map<String, String> dependencyMap = new HashMap<>();
 
@@ -127,5 +109,50 @@ public class LuckyEssentials extends JavaPlugin {
         } catch (IOException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * loads the appropriate {@link VersionSupport}
+     */
+    private void loadVersionSupport() {
+        String version = Bukkit.getServer().getClass().getName().split("\\.")[3];
+        try {
+            Class<?> support;
+            switch (version) {
+                case "v1_8_R3": {
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_8_R3.v1_8_R3");
+                    this.getLogger().info("Loaded version support v1_8_R3");
+                    break;
+                }
+                case "v1_9_R1":
+                case "v1_9_R2":
+                case "v1_10_R1":
+                case "v1_11_R1":
+                case "v1_12_R1": {
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.v1_12_R1");
+                    this.getLogger().info("Loaded version support v1_12_R1");
+                    break;
+                }
+                default: {
+                    this.getLogger().severe("Unsupported server version!");
+                    Bukkit.getPluginManager().disablePlugin(this);
+                    return;
+                }
+            }
+
+            versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin")).newInstance(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            this.getLogger().severe("Unsupported server version!");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+    }
+
+    /**
+     * loads the config
+     */
+    private void loadConfigurations() {
+        Config.reload();
+        WhitelistConfig.reload();
     }
 }
