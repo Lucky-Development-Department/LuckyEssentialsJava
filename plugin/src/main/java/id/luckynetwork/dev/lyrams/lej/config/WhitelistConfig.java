@@ -16,7 +16,7 @@ import java.util.List;
 public class WhitelistConfig {
 
     private final LuckyEssentials plugin = LuckyEssentials.instance;
-    public boolean whitelisted = false;
+    public boolean enabled = false;
     public String denyMessage = "You are not whitelisted!";
     public CheckMode checkMode = CheckMode.NAME;
     public List<WhitelistData> whitelistedList = new ArrayList<>();
@@ -32,7 +32,7 @@ public class WhitelistConfig {
 
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
-        whitelisted = config.getBoolean("toggled", false);
+        enabled = config.getBoolean("toggled", false);
         denyMessage = Utils.colorize(config.getString("deny-message", "You are not whitelisted!"));
         checkMode = CheckMode.valueOf(config.getString("check-mode", "NAME").toUpperCase());
 
