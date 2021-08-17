@@ -21,7 +21,6 @@ public class WhitelistConfig {
     public CheckMode checkMode = CheckMode.NAME;
     public List<WhitelistData> whitelistedList = new ArrayList<>();
 
-    @SneakyThrows
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void reload() {
         File configFile = new File(plugin.getDataFolder(), "whitelist.yml");
@@ -51,6 +50,28 @@ public class WhitelistConfig {
                         plugin.getLogger().severe("There is something wrong in your whitelist.yml configuration!");
                     }
                 });
+    }
+
+    @SneakyThrows
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public void save() {
+        File configFile = new File(plugin.getDataFolder(), "whitelist.yml");
+        if (!configFile.exists()) {
+            configFile.getParentFile().mkdirs();
+            plugin.saveResource("whitelist.yml", false);
+        }
+
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+        config.set("toggled", enabled);
+        config.set("deny-message", denyMessage);
+        config.set("check-mode", checkMode.toString());
+        whitelistedList.forEach(it -> {
+            String name = it.getName();
+            config.set("whitelisted." + name + ".name", name);
+            config.set("whitelisted." + name + ".uuid", it.getUuid());
+        });
+
+        config.save(configFile);
     }
 
     public enum CheckMode {
