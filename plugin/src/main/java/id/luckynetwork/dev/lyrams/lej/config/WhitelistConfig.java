@@ -67,7 +67,12 @@ public class WhitelistConfig {
         config.set("check-mode", checkMode.toString());
         whitelistedList.forEach(it -> {
             String name = it.getName();
-            config.set("whitelisted." + name + ".name", name);
+            if (config.get("whitelisted." + name) != null) {
+                int number = config.getConfigurationSection("whitelisted." + name).getKeys(false).size() + 1;
+                name += number;
+            }
+
+            config.set("whitelisted." + name + ".name", it.getName());
             config.set("whitelisted." + name + ".uuid", it.getUuid());
         });
 
