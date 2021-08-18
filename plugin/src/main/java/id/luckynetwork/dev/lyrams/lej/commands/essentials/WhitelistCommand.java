@@ -129,11 +129,11 @@ public class WhitelistCommand extends CommandClass {
 
             if (WhitelistConfig.whitelistedList.contains(data)) {
                 WhitelistConfig.whitelistedList.remove(data);
-                sender.sendMessage(Config.PREFIX + "§eRemoved §d" + data.getName() + " §from the whitelist.");
+                sender.sendMessage(Config.PREFIX + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
             } else {
                 boolean removed = WhitelistConfig.whitelistedList.removeIf(it -> it.getName().equals(target.getName()) || it.getUuid().equals(target.getUniqueId().toString()));
                 if (removed) {
-                    sender.sendMessage(Config.PREFIX + "§eRemoved §d" + data.getName() + " §from the whitelist.");
+                    sender.sendMessage(Config.PREFIX + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
                 } else {
                     sender.sendMessage(Config.PREFIX + "§c§l" + data.getName() + " §cis already not whitelisted.");
                 }
