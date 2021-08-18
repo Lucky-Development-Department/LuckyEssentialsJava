@@ -43,7 +43,7 @@ public class WhitelistCommand extends CommandClass {
             int i = from;
             for (WhitelistConfig.WhitelistData data : pagedWhitelistedPlayers) {
                 sender.sendMessage("§7Player §a#" + ++i);
-                sender.sendMessage("§8└─ §eUUID: §a" + data.getUuid());
+                sender.sendMessage("§8├─ §eUUID: §a" + data.getUuid());
                 sender.sendMessage("§8└─ §eName: §a" + data.getName());
                 sender.sendMessage(" ");
             }
@@ -72,7 +72,7 @@ public class WhitelistCommand extends CommandClass {
             int i = 0;
             for (WhitelistConfig.WhitelistData data : WhitelistConfig.whitelistedList) {
                 sender.sendMessage("§7Player §a#" + ++i);
-                sender.sendMessage("§8└─ §eUUID: §a" + data.getUuid());
+                sender.sendMessage("§8├─ §eUUID: §a" + data.getUuid());
                 sender.sendMessage("§8└─ §eName: §a" + data.getName());
                 sender.sendMessage(" ");
             }
