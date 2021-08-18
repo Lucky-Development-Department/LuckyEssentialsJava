@@ -65,11 +65,17 @@ public class WhitelistConfig {
         config.set("toggled", enabled);
         config.set("deny-message", denyMessage);
         config.set("check-mode", checkMode.toString());
+        config.set("whitelisted", "");
         whitelistedList.forEach(it -> {
-            String name = it.getName();
-            if (config.get("whitelisted." + name) != null) {
-                int number = config.getConfigurationSection("whitelisted." + name).getKeys(false).size() + 1;
-                name += number;
+            StringBuilder name = new StringBuilder(it.getName());
+            int i = 1;
+            while (config.get("whitelisted." + name) != null) {
+                if (config.getString("whitelisted." + name + ".name").equals(it.getName()) && config.getString("whitelisted." + name + ".uuid").equals(it.getUuid())) {
+                    break;
+                } else {
+                    int number = i++;
+                    name.append(number);
+                }
             }
 
             config.set("whitelisted." + name + ".name", it.getName());
