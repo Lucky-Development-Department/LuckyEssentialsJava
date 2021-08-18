@@ -6,6 +6,9 @@ import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.config.Config;
 import id.luckynetwork.dev.lyrams.lej.config.WhitelistConfig;
+import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
+import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
+import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -141,6 +144,36 @@ public class WhitelistCommand extends CommandClass {
         });
 
         WhitelistConfig.save();
+    }
+
+    @CommandMethod("whitelist toggle [toggle]")
+    @CommandDescription("Toggles on or off the LuckyEssentials whitelist system")
+    public void whitelistToggleCommand(
+            final @NonNull CommandSender sender,
+            final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
+    ) {
+        ToggleType toggleType = ToggleType.getToggle(toggle);
+        if (toggleType.equals(ToggleType.UNKNOWN)) {
+            sender.sendMessage(Config.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
+            return;
+        }
+
+        switch (toggleType) {
+            case ON: {
+                WhitelistConfig.enabled = true;
+                break;
+            }
+            case OFF: {
+                WhitelistConfig.enabled = false;
+                break;
+            }
+            case TOGGLE: {
+                WhitelistConfig.enabled = !WhitelistConfig.enabled;
+                break;
+            }
+        }
+
+        sender.sendMessage(Config.PREFIX + "§eToggled whitelist system " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF) + " §e!");
     }
 
     @CommandMethod("whitelist reload")
