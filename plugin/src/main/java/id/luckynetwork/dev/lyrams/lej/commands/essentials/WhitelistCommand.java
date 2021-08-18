@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class WhitelistCommand extends CommandClass {
 
-    @CommandMethod("whitelist list [page]")
+    @CommandMethod("whitelist|ewl list [page]")
     @CommandDescription("Lists all whitelisted players")
     public void whitelistListCommand(
             final @NonNull CommandSender sender,
