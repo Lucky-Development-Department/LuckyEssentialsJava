@@ -2,6 +2,7 @@ package id.luckynetwork.dev.lyrams.lej.config;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -26,8 +27,25 @@ public class SlotsConfig {
 
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
-        enabled = config.getBoolean("slots", false);
+        enabled = config.getBoolean("toggled", false);
         denyMessage = Utils.colorize(config.getString("deny-message", "You are not whitelisted!"));
         maxPlayers = config.getInt("max-players", 1000);
+    }
+
+    @SneakyThrows
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public void save() {
+        File configFile = new File(plugin.getDataFolder(), "slots.yml");
+        if (!configFile.exists()) {
+            configFile.getParentFile().mkdirs();
+            plugin.saveResource("slots.yml", false);
+        }
+
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+        config.set("toggled", enabled);
+        config.set("deny-message", denyMessage);
+        config.set("max-players", maxPlayers);
+
+        config.save(configFile);
     }
 }
