@@ -1,3 +1,3 @@
 toggled: false
-deny-message: "&cYou are not whitelisted!"
+deny-message: "&cServer full!"
 max-players: 1000
