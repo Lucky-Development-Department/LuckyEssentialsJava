@@ -142,4 +142,13 @@ public class WhitelistCommand extends CommandClass {
 
         WhitelistConfig.save();
     }
+
+    @CommandMethod("whitelist reload")
+    @CommandDescription("Reloads the LuckyEssentials whitelist system")
+    public void whitelistReloadCommand(
+            final @NonNull CommandSender sender
+    ) {
+        WhitelistConfig.reload();
+        sender.sendMessage(Config.PREFIX + "§eReloaded the whitelist system!");
+    }
 }
