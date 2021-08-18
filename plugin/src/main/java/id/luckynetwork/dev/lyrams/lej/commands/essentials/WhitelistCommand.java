@@ -108,4 +108,38 @@ public class WhitelistCommand extends CommandClass {
 
         WhitelistConfig.save();
     }
+
+    @CommandMethod("whitelist remove <target>")
+    @CommandDescription("Removes a player to the LuckyEssentials whitelist system")
+    public void whitelistRemoveCommand(
+            final @NonNull CommandSender sender,
+            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
+    ) {
+        Set<OfflinePlayer> targets = this.getTargetsOffline(sender, targetName);
+        if (targets.isEmpty()) {
+            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            return;
+        }
+
+        targets.forEach(target -> {
+            WhitelistConfig.WhitelistData data = WhitelistConfig.WhitelistData.newBuilder()
+                    .uuid(target.getUniqueId().toString())
+                    .name(target.getName())
+                    .build();
+
+            if (WhitelistConfig.whitelistedList.contains(data)) {
+                WhitelistConfig.whitelistedList.remove(data);
+                sender.sendMessage(Config.PREFIX + "§eRemoved §d" + data.getName() + " §from the whitelist.");
+            } else {
+                boolean removed = WhitelistConfig.whitelistedList.removeIf(it -> it.getName().equals(target.getName()) || it.getUuid().equals(target.getUniqueId().toString()));
+                if (removed) {
+                    sender.sendMessage(Config.PREFIX + "§eRemoved §d" + data.getName() + " §from the whitelist.");
+                } else {
+                    sender.sendMessage(Config.PREFIX + "§c§l" + data.getName() + " §cis already not whitelisted.");
+                }
+            }
+        });
+
+        WhitelistConfig.save();
+    }
 }
