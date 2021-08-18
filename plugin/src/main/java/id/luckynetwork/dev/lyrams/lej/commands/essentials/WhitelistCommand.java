@@ -173,6 +173,7 @@ public class WhitelistCommand extends CommandClass {
             }
         }
 
+        WhitelistConfig.save();
         sender.sendMessage(Config.PREFIX + "§eToggled whitelist system " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF) + " §e!");
     }
 
