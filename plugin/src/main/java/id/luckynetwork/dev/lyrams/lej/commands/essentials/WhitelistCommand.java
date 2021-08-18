@@ -99,10 +99,10 @@ public class WhitelistCommand extends CommandClass {
                     .build();
 
             if (WhitelistConfig.whitelistedList.contains(data)) {
+                sender.sendMessage(Config.PREFIX + "§c§l" + data.getName() + " §cis already whitelisted.");
+            } else {
                 WhitelistConfig.whitelistedList.add(data);
                 sender.sendMessage(Config.PREFIX + "§eAdded §d" + data.getName() + " §eto the whitelist.");
-            } else {
-                sender.sendMessage(Config.PREFIX + "§c§l" + data.getName() + " §cis already whitelisted.");
             }
         });
 
