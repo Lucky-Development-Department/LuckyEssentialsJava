@@ -23,7 +23,29 @@ import java.util.Set;
 
 public class WhitelistCommand extends CommandClass {
 
-    @CommandMethod("whitelist|ewl list [page]")
+    @CommandMethod("whitelist|ewl|wl info|i|check|c")
+    @CommandDescription("Gets the information about the current LuckyEssentials whitelist system configuration")
+    public void whitelistInfoCommand(
+            final @NonNull CommandSender sender
+    ) {
+        sender.sendMessage(Config.PREFIX + "§eWhitelist system info:");
+        sender.sendMessage(Utils.getPrefixSpacePlaceholder() + "§8├─ §eState: " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF));
+
+        ComponentBuilder textBuilder = new ComponentBuilder(Utils.getPrefixSpacePlaceholder())
+                .append("§8├─ §eWhitelisted Players: §a" + WhitelistConfig.whitelistedList.size())
+                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click to run /whitelist list").create()))
+                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list"));
+        BaseComponent[] text = textBuilder.create();
+        if (sender instanceof Player) {
+            sender.spigot().sendMessage(text);
+        } else {
+            sender.sendMessage(BaseComponent.toLegacyText(text));
+        }
+
+        sender.sendMessage(Utils.getPrefixSpacePlaceholder() + "§8└─ §eCheck Mode: §a" + WhitelistConfig.checkMode.toString());
+    }
+
+    @CommandMethod("whitelist list [page]")
     @CommandDescription("Lists all whitelisted players")
     public void whitelistListCommand(
             final @NonNull CommandSender sender,
@@ -174,7 +196,7 @@ public class WhitelistCommand extends CommandClass {
         }
 
         WhitelistConfig.save();
-        sender.sendMessage(Config.PREFIX + "§eToggled whitelist system " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF) + " §e!");
+        sender.sendMessage(Config.PREFIX + "§eToggled whitelist system " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF) + "§e!");
     }
 
     @CommandMethod("whitelist reload")
