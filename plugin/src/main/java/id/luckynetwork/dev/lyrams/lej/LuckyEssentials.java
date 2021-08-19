@@ -1,5 +1,6 @@
 package id.luckynetwork.dev.lyrams.lej;
 
+import com.google.common.base.Joiner;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -35,6 +36,8 @@ public class LuckyEssentials extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        long millis = System.currentTimeMillis();
+
         instance = this;
         this.loadDependencies();
         this.loadVersionSupport();
@@ -45,6 +48,9 @@ public class LuckyEssentials extends JavaPlugin {
         this.registerListeners(
                 new ConnectionListeners()
         );
+
+        this.sendStuffToConsoleLmao();
+        this.getLogger().info("LuckyEssentials v" + this.getDescription().getVersion() + " loaded in " + (System.currentTimeMillis() - millis) + "ms!");
     }
 
     @Override
@@ -60,6 +66,7 @@ public class LuckyEssentials extends JavaPlugin {
      * downloads and/or loads dependencies
      */
     private void loadDependencies() {
+        this.getLogger().info("Loading and injecting dependencies...");
         Map<String, String> dependencyMap = new HashMap<>();
 
         InputStream stream = null;
@@ -116,7 +123,10 @@ public class LuckyEssentials extends JavaPlugin {
      * loads the appropriate {@link VersionSupport}
      */
     private void loadVersionSupport() {
+        this.getLogger().info("Loading version support...");
+
         String version = Bukkit.getServer().getClass().getName().split("\\.")[3];
+        this.getLogger().info("Detected server version: " + version);
         try {
             Class<?> support;
             switch (version) {
@@ -156,5 +166,27 @@ public class LuckyEssentials extends JavaPlugin {
         Config.reload();
         WhitelistConfig.reload();
         SlotsConfig.reload();
+    }
+
+    /**
+     * I was bored...
+     */
+    private void sendStuffToConsoleLmao() {
+        String luckyEssentials =
+                "\n" +
+                        "§e  _                _            ______                    _   _       _              \n" +
+                        "§e | |              | |          |  ____|                  | | (_)     | |             \n" +
+                        "§e | |    _   _  ___| | ___   _  | |__   ___ ___  ___ _ __ | |_ _  __ _| |___          \n" +
+                        "§e | |   | | | |/ __| |/ / | | | |  __| / __/ __|/ _ \\ '_ \\| __| |/ _` | / __|       \n" +
+                        "§e | |___| |_| | (__|   <| |_| | | |____\\__ \\__ \\  __/ | | | |_| | (_| | \\__ \\    \n" +
+                        "§e |______\\__,_|\\___|_|\\_\\\\__, | |______|___/___/\\___|_| |_|\\__|_|\\__,_|_|___/ \n" +
+                        "§e                         __/ |                                                       \n" +
+                        "§e                        |___/                                                        \n\n" +
+                        "                  §aLuckyEssentials §cv" + this.getDescription().getVersion() + " §eby §d" + Joiner.on(", ").join(this.getDescription().getAuthors()) + "\n" +
+                        " ";
+
+        for (String s : luckyEssentials.split("\n")) {
+            Bukkit.getConsoleSender().sendMessage(s);
+        }
     }
 }

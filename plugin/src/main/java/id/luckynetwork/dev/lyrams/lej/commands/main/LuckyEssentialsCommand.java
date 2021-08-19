@@ -89,6 +89,7 @@ public class LuckyEssentialsCommand {
 
     @SuppressWarnings("UnstableApiUsage")
     private void initCommands() {
+        plugin.getLogger().info("Loading and registering commands...");
         try {
             ClassPath classPath = ClassPath.from(plugin.getClass().getClassLoader());
             for (ClassPath.ClassInfo classInfo : classPath.getTopLevelClassesRecursive("id.luckynetwork.dev.lyrams.lej.commands")) {
