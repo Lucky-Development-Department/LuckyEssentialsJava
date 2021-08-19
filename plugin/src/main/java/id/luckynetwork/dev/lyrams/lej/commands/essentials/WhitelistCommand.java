@@ -28,6 +28,10 @@ public class WhitelistCommand extends CommandClass {
     public void whitelistInfoCommand(
             final @NonNull CommandSender sender
     ) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
         sender.sendMessage(Config.PREFIX + "§eWhitelist system info:");
         sender.sendMessage(Utils.getPrefixSpacePlaceholder() + "§8├─ §eState: " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF));
 
@@ -51,6 +55,10 @@ public class WhitelistCommand extends CommandClass {
             final @NonNull CommandSender sender,
             @NonNull @Argument(value = "page", description = "The page", defaultValue = "1") Integer page
     ) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
         List<WhitelistConfig.WhitelistData> whitelistedPlayers = WhitelistConfig.whitelistedList;
         if (whitelistedPlayers.size() > 5) {
             int maxPage = (int) Math.ceil(whitelistedPlayers.size() / 5.0);
@@ -111,6 +119,10 @@ public class WhitelistCommand extends CommandClass {
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
     ) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
         Set<OfflinePlayer> targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
@@ -140,6 +152,10 @@ public class WhitelistCommand extends CommandClass {
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
     ) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
         Set<OfflinePlayer> targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
@@ -174,6 +190,10 @@ public class WhitelistCommand extends CommandClass {
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
     ) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
         ToggleType toggleType = ToggleType.getToggle(toggle);
         if (toggleType.equals(ToggleType.UNKNOWN)) {
             sender.sendMessage(Config.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
@@ -204,6 +224,10 @@ public class WhitelistCommand extends CommandClass {
     public void whitelistReloadCommand(
             final @NonNull CommandSender sender
     ) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
         WhitelistConfig.reload();
         sender.sendMessage(Config.PREFIX + "§eReloaded the whitelist system!");
     }

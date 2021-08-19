@@ -19,6 +19,10 @@ public class SlotsCommand extends CommandClass {
     public void slotsInfoCommand(
             final @NonNull CommandSender sender
     ) {
+        if (!Utils.checkPermission(sender, "slots")) {
+            return;
+        }
+
         sender.sendMessage(Config.PREFIX + "§eSlots system info:");
         sender.sendMessage(Utils.getPrefixSpacePlaceholder() + "§8├─ §eState: " + Utils.colorizeTrueFalse(SlotsConfig.enabled, TrueFalseType.ON_OFF));
         sender.sendMessage(Utils.getPrefixSpacePlaceholder() + "§8└─ §eMax Players: §a" + SlotsConfig.maxPlayers);
@@ -30,6 +34,10 @@ public class SlotsCommand extends CommandClass {
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "amount", description = "The target player", defaultValue = "self", suggestions = "players") Integer amount
     ) {
+        if (!Utils.checkPermission(sender, "slots")) {
+            return;
+        }
+
         SlotsConfig.maxPlayers = amount;
         sender.sendMessage(Config.PREFIX + "§eSet the max players to §d" + amount + "§e!");
         SlotsConfig.save();
@@ -41,6 +49,10 @@ public class SlotsCommand extends CommandClass {
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
     ) {
+        if (!Utils.checkPermission(sender, "slots")) {
+            return;
+        }
+
         ToggleType toggleType = ToggleType.getToggle(toggle);
         if (toggleType.equals(ToggleType.UNKNOWN)) {
             sender.sendMessage(Config.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
@@ -71,6 +83,10 @@ public class SlotsCommand extends CommandClass {
     public void slotsReloadCommand(
             final @NonNull CommandSender sender
     ) {
+        if (!Utils.checkPermission(sender, "slots")) {
+            return;
+        }
+
         SlotsConfig.reload();
         sender.sendMessage(Config.PREFIX + "§eReloaded the slots system!");
     }
