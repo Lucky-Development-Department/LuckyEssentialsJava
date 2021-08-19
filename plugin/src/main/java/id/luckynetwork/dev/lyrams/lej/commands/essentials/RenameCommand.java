@@ -21,6 +21,10 @@ public class RenameCommand extends CommandClass {
             final @NonNull Player player,
             final @NonNull @Argument(value = "name", description = "The new name for the held item") @Greedy String name
     ) {
+        if (!Utils.checkPermission(player, "rename")) {
+            return;
+        }
+
         ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(player);
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
             player.sendMessage(Config.PREFIX + "§cYou are not holding anything!");
