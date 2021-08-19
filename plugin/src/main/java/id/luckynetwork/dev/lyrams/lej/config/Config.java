@@ -13,7 +13,7 @@ public class Config {
     public void reload() {
         plugin.saveDefaultConfig();
 
-        Config.PREFIX = Utils.colorize(plugin.getConfig().getString("prefix", "§e§lLUCKYESSENTIALS §a/"));
+        Config.PREFIX = Utils.colorize(plugin.getConfig().getString("prefix", "§e§lLUCKYESSENTIALS §a/ "));
     }
 
 }

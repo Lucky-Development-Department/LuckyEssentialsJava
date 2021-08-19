@@ -15,7 +15,7 @@ public class SlotsConfig {
     private final LuckyEssentials plugin = LuckyEssentials.instance;
     public boolean enabled = false;
     public int maxPlayers = 1000;
-    public String denyMessage = "Server is full!";
+    public String denyMessage = "§cServer is full!";
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void reload() {
@@ -28,7 +28,7 @@ public class SlotsConfig {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
         enabled = config.getBoolean("toggled", false);
-        denyMessage = Utils.colorize(config.getString("deny-message", "You are not whitelisted!"));
+        denyMessage = Utils.colorize(config.getString("deny-message", "§cServer is full!"));
         maxPlayers = config.getInt("max-players", 1000);
     }
 

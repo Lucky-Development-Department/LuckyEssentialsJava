@@ -52,9 +52,9 @@ public class Utils {
 
         if (showPermission) {
             if (command != null) {
-                sender.sendMessage(Config.PREFIX + "§cYou need to have the required permission §l" + permission + " to do §l" + command + "§c!");
+                sender.sendMessage(Config.PREFIX + "§cYou don't have the required permission §l" + permission + " to do §l" + command + "§c!");
             } else {
-                sender.sendMessage(Config.PREFIX + "§cYou need to have the required permission §l" + permission + " to do that!");
+                sender.sendMessage(Config.PREFIX + "§cYou don't have the required permission §l" + permission + " to do that!");
             }
         } else {
             if (command != null) {
@@ -76,9 +76,8 @@ public class Utils {
     public String colorizeTrueFalse(boolean state, TrueFalseType trueFalseType) {
         if (state) {
             return "§a" + trueFalseType.getIfTrue();
-        } else {
-            return "§c" + trueFalseType.getIfFalse();
         }
+        return "§c" + trueFalseType.getIfFalse();
     }
 
     /**
