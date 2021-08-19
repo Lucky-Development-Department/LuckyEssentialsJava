@@ -12,8 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Set;
-
 public class FlyCommand extends CommandClass {
 
     @CommandMethod("fly [target] [toggle]")
@@ -27,7 +25,7 @@ public class FlyCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets;
+        TargetsCallback targets;
         ToggleType toggleType;
         if (!ToggleType.getToggle(targetName).equals(ToggleType.UNKNOWN) && sender instanceof Player) {
             // the sender wants to change their own flight state
@@ -38,7 +36,7 @@ public class FlyCommand extends CommandClass {
             toggleType = ToggleType.getToggle(toggle);
         }
 
-        if (targets.isEmpty()) {
+        if (targets.notifyIfEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
         }
@@ -75,7 +73,7 @@ public class FlyCommand extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eToggled flight for §d" + targets.size() + " §eplayers!");
-        } else if (!(sender instanceof Player) || !targets.contains((Player) sender)) {
+        } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e!"));
         }
     }

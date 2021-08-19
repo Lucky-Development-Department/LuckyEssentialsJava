@@ -10,8 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Set;
-
 public class FeedCommand extends CommandClass {
 
     @CommandMethod("feed|eat [target]")
@@ -24,8 +22,8 @@ public class FeedCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = this.getTargets(sender, targetName);
-        if (targets.isEmpty()) {
+        TargetsCallback targets = this.getTargets(sender, targetName);
+        if (targets.notifyIfEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
         }
@@ -43,7 +41,7 @@ public class FeedCommand extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eFed §d" + targets.size() + " §eplayers!");
-        } else if ((!(sender instanceof Player)) || (!targets.contains((Player) sender) && !targetName.equals("self"))) {
+        } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eFed §d" + target.getName() + "§e!"));
         }
     }

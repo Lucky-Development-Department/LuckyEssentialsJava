@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,8 +42,8 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = this.getTargets(sender, targetName);
-        if (targets.isEmpty()) {
+        TargetsCallback targets = this.getTargets(sender, targetName);
+        if (targets.notifyIfEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
         }
@@ -61,7 +60,7 @@ public class GamemodeCommand extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6" + gameMode + " §efor §d" + targets.size() + " §eplayers!");
-        } else if (!(sender instanceof Player) || !targets.contains((Player) sender)) {
+        } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6" + gameMode + " §efor §d" + target.getName() + " §e!"));
         }
     }
@@ -76,8 +75,8 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = this.getTargets(sender, targetName);
-        if (targets.isEmpty()) {
+        TargetsCallback targets = this.getTargets(sender, targetName);
+        if (targets.notifyIfEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
         }
@@ -94,7 +93,7 @@ public class GamemodeCommand extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6survival §efor §d" + targets.size() + " §eplayers!");
-        } else if (!(sender instanceof Player) || !targets.contains((Player) sender)) {
+        } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6survival §efor §d" + target.getName() + " §e!"));
         }
     }
@@ -109,8 +108,8 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = this.getTargets(sender, targetName);
-        if (targets.isEmpty()) {
+        TargetsCallback targets = this.getTargets(sender, targetName);
+        if (targets.notifyIfEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
         }
@@ -127,7 +126,7 @@ public class GamemodeCommand extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6creative §efor §d" + targets.size() + " §eplayers!");
-        } else if (!(sender instanceof Player) || !targets.contains((Player) sender)) {
+        } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6creative §efor §d" + target.getName() + " §e!"));
         }
     }
@@ -142,8 +141,8 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = this.getTargets(sender, targetName);
-        if (targets.isEmpty()) {
+        TargetsCallback targets = this.getTargets(sender, targetName);
+        if (targets.notifyIfEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
         }
@@ -160,7 +159,7 @@ public class GamemodeCommand extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6adventure §efor §d" + targets.size() + " §eplayers!");
-        } else if (!(sender instanceof Player) || !targets.contains((Player) sender)) {
+        } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6adventure §efor §d" + target.getName() + " §e!"));
         }
     }
@@ -175,8 +174,8 @@ public class GamemodeCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = this.getTargets(sender, targetName);
-        if (targets.isEmpty()) {
+        TargetsCallback targets = this.getTargets(sender, targetName);
+        if (targets.notifyIfEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
         }
@@ -193,7 +192,7 @@ public class GamemodeCommand extends CommandClass {
 
         if (others) {
             sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6spectator §efor §d" + targets.size() + " §eplayers!");
-        } else if (!(sender instanceof Player) || !targets.contains((Player) sender)) {
+        } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6spectator §efor §d" + target.getName() + " §e!"));
         }
     }

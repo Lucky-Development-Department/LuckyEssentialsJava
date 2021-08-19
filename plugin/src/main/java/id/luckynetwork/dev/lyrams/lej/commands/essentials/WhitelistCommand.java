@@ -13,13 +13,11 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.List;
-import java.util.Set;
 
 public class WhitelistCommand extends CommandClass {
 
@@ -123,7 +121,7 @@ public class WhitelistCommand extends CommandClass {
             return;
         }
 
-        Set<OfflinePlayer> targets = this.getTargetsOffline(sender, targetName);
+        OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
@@ -156,7 +154,7 @@ public class WhitelistCommand extends CommandClass {
             return;
         }
 
-        Set<OfflinePlayer> targets = this.getTargetsOffline(sender, targetName);
+        OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;

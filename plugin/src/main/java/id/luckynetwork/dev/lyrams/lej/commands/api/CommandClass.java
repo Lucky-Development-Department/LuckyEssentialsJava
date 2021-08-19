@@ -4,7 +4,7 @@ import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.config.Config;
-import lombok.Getter;
+import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -14,8 +14,10 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public abstract class CommandClass {
 
@@ -50,26 +52,26 @@ public abstract class CommandClass {
      * @param arg    the arg
      * @return a set of target(s)
      */
-    protected Set<Player> getTargets(CommandSender sender, @Nullable String arg) {
-        Set<Player> targets = new HashSet<>();
+    protected TargetsCallback getTargets(CommandSender sender, @Nullable String arg) {
+        TargetsCallback callback = new TargetsCallback();
         if (sender instanceof Player) {
             if (arg == null) {
                 // self
-                targets.add((Player) sender);
-                return targets;
+                callback.add((Player) sender);
+                return callback;
             }
 
             switch (arg.toLowerCase()) {
                 case "self": {
                     // self
-                    targets.add((Player) sender);
-                    return targets;
+                    callback.add((Player) sender);
+                    return callback;
                 }
                 case "*":
                 case "@a": {
                     // all players
-                    targets.addAll(Bukkit.getOnlinePlayers());
-                    return targets;
+                    callback.addAll(Bukkit.getOnlinePlayers());
+                    return callback;
                 }
                 case "@r": {
                     // random player
@@ -78,8 +80,8 @@ public abstract class CommandClass {
                     Random random = new Random();
                     Player randomPlayer = players[random.nextInt(players.length)];
 
-                    targets.add(randomPlayer);
-                    return targets;
+                    callback.add(randomPlayer);
+                    return callback;
                 }
             }
 
@@ -111,13 +113,14 @@ public abstract class CommandClass {
                             nearbyPlayers.remove(nearbyPlayers.size() - 1);
                         }
                     } else {
-                        targets.addAll(nearbyPlayers);
+                        callback.addAll(nearbyPlayers);
                     }
                 } catch (NumberFormatException e) {
                     sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
-                    return targets;
+                    callback.setNotified(true);
+                    return callback;
                 }
-                return targets;
+                return callback;
             }
 
             if (arg.startsWith("@r[r=") && arg.endsWith("]")) {
@@ -144,21 +147,22 @@ public abstract class CommandClass {
                     }
 
                     if (amount >= nearbyPlayers.size()) {
-                        targets.addAll(nearbyPlayers);
+                        callback.addAll(nearbyPlayers);
                     } else {
                         Random random = new Random();
-                        while (amount > targets.size()) {
+                        while (amount > callback.size()) {
                             Player randomPlayer = nearbyPlayers.get(random.nextInt(nearbyPlayers.size()));
 
-                            targets.add(randomPlayer);
+                            callback.add(randomPlayer);
                             nearbyPlayers.remove(randomPlayer);
                         }
                     }
                 } catch (NumberFormatException e) {
                     sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
-                    return targets;
+                    callback.setNotified(true);
+                    return callback;
                 }
-                return targets;
+                return callback;
             }
 
             if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
@@ -168,21 +172,22 @@ public abstract class CommandClass {
                     List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
 
                     if (amount >= onlinePlayers.size()) {
-                        targets.addAll(onlinePlayers);
+                        callback.addAll(onlinePlayers);
                     } else {
                         Random random = new Random();
-                        while (amount > targets.size()) {
+                        while (amount > callback.size()) {
                             Player randomPlayer = onlinePlayers.get(random.nextInt(onlinePlayers.size()));
 
-                            targets.add(randomPlayer);
+                            callback.add(randomPlayer);
                             onlinePlayers.remove(randomPlayer);
                         }
                     }
                 } catch (NumberFormatException e) {
                     sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
-                    return targets;
+                    callback.setNotified(true);
+                    return callback;
                 }
-                return targets;
+                return callback;
             }
 
             if (arg.contains(",")) {
@@ -194,35 +199,38 @@ public abstract class CommandClass {
                         continue;
                     }
 
-                    targets.add(potTargetPlayer);
+                    callback.add(potTargetPlayer);
                 }
-                return targets;
+                return callback;
             }
 
             // selected player
             Player targetPlayer = Bukkit.getPlayer(arg);
             if (targetPlayer == null) {
                 sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
-                return targets;
+                callback.setNotified(true);
+                return callback;
             }
 
-            targets.add(targetPlayer);
-            return targets;
+            callback.add(targetPlayer);
+            return callback;
         }
 
         if (arg == null || arg.equals("self")) {
             sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
-            return targets;
+            callback.setNotified(true);
+            return callback;
         }
 
         Player targetPlayer = Bukkit.getPlayer(arg);
         if (targetPlayer == null) {
             sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
-            return targets;
+            callback.setNotified(true);
+            return callback;
         }
 
-        targets.add(targetPlayer);
-        return targets;
+        callback.add(targetPlayer);
+        return callback;
     }
 
     /**
@@ -255,26 +263,26 @@ public abstract class CommandClass {
      * @return a set of target(s)
      */
     @SuppressWarnings("deprecation")
-    protected Set<OfflinePlayer> getTargetsOffline(CommandSender sender, @Nullable String arg) {
-        Set<OfflinePlayer> targets = new HashSet<>();
+    protected OfflineTargetsCallback getTargetsOffline(CommandSender sender, @Nullable String arg) {
+        OfflineTargetsCallback callback = new OfflineTargetsCallback();
         if (sender instanceof Player) {
             if (arg == null) {
                 // self
-                targets.add((Player) sender);
-                return targets;
+                callback.add((Player) sender);
+                return callback;
             }
 
             switch (arg.toLowerCase()) {
                 case "self": {
                     // self
-                    targets.add((Player) sender);
-                    return targets;
+                    callback.add((Player) sender);
+                    return callback;
                 }
                 case "*":
                 case "@a": {
                     // all players
-                    targets.addAll(Bukkit.getOnlinePlayers());
-                    return targets;
+                    callback.addAll(Bukkit.getOnlinePlayers());
+                    return callback;
                 }
                 case "@r": {
                     // random player
@@ -283,8 +291,8 @@ public abstract class CommandClass {
                     Random random = new Random();
                     Player randomPlayer = players[random.nextInt(players.length)];
 
-                    targets.add(randomPlayer);
-                    return targets;
+                    callback.add(randomPlayer);
+                    return callback;
                 }
             }
 
@@ -316,13 +324,14 @@ public abstract class CommandClass {
                             nearbyPlayers.remove(nearbyPlayers.size() - 1);
                         }
                     } else {
-                        targets.addAll(nearbyPlayers);
+                        callback.addAll(nearbyPlayers);
                     }
                 } catch (NumberFormatException e) {
                     sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
-                    return targets;
+                    callback.setNotified(true);
+                    return callback;
                 }
-                return targets;
+                return callback;
             }
 
             if (arg.startsWith("@r[r=") && arg.endsWith("]")) {
@@ -349,21 +358,22 @@ public abstract class CommandClass {
                     }
 
                     if (amount >= nearbyPlayers.size()) {
-                        targets.addAll(nearbyPlayers);
+                        callback.addAll(nearbyPlayers);
                     } else {
                         Random random = new Random();
-                        while (amount > targets.size()) {
+                        while (amount > callback.size()) {
                             Player randomPlayer = nearbyPlayers.get(random.nextInt(nearbyPlayers.size()));
 
-                            targets.add(randomPlayer);
+                            callback.add(randomPlayer);
                             nearbyPlayers.remove(randomPlayer);
                         }
                     }
                 } catch (NumberFormatException e) {
                     sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
-                    return targets;
+                    callback.setNotified(true);
+                    return callback;
                 }
-                return targets;
+                return callback;
             }
 
             if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
@@ -373,21 +383,22 @@ public abstract class CommandClass {
                     List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
 
                     if (amount >= onlinePlayers.size()) {
-                        targets.addAll(onlinePlayers);
+                        callback.addAll(onlinePlayers);
                     } else {
                         Random random = new Random();
-                        while (amount > targets.size()) {
+                        while (amount > callback.size()) {
                             Player randomPlayer = onlinePlayers.get(random.nextInt(onlinePlayers.size()));
 
-                            targets.add(randomPlayer);
+                            callback.add(randomPlayer);
                             onlinePlayers.remove(randomPlayer);
                         }
                     }
                 } catch (NumberFormatException e) {
                     sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
-                    return targets;
+                    callback.setNotified(true);
+                    return callback;
                 }
-                return targets;
+                return callback;
             }
 
             if (arg.contains(",")) {
@@ -399,35 +410,38 @@ public abstract class CommandClass {
                         continue;
                     }
 
-                    targets.add(potTargetPlayer);
+                    callback.add(potTargetPlayer);
                 }
-                return targets;
+                return callback;
             }
 
             // selected player
             OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(arg);
             if (targetPlayer == null) {
                 sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
-                return targets;
+                callback.setNotified(true);
+                return callback;
             }
 
-            targets.add(targetPlayer);
-            return targets;
+            callback.add(targetPlayer);
+            return callback;
         }
 
         if (arg == null || arg.equals("self")) {
             sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
-            return targets;
+            callback.setNotified(true);
+            return callback;
         }
 
         OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(arg);
         if (targetPlayer == null) {
             sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
-            return targets;
+            callback.setNotified(true);
+            return callback;
         }
 
-        targets.add(targetPlayer);
-        return targets;
+        callback.add(targetPlayer);
+        return callback;
     }
 
     /**
@@ -508,6 +522,78 @@ public abstract class CommandClass {
         return Stream.of("on", "off", "toggle")
                 .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
                 .collect(Collectors.toList());
+    }
+
+    @Data
+    protected static class TargetsCallback {
+        private boolean notified = false;
+        private Set<Player> targets = new HashSet<>();
+
+        public void add(Player player) {
+            this.targets.add(player);
+        }
+
+        public void addAll(Collection<? extends Player> player) {
+            this.targets.addAll(player);
+        }
+
+        public int size() {
+            return this.targets.size();
+        }
+
+        public boolean isEmpty() {
+            return this.targets.isEmpty();
+        }
+
+        public boolean notifyIfEmpty() {
+            return this.isEmpty() && !this.isNotified();
+        }
+
+        public boolean doesNotContain(Player player) {
+            return !this.targets.contains(player);
+        }
+
+        public Stream<Player> stream() {
+            return StreamSupport.stream(Spliterators.spliterator(targets, 0), false);
+        }
+
+        public void forEach(Consumer<? super Player> action) {
+            for (Player target : targets) {
+                action.accept(target);
+            }
+        }
+    }
+
+    @Data
+    protected static class OfflineTargetsCallback {
+        private boolean notified = false;
+        private Set<OfflinePlayer> targets = new HashSet<>();
+
+        public void add(OfflinePlayer player) {
+            this.targets.add(player);
+        }
+
+        public void addAll(Collection<? extends OfflinePlayer> player) {
+            this.targets.addAll(player);
+        }
+
+        public int size() {
+            return this.targets.size();
+        }
+
+        public boolean isEmpty() {
+            return this.targets.isEmpty();
+        }
+
+        public Stream<OfflinePlayer> stream() {
+            return StreamSupport.stream(Spliterators.spliterator(targets, 0), false);
+        }
+
+        public void forEach(Consumer<? super OfflinePlayer> action) {
+            for (OfflinePlayer target : targets) {
+                action.accept(target);
+            }
+        }
     }
 
 }

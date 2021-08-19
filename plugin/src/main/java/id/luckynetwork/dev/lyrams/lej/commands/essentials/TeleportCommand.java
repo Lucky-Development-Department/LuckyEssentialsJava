@@ -12,8 +12,6 @@ import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Set;
-
 public class TeleportCommand extends CommandClass {
 
     @CommandMethod("tp <player> [target]")
@@ -28,8 +26,8 @@ public class TeleportCommand extends CommandClass {
             return;
         }
 
-        Set<Player> players = this.getTargets(sender, player);
-        if (players.isEmpty()) {
+        TargetsCallback players = this.getTargets(sender, player);
+        if (players.notifyIfEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
         }
@@ -51,7 +49,7 @@ public class TeleportCommand extends CommandClass {
                 sender.sendMessage(Config.PREFIX + "§eTeleported you to §d" + destination.getName() + "§e!");
             });
         } else {
-            Set<Player> targets = this.getTargets(sender, target);
+            TargetsCallback targets = this.getTargets(sender, target);
             if (targets.isEmpty()) {
                 sender.sendMessage(Config.PREFIX + "§cNo targets found!");
                 return;
@@ -95,7 +93,7 @@ public class TeleportCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = this.getTargets(sender, target);
+        TargetsCallback targets = this.getTargets(sender, target);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
@@ -188,7 +186,7 @@ public class TeleportCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = this.getTargets(sender, targetName);
+        TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.isEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;

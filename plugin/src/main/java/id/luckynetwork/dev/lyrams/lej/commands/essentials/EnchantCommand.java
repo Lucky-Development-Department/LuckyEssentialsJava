@@ -19,7 +19,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EnchantCommand extends CommandClass {
@@ -41,8 +40,8 @@ public class EnchantCommand extends CommandClass {
             this.parseEnchants(sender, enchantmentOrTarget).forEach(itemInHand::addUnsafeEnchantment);
             ((Player) sender).updateInventory();
         } else {
-            Set<Player> targets = this.getTargets(sender, enchantmentOrTarget);
-            if (targets.isEmpty()) {
+            TargetsCallback targets = this.getTargets(sender, enchantmentOrTarget);
+            if (targets.notifyIfEmpty()) {
                 sender.sendMessage(Config.PREFIX + "§cNo targets found!");
                 return;
             }

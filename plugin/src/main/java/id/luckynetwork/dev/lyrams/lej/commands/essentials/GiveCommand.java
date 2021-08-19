@@ -14,8 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Set;
-
 public class GiveCommand extends CommandClass {
 
     @CommandMethod("give <target> <item> [amount] [options]")
@@ -31,8 +29,8 @@ public class GiveCommand extends CommandClass {
             return;
         }
 
-        Set<Player> targets = this.getTargets(sender, targetName);
-        if (targets.isEmpty()) {
+        TargetsCallback targets = this.getTargets(sender, targetName);
+        if (targets.notifyIfEmpty()) {
             sender.sendMessage(Config.PREFIX + "§cNo targets found!");
             return;
         }
@@ -78,7 +76,7 @@ public class GiveCommand extends CommandClass {
 
         if (targets.size() > 1) {
             sender.sendMessage(Config.PREFIX + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §d" + targets.size() + "§eplayers!");
-        } else if ((!(sender instanceof Player)) || (!targets.contains((Player) sender) && !targetName.equals("self"))) {
+        } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §eto §d" + target.getName() + "§e!"));
         }
     }
