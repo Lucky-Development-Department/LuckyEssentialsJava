@@ -65,7 +65,7 @@ public class LuckyEssentials extends JavaPlugin {
         InputStream stream = null;
         InputStreamReader reader = null;
         try {
-            stream = LuckyEssentials.class.getClassLoader().getResourceAsStream("commandframework.json");
+            stream = LuckyEssentials.class.getClassLoader().getResourceAsStream("dependencies.json");
 
             assert stream != null;
             reader = new InputStreamReader(stream);
