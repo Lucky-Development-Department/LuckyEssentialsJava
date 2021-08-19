@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 
 public abstract class CommandClass {
 
-    @Getter
     protected LuckyEssentials plugin = LuckyEssentials.instance;
 
     /**
@@ -53,38 +52,38 @@ public abstract class CommandClass {
      */
     protected Set<Player> getTargets(CommandSender sender, @Nullable String arg) {
         Set<Player> targets = new HashSet<>();
-        if (!(sender instanceof Player)) {
-            if (arg == null || arg.equals("self")) {
-                sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
-                return targets;
-            }
-
-            Player targetPlayer = Bukkit.getPlayer(arg);
-            if (targetPlayer == null) {
-                sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
-                return targets;
-            }
-
-            targets.add(targetPlayer);
-            return targets;
-        }
-
-        if (arg != null) {
-            if (arg.equals("*") || arg.equals("@a")) {
-                // all players
-                targets.addAll(Bukkit.getOnlinePlayers());
-            } else if (arg.equals("self")) {
+        if (sender instanceof Player) {
+            if (arg == null) {
                 // self
                 targets.add((Player) sender);
-            } else if (arg.equals("@r")) {
-                // random player
-                Player[] players = Bukkit.getOnlinePlayers().toArray(new Player[0]);
+                return targets;
+            }
 
-                Random random = new Random();
-                Player randomPlayer = players[random.nextInt(players.length)];
+            switch (arg.toLowerCase()) {
+                case "self": {
+                    // self
+                    targets.add((Player) sender);
+                    return targets;
+                }
+                case "*":
+                case "@a": {
+                    // all players
+                    targets.addAll(Bukkit.getOnlinePlayers());
+                    return targets;
+                }
+                case "@r": {
+                    // random player
+                    Player[] players = Bukkit.getOnlinePlayers().toArray(new Player[0]);
 
-                targets.add(randomPlayer);
-            } else if ((arg.startsWith("*[r=") || arg.startsWith("@a[r=") && arg.endsWith("]"))) {
+                    Random random = new Random();
+                    Player randomPlayer = players[random.nextInt(players.length)];
+
+                    targets.add(randomPlayer);
+                    return targets;
+                }
+            }
+
+            if ((arg.startsWith("*[r=") || arg.startsWith("@a[r=") && arg.endsWith("]"))) {
                 try {
                     double range;
                     int amount;
@@ -118,7 +117,10 @@ public abstract class CommandClass {
                     sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
                     return targets;
                 }
-            } else if (arg.startsWith("@r[r=") && arg.endsWith("]")) {
+                return targets;
+            }
+
+            if (arg.startsWith("@r[r=") && arg.endsWith("]")) {
                 try {
                     double range;
                     int amount;
@@ -156,7 +158,10 @@ public abstract class CommandClass {
                     sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
                     return targets;
                 }
-            } else if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
+                return targets;
+            }
+
+            if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
                 try {
                     // random players with a set amount
                     int amount = Integer.parseInt(arg.split("=")[1].split("]")[0]);
@@ -177,7 +182,10 @@ public abstract class CommandClass {
                     sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
                     return targets;
                 }
-            } else if (arg.contains(",")) {
+                return targets;
+            }
+
+            if (arg.contains(",")) {
                 // selected players
                 for (String potTarget : arg.split(",")) {
                     Player potTargetPlayer = Bukkit.getPlayer(potTarget);
@@ -188,21 +196,32 @@ public abstract class CommandClass {
 
                     targets.add(potTargetPlayer);
                 }
-            } else {
-                // selected player
-                Player targetPlayer = Bukkit.getPlayer(arg);
-                if (targetPlayer == null) {
-                    sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
-                    return targets;
-                }
-
-                targets.add(targetPlayer);
+                return targets;
             }
-        } else {
-            // self
-            targets.add((Player) sender);
+
+            // selected player
+            Player targetPlayer = Bukkit.getPlayer(arg);
+            if (targetPlayer == null) {
+                sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
+                return targets;
+            }
+
+            targets.add(targetPlayer);
+            return targets;
         }
 
+        if (arg == null || arg.equals("self")) {
+            sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
+            return targets;
+        }
+
+        Player targetPlayer = Bukkit.getPlayer(arg);
+        if (targetPlayer == null) {
+            sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
+            return targets;
+        }
+
+        targets.add(targetPlayer);
         return targets;
     }
 
@@ -238,38 +257,38 @@ public abstract class CommandClass {
     @SuppressWarnings("deprecation")
     protected Set<OfflinePlayer> getTargetsOffline(CommandSender sender, @Nullable String arg) {
         Set<OfflinePlayer> targets = new HashSet<>();
-        if (!(sender instanceof Player)) {
-            if (arg == null || arg.equals("self")) {
-                sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
-                return targets;
-            }
-
-            OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(arg);
-            if (targetPlayer == null) {
-                sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
-                return targets;
-            }
-
-            targets.add(targetPlayer);
-            return targets;
-        }
-
-        if (arg != null) {
-            if (arg.equals("*") || arg.equals("@a")) {
-                // all players
-                targets.addAll(Bukkit.getOnlinePlayers());
-            } else if (arg.equals("self")) {
+        if (sender instanceof Player) {
+            if (arg == null) {
                 // self
                 targets.add((Player) sender);
-            } else if (arg.equals("@r")) {
-                // random player
-                Player[] players = Bukkit.getOnlinePlayers().toArray(new Player[0]);
+                return targets;
+            }
 
-                Random random = new Random();
-                Player randomPlayer = players[random.nextInt(players.length)];
+            switch (arg.toLowerCase()) {
+                case "self": {
+                    // self
+                    targets.add((Player) sender);
+                    return targets;
+                }
+                case "*":
+                case "@a": {
+                    // all players
+                    targets.addAll(Bukkit.getOnlinePlayers());
+                    return targets;
+                }
+                case "@r": {
+                    // random player
+                    Player[] players = Bukkit.getOnlinePlayers().toArray(new Player[0]);
 
-                targets.add(randomPlayer);
-            } else if ((arg.startsWith("*[r=") || arg.startsWith("@a[r=") && arg.endsWith("]"))) {
+                    Random random = new Random();
+                    Player randomPlayer = players[random.nextInt(players.length)];
+
+                    targets.add(randomPlayer);
+                    return targets;
+                }
+            }
+
+            if ((arg.startsWith("*[r=") || arg.startsWith("@a[r=") && arg.endsWith("]"))) {
                 try {
                     double range;
                     int amount;
@@ -303,7 +322,10 @@ public abstract class CommandClass {
                     sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
                     return targets;
                 }
-            } else if (arg.startsWith("@r[r=") && arg.endsWith("]")) {
+                return targets;
+            }
+
+            if (arg.startsWith("@r[r=") && arg.endsWith("]")) {
                 try {
                     double range;
                     int amount;
@@ -341,7 +363,10 @@ public abstract class CommandClass {
                     sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
                     return targets;
                 }
-            } else if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
+                return targets;
+            }
+
+            if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
                 try {
                     // random players with a set amount
                     int amount = Integer.parseInt(arg.split("=")[1].split("]")[0]);
@@ -362,7 +387,10 @@ public abstract class CommandClass {
                     sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
                     return targets;
                 }
-            } else if (arg.contains(",")) {
+                return targets;
+            }
+
+            if (arg.contains(",")) {
                 // selected players
                 for (String potTarget : arg.split(",")) {
                     OfflinePlayer potTargetPlayer = Bukkit.getOfflinePlayer(potTarget);
@@ -373,21 +401,32 @@ public abstract class CommandClass {
 
                     targets.add(potTargetPlayer);
                 }
-            } else {
-                // selected player
-                OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(arg);
-                if (targetPlayer == null) {
-                    sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
-                    return targets;
-                }
-
-                targets.add(targetPlayer);
+                return targets;
             }
-        } else {
-            // self
-            targets.add((Player) sender);
+
+            // selected player
+            OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(arg);
+            if (targetPlayer == null) {
+                sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
+                return targets;
+            }
+
+            targets.add(targetPlayer);
+            return targets;
         }
 
+        if (arg == null || arg.equals("self")) {
+            sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
+            return targets;
+        }
+
+        OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(arg);
+        if (targetPlayer == null) {
+            sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
+            return targets;
+        }
+
+        targets.add(targetPlayer);
         return targets;
     }
 
