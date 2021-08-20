@@ -6,7 +6,8 @@ import lombok.Setter;
 public enum TrueFalseType {
 
     ON_OFF("On", "Off"),
-    DEFAULT("True", "False");
+    DEFAULT("True", "False"),
+    ENABLED("Enabled", "Disabled");
 
     @Getter
     @Setter

@@ -30,10 +30,10 @@ public class WhitelistCommand extends CommandClass {
             return;
         }
 
-        sender.sendMessage(Config.PREFIX + "§eWhitelist system info:");
-        sender.sendMessage(Utils.getPrefixSpacePlaceholder() + "§8├─ §eState: " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF));
+        sender.sendMessage("§eWhitelist system info:");
+        sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF));
 
-        ComponentBuilder textBuilder = new ComponentBuilder(Utils.getPrefixSpacePlaceholder())
+        ComponentBuilder textBuilder = new ComponentBuilder("")
                 .append("§8├─ §eWhitelisted Players: §a" + WhitelistConfig.whitelistedList.size())
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click to run /whitelist list").create()))
                 .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list"));
@@ -44,7 +44,7 @@ public class WhitelistCommand extends CommandClass {
             sender.sendMessage(BaseComponent.toLegacyText(text));
         }
 
-        sender.sendMessage(Utils.getPrefixSpacePlaceholder() + "§8└─ §eCheck Mode: §a" + WhitelistConfig.checkMode.toString());
+        sender.sendMessage("§8└─ §eCheck Mode: §a" + WhitelistConfig.checkMode.toString());
     }
 
     @CommandMethod("whitelist list [page]")

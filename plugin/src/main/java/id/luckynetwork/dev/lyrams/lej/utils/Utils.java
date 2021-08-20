@@ -88,18 +88,4 @@ public class Utils {
         }
         return "§c" + trueFalseType.getIfFalse();
     }
-
-    /**
-     * Replaces all characters in {@link Config#PREFIX} with a blank space
-     */
-    public String getPrefixSpacePlaceholder() {
-        String prefix = ChatColor.stripColor(Config.PREFIX);
-
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < prefix.length(); i++) {
-            stringBuilder.append(" ");
-        }
-
-        return stringBuilder.toString();
-    }
 }

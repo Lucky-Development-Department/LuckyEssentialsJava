@@ -23,9 +23,9 @@ public class SlotsCommand extends CommandClass {
             return;
         }
 
-        sender.sendMessage(Config.PREFIX + "§eSlots system info:");
-        sender.sendMessage(Utils.getPrefixSpacePlaceholder() + "§8├─ §eState: " + Utils.colorizeTrueFalse(SlotsConfig.enabled, TrueFalseType.ON_OFF));
-        sender.sendMessage(Utils.getPrefixSpacePlaceholder() + "§8└─ §eMax Players: §a" + SlotsConfig.maxPlayers);
+        sender.sendMessage("§eSlots system info:");
+        sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(SlotsConfig.enabled, TrueFalseType.ON_OFF));
+        sender.sendMessage("§8└─ §eMax Players: §a" + SlotsConfig.maxPlayers);
     }
 
     @CommandMethod("slots set <amount>")
