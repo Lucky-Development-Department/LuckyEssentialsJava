@@ -76,25 +76,6 @@ public class PluginManagerUtils {
         return PluginManagerUtils.enable(plugin);
     }
 
-
-    /**
-     * Returns a List of plugin names.
-     *
-     * @return list of plugin names
-     */
-    public List<String> getPluginNames(boolean fullName) {
-        List<String> plugins = new ArrayList<>();
-        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            if (fullName) {
-                plugins.add(plugin.getDescription().getFullName());
-            } else {
-                plugins.add(plugin.getName());
-            }
-        }
-
-        return plugins;
-    }
-
     /**
      * gets a plugin by its name
      *
@@ -150,7 +131,7 @@ public class PluginManagerUtils {
      * @param command the command.
      * @return the plugin.
      */
-    public static List<String> findByCommand(String command) {
+    public List<String> findByCommand(String command) {
         List<String> plugins = new ArrayList<>();
 
         List<String> pls = new ArrayList<>();
@@ -413,7 +394,6 @@ public class PluginManagerUtils {
         // Will not work on processes started with the -XX:+DisableExplicitGC flag, but lets try it anyway.
         // This tries to get around the issue where Windows refuses to unlock jar files that were previously loaded into the JVM.
         System.gc();
-
         return true;
     }
 
