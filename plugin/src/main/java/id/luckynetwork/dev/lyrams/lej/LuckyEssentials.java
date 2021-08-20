@@ -11,6 +11,7 @@ import id.luckynetwork.dev.lyrams.lej.config.SlotsConfig;
 import id.luckynetwork.dev.lyrams.lej.config.WhitelistConfig;
 import id.luckynetwork.dev.lyrams.lej.dependency.DependencyHelper;
 import id.luckynetwork.dev.lyrams.lej.listeners.ConnectionListeners;
+import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.VersionSupport;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -125,7 +126,7 @@ public class LuckyEssentials extends JavaPlugin {
     private void loadVersionSupport() {
         this.getLogger().info("Loading version support...");
 
-        String version = Bukkit.getServer().getClass().getName().split("\\.")[3];
+        String version = Utils.getNmsVersion();
         this.getLogger().info("Detected server version: " + version);
         try {
             Class<?> support;

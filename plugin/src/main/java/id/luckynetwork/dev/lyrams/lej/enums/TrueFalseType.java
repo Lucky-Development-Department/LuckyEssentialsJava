@@ -1,6 +1,7 @@
 package id.luckynetwork.dev.lyrams.lej.enums;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public enum TrueFalseType {
 
@@ -8,6 +9,7 @@ public enum TrueFalseType {
     DEFAULT("True", "False");
 
     @Getter
+    @Setter
     String ifTrue, ifFalse;
 
     TrueFalseType(String ifTrue, String ifFalse) {
