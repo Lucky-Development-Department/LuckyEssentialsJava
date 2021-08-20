@@ -2,13 +2,22 @@ package id.luckynetwork.dev.lyrams.lej.utils;
 
 import id.luckynetwork.dev.lyrams.lej.config.Config;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
+import lombok.Getter;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 
 @UtilityClass
 public class Utils {
+
+    @Getter
+    private final String nmsVersion;
+
+    static {
+        nmsVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
+    }
 
     public String colorize(String toColor) {
         return ChatColor.translateAlternateColorCodes('&', toColor);
