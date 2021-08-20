@@ -3,4 +3,6 @@ include 'plugin'
 include 'version-support'
 include 'version-support1_8'
 include 'version-support1_12'
+include 'version-support1_13'
+include 'version-support1_16'
 

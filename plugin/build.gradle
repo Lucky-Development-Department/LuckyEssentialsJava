@@ -35,6 +35,8 @@ dependencies {
     extraLibs project(":version-support")
     extraLibs project(":version-support1_8")
     extraLibs project(":version-support1_12")
+    extraLibs project(":version-support1_13")
+    extraLibs project(":version-support1_16")
     configurations.compileOnly.extendsFrom(configurations.extraLibs)
 }
 
