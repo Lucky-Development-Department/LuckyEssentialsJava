@@ -35,10 +35,18 @@ public class PluginManagerUtils {
      *
      * @param plugin the plugin to enable
      */
-    public void enable(Plugin plugin) {
+    public boolean enable(Plugin plugin) {
         if (plugin != null && !plugin.isEnabled()) {
-            Bukkit.getPluginManager().enablePlugin(plugin);
+            try {
+                Bukkit.getPluginManager().enablePlugin(plugin);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
         }
+
+        return false;
     }
 
     /**
@@ -46,10 +54,26 @@ public class PluginManagerUtils {
      *
      * @param plugin the plugin to disable
      */
-    public void disable(Plugin plugin) {
+    public boolean disable(Plugin plugin) {
         if (plugin != null && plugin.isEnabled()) {
-            Bukkit.getPluginManager().disablePlugin(plugin);
+            try {
+                Bukkit.getPluginManager().disablePlugin(plugin);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
         }
+
+        return false;
+    }
+
+    public boolean restart(Plugin plugin) {
+        if (plugin.isEnabled()) {
+            return PluginManagerUtils.disable(plugin) && PluginManagerUtils.enable(plugin);
+        }
+
+        return PluginManagerUtils.enable(plugin);
     }
 
 
@@ -114,7 +138,7 @@ public class PluginManagerUtils {
                 .collect(Collectors.toList());
 
         if (parsedCommands.isEmpty()) {
-            return "No commands registered.";
+            return "§cNo commands registered.";
         }
 
         return Joiner.on(", ").join(parsedCommands);
@@ -215,7 +239,7 @@ public class PluginManagerUtils {
             return false;
         }
 
-        File pluginFile = new File(pluginName, pluginName + ".jar");
+        File pluginFile = new File(pluginDir, pluginName + ".jar");
         if (!pluginFile.isFile()) {
             for (File file : Objects.requireNonNull(pluginDir.listFiles())) {
                 if (file.toPath().endsWith(".jar")) {
@@ -398,10 +422,14 @@ public class PluginManagerUtils {
      *
      * @param plugin the plugin to reload
      */
-    public static void reload(Plugin plugin) {
+    public boolean reload(Plugin plugin) {
         if (plugin != null) {
-            unload(plugin);
-            load(plugin);
+            boolean unloaded = unload(plugin);
+            boolean loaded = load(plugin);
+
+            return unloaded && loaded;
         }
+
+        return false;
     }
 }
