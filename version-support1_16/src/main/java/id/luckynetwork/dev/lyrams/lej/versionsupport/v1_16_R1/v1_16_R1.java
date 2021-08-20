@@ -1,5 +1,6 @@
 package id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1;
 
+import id.luckynetwork.dev.lyrams.lej.versionsupport.BukkitCommandWrap;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.VersionSupport;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.enums.LEnchants;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.enums.LItemStack;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class v1_16_R1 extends VersionSupport {
+
+    private final CommandWarp commandWrap;
 
     public v1_16_R1(Plugin plugin) {
         super(plugin);
@@ -104,6 +107,11 @@ public class v1_16_R1 extends VersionSupport {
     @Override
     public void reloadCommands(Player player) {
         player.updateCommands();
+    }
+
+    @Override
+    public BukkitCommandWrap getCommandWrap() {
+        return commandWrap;
     }
 
 }
