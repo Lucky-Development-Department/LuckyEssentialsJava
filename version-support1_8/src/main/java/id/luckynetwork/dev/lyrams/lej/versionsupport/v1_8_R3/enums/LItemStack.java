@@ -378,7 +378,9 @@ public enum LItemStack {
     DIAMONDLEGGINGS(new ItemStack(Material.DIAMOND_LEGGINGS, 1)),
     DIAMONDBOOTS(new ItemStack(Material.DIAMOND_BOOTS, 1)),
 
-    // food stuff
+    // foodstuff
+    GOLDCARROT(new ItemStack(Material.GOLDEN_CARROT, 1)),
+    GOLDENCARROT(new ItemStack(Material.GOLDEN_CARROT, 1)),
     GOLDAPPLE(new ItemStack(Material.GOLDEN_APPLE, 1)),
     GAPPLE(new ItemStack(Material.GOLDEN_APPLE, 1)),
     CRAPPLE(new ItemStack(Material.GOLDEN_APPLE, 1)),

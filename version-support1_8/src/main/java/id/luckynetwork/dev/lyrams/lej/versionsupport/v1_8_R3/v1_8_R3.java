@@ -19,6 +19,7 @@ public class v1_8_R3 extends VersionSupport {
 
     public v1_8_R3(Plugin plugin) {
         super(plugin);
+        this.commandWrap = new CommandWarp();
     }
 
     @Override
@@ -98,6 +99,10 @@ public class v1_8_R3 extends VersionSupport {
         }
 
         return enchantment;
+    }
+
+    @Override
+    public void reloadCommands(Player player) {
     }
 
 }

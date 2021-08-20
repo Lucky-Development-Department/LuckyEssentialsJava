@@ -20,6 +20,7 @@ public class v1_12_R1 extends VersionSupport {
 
     public v1_12_R1(Plugin plugin) {
         super(plugin);
+        this.commandWrap = new CommandWarp();
     }
 
     @Override
@@ -98,6 +99,10 @@ public class v1_12_R1 extends VersionSupport {
         }
 
         return enchantment;
+    }
+
+    @Override
+    public void reloadCommands(Player player) {
     }
 
 }

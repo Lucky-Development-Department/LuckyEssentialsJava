@@ -16,6 +16,7 @@ public abstract class VersionSupport {
 
     private final Plugin plugin;
     public final Cache<String, Enchantment> enchantmentCache;
+    public BukkitCommandWrap commandWrap;
 
     public VersionSupport(Plugin plugin) {
         this.plugin = plugin;
@@ -35,5 +36,7 @@ public abstract class VersionSupport {
     public abstract List<String> getEnchantments();
 
     public abstract Enchantment getEnchantName(String name);
+
+    public abstract void reloadCommands(Player player);
 
 }
