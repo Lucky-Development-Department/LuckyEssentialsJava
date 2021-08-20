@@ -6,15 +6,18 @@ import id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.enums.LEnchants;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.enums.LItemStack;
 import net.minecraft.server.v1_16_R3.DamageSource;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class v1_16_R1 extends VersionSupport {
@@ -38,7 +41,7 @@ public class v1_16_R1 extends VersionSupport {
 
     @Override
     public double getMaxHealth(Player player) {
-        return player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        return Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
     }
 
     @Override
@@ -65,6 +68,7 @@ public class v1_16_R1 extends VersionSupport {
             }
 
             if (damage != 0) {
+                //noinspection deprecation
                 itemStack.setDurability((short) damage);
             }
         }
@@ -92,8 +96,9 @@ public class v1_16_R1 extends VersionSupport {
         }
 
         if (enchantment == null) {
-            if (Enchantment.getByName(name) != null) {
-                enchantment = Enchantment.getByName(name);
+            Enchantment byKey = EnchantmentWrapper.getByKey(NamespacedKey.minecraft(name.toLowerCase()));
+            if (byKey != null) {
+                enchantment = byKey;
             }
         }
 

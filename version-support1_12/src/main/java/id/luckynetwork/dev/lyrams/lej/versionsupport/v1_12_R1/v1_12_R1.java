@@ -15,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class v1_12_R1 extends VersionSupport {
@@ -38,7 +39,7 @@ public class v1_12_R1 extends VersionSupport {
 
     @Override
     public double getMaxHealth(Player player) {
-        return player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        return Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
     }
 
     @Override
