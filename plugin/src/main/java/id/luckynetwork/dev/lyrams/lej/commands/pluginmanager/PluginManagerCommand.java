@@ -5,6 +5,8 @@ import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.Flag;
 import cloud.commandframework.annotations.specifier.Greedy;
+import cloud.commandframework.annotations.suggestions.Suggestions;
+import cloud.commandframework.context.CommandContext;
 import com.google.common.base.Joiner;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.config.Config;
@@ -23,6 +25,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PluginManagerCommand extends CommandClass {
 
@@ -49,7 +52,7 @@ public class PluginManagerCommand extends CommandClass {
     @CommandDescription("Gets the info of a plugin")
     public void infoCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name") @Greedy String pluginName
+            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.info")) {
             return;
@@ -74,7 +77,7 @@ public class PluginManagerCommand extends CommandClass {
     @CommandDescription("Loads a plugin")
     public void loadCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name") @Greedy String pluginName
+            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.load")) {
             return;
@@ -98,7 +101,7 @@ public class PluginManagerCommand extends CommandClass {
     @CommandDescription("Unloads a plugin")
     public void unLoadCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name") @Greedy String pluginName
+            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.unload")) {
             return;
@@ -122,7 +125,7 @@ public class PluginManagerCommand extends CommandClass {
     @CommandDescription("Reloads a plugin")
     public void reloadCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name") @Greedy String pluginName
+            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.reload")) {
             return;
@@ -146,7 +149,7 @@ public class PluginManagerCommand extends CommandClass {
     @CommandDescription("Enables a plugin")
     public void enableCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name") @Greedy String pluginName
+            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.enable")) {
             return;
@@ -174,7 +177,7 @@ public class PluginManagerCommand extends CommandClass {
     @CommandDescription("Disables a plugin")
     public void disableCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name") @Greedy String pluginName
+            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.disable")) {
             return;
@@ -202,7 +205,7 @@ public class PluginManagerCommand extends CommandClass {
     @CommandDescription("Restarts a plugin")
     public void restartCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name") @Greedy String pluginName
+            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.restart")) {
             return;
@@ -226,7 +229,7 @@ public class PluginManagerCommand extends CommandClass {
     @CommandDescription("Gets the command usages of a plugin")
     public void usageCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name") @Greedy String pluginName
+            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.usage")) {
             return;
@@ -246,7 +249,7 @@ public class PluginManagerCommand extends CommandClass {
     @CommandDescription("Looks up for the plugin of the command")
     public void lookupCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "command", description = "The plugin name") @Greedy String command
+            final @NonNull @Argument(value = "command", description = "The command") @Greedy String command
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.lookup")) {
             return;
@@ -259,5 +262,13 @@ public class PluginManagerCommand extends CommandClass {
         }
 
         sender.sendMessage(Config.PREFIX + "§d" + command + " §eis registered to: §a" + Joiner.on(", ").join(pluginByCommands));
+    }
+
+    @Suggestions("plugins")
+    public List<String> plugins(CommandContext<CommandSender> context, String current) {
+        return Arrays.stream(Bukkit.getPluginManager().getPlugins())
+                .map(Plugin::getName)
+                .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }
