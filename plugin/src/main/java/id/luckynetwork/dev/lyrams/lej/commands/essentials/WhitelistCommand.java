@@ -23,7 +23,7 @@ public class WhitelistCommand extends CommandClass {
 
     @CommandMethod("whitelist|ewl|wl info|i|check|c")
     @CommandDescription("Gets the information about the current LuckyEssentials whitelist system configuration")
-    public void whitelistInfoCommand(
+    public void infoCommand(
             final @NonNull CommandSender sender
     ) {
         if (!Utils.checkPermission(sender, "whitelist")) {
@@ -49,7 +49,7 @@ public class WhitelistCommand extends CommandClass {
 
     @CommandMethod("whitelist list [page]")
     @CommandDescription("Lists all whitelisted players")
-    public void whitelistListCommand(
+    public void listCommand(
             final @NonNull CommandSender sender,
             @NonNull @Argument(value = "page", description = "The page", defaultValue = "1") Integer page
     ) {
@@ -113,7 +113,7 @@ public class WhitelistCommand extends CommandClass {
 
     @CommandMethod("whitelist add <target>")
     @CommandDescription("Adds a player to the LuckyEssentials whitelist system")
-    public void whitelistAddCommand(
+    public void addCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
     ) {
@@ -146,7 +146,7 @@ public class WhitelistCommand extends CommandClass {
 
     @CommandMethod("whitelist remove <target>")
     @CommandDescription("Removes a player to the LuckyEssentials whitelist system")
-    public void whitelistRemoveCommand(
+    public void removeCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
     ) {
@@ -184,7 +184,7 @@ public class WhitelistCommand extends CommandClass {
 
     @CommandMethod("whitelist check <target>")
     @CommandDescription("Checks if a player is whitelisted in the LuckyEssentials whitelist system")
-    public void whitelistCheckCommand(
+    public void checkCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
     ) {
@@ -225,7 +225,7 @@ public class WhitelistCommand extends CommandClass {
 
     @CommandMethod("whitelist toggle [toggle]")
     @CommandDescription("Toggles on or off the LuckyEssentials whitelist system")
-    public void whitelistToggleCommand(
+    public void toggleCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
     ) {
@@ -260,7 +260,7 @@ public class WhitelistCommand extends CommandClass {
 
     @CommandMethod("whitelist reload")
     @CommandDescription("Reloads the LuckyEssentials whitelist system")
-    public void whitelistReloadCommand(
+    public void reloadCommand(
             final @NonNull CommandSender sender
     ) {
         if (!Utils.checkPermission(sender, "whitelist")) {
