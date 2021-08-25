@@ -1,5 +1,6 @@
 package id.luckynetwork.dev.lyrams.lej.utils;
 
+import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.config.Config;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.Nullable;
 
 @UtilityClass
@@ -87,5 +90,13 @@ public class Utils {
             return "§a" + trueFalseType.getIfTrue();
         }
         return "§c" + trueFalseType.getIfFalse();
+    }
+
+    public void applyMetadata(Player player, String metadata, Object value) {
+        player.setMetadata(metadata, new FixedMetadataValue(LuckyEssentials.getInstance(), value));
+    }
+
+    public void removeMetadata(Player player, String metadata) {
+        player.removeMetadata(metadata, LuckyEssentials.getInstance());
     }
 }
