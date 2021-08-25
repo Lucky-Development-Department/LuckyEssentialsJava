@@ -39,7 +39,7 @@ public class WhitelistCommand extends CommandClass {
                 .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list"));
         BaseComponent[] text = textBuilder.create();
         if (sender instanceof Player) {
-            sender.spigot().sendMessage(text);
+            ((Player) sender).spigot().sendMessage(text);
         } else {
             sender.sendMessage(BaseComponent.toLegacyText(text));
         }
@@ -68,7 +68,7 @@ public class WhitelistCommand extends CommandClass {
                 to -= (to - whitelistedPlayers.size());
             }
 
-            sender.sendMessage("§6§m-----------------§a Whitelisted Players §6(" + page + "§6/" + maxPage + "§6) §6§m-----------------");
+            sender.sendMessage("§6§m------------§a Whitelisted Players §e(§7" + page + "§e/§7" + maxPage + "§e) §6§m------------");
 
             List<WhitelistConfig.WhitelistData> pagedWhitelistedPlayers = whitelistedPlayers.subList(from, to);
             int i = from;
@@ -80,26 +80,26 @@ public class WhitelistCommand extends CommandClass {
             }
 
             boolean lastPage = (page == maxPage);
-            ComponentBuilder textBuilder = new ComponentBuilder("§6§m----------------------------§7 ");
+            ComponentBuilder textBuilder = new ComponentBuilder("§6§m-----------------------§8 ");
             if (lastPage) {
-                textBuilder.append("[§6←§7]")
+                textBuilder.append("§8[§e←§8]")
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click for previous page").create()))
                         .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list " + (page - 1)));
             } else {
-                textBuilder.append("[§6→§7]")
+                textBuilder.append("§8[§e→§8]")
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click for next page").create()))
                         .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list " + (page + 1)));
             }
-            textBuilder.append(" §6§m----------------------------");
+            textBuilder.append(" §6§m-----------------------");
 
             BaseComponent[] text = textBuilder.create();
             if (sender instanceof Player) {
-                sender.spigot().sendMessage(text);
+                ((Player) sender).spigot().sendMessage(text);
             } else {
                 sender.sendMessage(BaseComponent.toLegacyText(text));
             }
         } else {
-            sender.sendMessage("§6§m-----------------§a Whitelisted Players §6§m-----------------");
+            sender.sendMessage("§6§m------------§a Whitelisted Players §6§m------------");
             int i = 0;
             for (WhitelistConfig.WhitelistData data : WhitelistConfig.whitelistedList) {
                 sender.sendMessage("§7Player §a#" + ++i);
@@ -107,7 +107,7 @@ public class WhitelistCommand extends CommandClass {
                 sender.sendMessage("§8└─ §eName: §a" + data.getName());
                 sender.sendMessage(" ");
             }
-            sender.sendMessage("§6§m-------------------------------------------------------");
+            sender.sendMessage("§6§m---------------------------------------------");
         }
     }
 
