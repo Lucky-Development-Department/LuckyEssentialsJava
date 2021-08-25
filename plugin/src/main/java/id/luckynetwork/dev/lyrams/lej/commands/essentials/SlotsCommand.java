@@ -16,7 +16,7 @@ public class SlotsCommand extends CommandClass {
 
     @CommandMethod("slots|slot info|i|check|c")
     @CommandDescription("Gets the information about the current LuckyEssentials slots system configuration")
-    public void slotsInfoCommand(
+    public void infoCommand(
             final @NonNull CommandSender sender
     ) {
         if (!Utils.checkPermission(sender, "slots")) {
@@ -30,7 +30,7 @@ public class SlotsCommand extends CommandClass {
 
     @CommandMethod("slots set <amount>")
     @CommandDescription("Sets the max player for the LuckyEssentials slots system")
-    public void slotsSetCommand(
+    public void setCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "amount", description = "The target player", defaultValue = "self", suggestions = "players") Integer amount
     ) {
@@ -45,7 +45,7 @@ public class SlotsCommand extends CommandClass {
 
     @CommandMethod("slots toggle [toggle]")
     @CommandDescription("Toggles on or off the LuckyEssentials slots system")
-    public void slotsToggleCommand(
+    public void toggleCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
     ) {
@@ -80,7 +80,7 @@ public class SlotsCommand extends CommandClass {
 
     @CommandMethod("slots reload")
     @CommandDescription("Reloads the LuckyEssentials slots system")
-    public void slotsReloadCommand(
+    public void reloadCommand(
             final @NonNull CommandSender sender
     ) {
         if (!Utils.checkPermission(sender, "slots")) {
