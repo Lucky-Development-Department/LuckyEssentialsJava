@@ -51,7 +51,7 @@ public class FixCommand extends CommandClass {
         }
 
         if (inventoryScope.equals(InventoryScope.UNKNOWN)) {
-            sender.sendMessage(Config.PREFIX + "§cUnknown fix type §l" + type + "§c!");
+            sender.sendMessage(Config.PREFIX + "§cUnknown inventory scope §l" + type + "§c!");
             return;
         }
 

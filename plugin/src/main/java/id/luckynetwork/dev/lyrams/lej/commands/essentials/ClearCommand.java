@@ -52,12 +52,12 @@ public class ClearCommand extends CommandClass {
         }
 
         if (inventoryScope.equals(InventoryScope.UNKNOWN)) {
-            sender.sendMessage(Config.PREFIX + "§cUnknown fix type §l" + type + "§c!");
+            sender.sendMessage(Config.PREFIX + "§cUnknown inventory scope §l" + type + "§c!");
             return;
         }
 
         boolean others = targets.size() > 1;
-        if (others && !Utils.checkPermission(sender, true, "fix")) {
+        if (others && !Utils.checkPermission(sender, true, "clear")) {
             return;
         }
 
