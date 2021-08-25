@@ -182,6 +182,47 @@ public class WhitelistCommand extends CommandClass {
         WhitelistConfig.save();
     }
 
+    @CommandMethod("whitelist check <target>")
+    @CommandDescription("Checks if a player is whitelisted in the LuckyEssentials whitelist system")
+    public void whitelistCheckCommand(
+            final @NonNull CommandSender sender,
+            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
+    ) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
+        OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
+        if (targets.isEmpty()) {
+            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            return;
+        }
+
+        targets.forEach(target -> {
+            boolean whitelsited = false;
+            switch (WhitelistConfig.checkMode) {
+                case UUID: {
+                    whitelsited = WhitelistConfig.whitelistedList.stream().map(WhitelistConfig.WhitelistData::getUuid).anyMatch(it -> it.equals(target.getUniqueId().toString()));
+                    break;
+                }
+                case NAME: {
+                    whitelsited = WhitelistConfig.whitelistedList.stream().map(WhitelistConfig.WhitelistData::getName).anyMatch(it -> it.equals(target.getName()));
+                    break;
+                }
+                case BOTH: {
+                    whitelsited = WhitelistConfig.whitelistedList.stream().anyMatch(it -> it.getUuid().equals(target.getUniqueId().toString()) && it.getName().equals(target.getName()));
+                    break;
+                }
+            }
+
+            if (whitelsited) {
+                sender.sendMessage(Config.PREFIX + "§d" + target.getName() + " §eis §awhitelisted.");
+            } else {
+                sender.sendMessage(Config.PREFIX + "§d" + target.getName() + " §eis §cnot whitelisted.");
+            }
+        });
+    }
+
     @CommandMethod("whitelist toggle [toggle]")
     @CommandDescription("Toggles on or off the LuckyEssentials whitelist system")
     public void whitelistToggleCommand(
