@@ -18,7 +18,7 @@ public class TrollCommand extends CommandClass {
 
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt check [target]")
     @CommandDescription("Checks active trolls on target")
-    public void onCheckCommand(
+    public void checkCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
     ) {

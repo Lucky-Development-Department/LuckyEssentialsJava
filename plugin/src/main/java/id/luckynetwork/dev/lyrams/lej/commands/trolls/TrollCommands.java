@@ -19,7 +19,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("fakebreak")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt fakebreak [target] [toggle]")
     @CommandDescription("Broken blocks will shortly reappear")
-    public void onFakeBreakCommand(
+    public void fakeBreakCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -30,7 +30,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("fakeplace")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt fakeplace [target] [toggle]")
     @CommandDescription("Placed blocks will shortly disappear")
-    public void onFakePlaceCommand(
+    public void fakePlaceCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -41,7 +41,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("lagback")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt lagback [target] [toggle]")
     @CommandDescription("Simulates 1000ms movement lag")
-    public void onLagBackCommand(
+    public void lagBackCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -52,7 +52,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("nointeract")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt nointeract [target] [toggle]")
     @CommandDescription("Disables interacting with other entities and blocks")
-    public void onNoInteractCommand(
+    public void noInteractCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -63,7 +63,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("nopickup")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt nopickup [target] [toggle]")
     @CommandDescription("Disables picking items up")
-    public void onNoPickupCommand(
+    public void noPickupCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -74,7 +74,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("onetap")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt onetap [target] [toggle]")
     @CommandDescription("Sets health to 0 whenever damaged")
-    public void onOneTapCommand(
+    public void oneTapCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -85,7 +85,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("sticky")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt sticky [target] [toggle]")
     @CommandDescription("Teleports to the highest block in their current location")
-    public void onStickyCommand(
+    public void stickyCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -96,7 +96,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("nodamage")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt nodamage [target] [toggle]")
     @CommandDescription("Disables damaging other entities")
-    public void onNoDamageCommand(
+    public void noDamageCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -107,7 +107,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("nohit")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt nohit [target] [toggle]")
     @CommandDescription("Disables hitting other entities")
-    public void onNoHitCommand(
+    public void noHitCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -118,7 +118,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("noplace")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt noplace [target] [toggle]")
     @CommandDescription("Disables placing blocks")
-    public void onNoPlaceCommand(
+    public void noPlaceCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
@@ -129,7 +129,7 @@ public class TrollCommands extends CommandClass {
     @ProxiedBy("nobreak")
     @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt nobreak [target] [toggle]")
     @CommandDescription("Disables breaking blocks")
-    public void onNoBreakCommand(
+    public void noBreakCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
