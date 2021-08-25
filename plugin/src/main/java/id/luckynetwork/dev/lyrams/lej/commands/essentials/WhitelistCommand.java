@@ -21,7 +21,7 @@ import java.util.List;
 
 public class WhitelistCommand extends CommandClass {
 
-    @CommandMethod("whitelist|ewl|wl info|i|check|c")
+    @CommandMethod("whitelist|ewl|wl info|i")
     @CommandDescription("Gets the information about the current LuckyEssentials whitelist system configuration")
     public void infoCommand(
             final @NonNull CommandSender sender
