@@ -30,13 +30,15 @@ public class MoreCommand extends CommandClass {
             return;
         }
 
+        int newAmount;
         if (amount != null && amount > 1) {
-            itemInHand.setAmount(amount);
+            newAmount = amount;
         } else {
-            itemInHand.setAmount(itemInHand.getMaxStackSize());
+            newAmount = itemInHand.getMaxStackSize();
         }
+        itemInHand.setAmount(newAmount);
 
         player.updateInventory();
-        player.sendMessage(Config.PREFIX + "§eItem successfully renamed!");
+        player.sendMessage(Config.PREFIX + "§eSet item in hand to §d" + newAmount + "x " + itemInHand.getType().toString() + "§e!");
     }
 }
