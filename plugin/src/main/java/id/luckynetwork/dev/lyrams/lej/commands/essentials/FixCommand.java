@@ -8,7 +8,7 @@ import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.config.Config;
-import id.luckynetwork.dev.lyrams.lej.enums.FixType;
+import id.luckynetwork.dev.lyrams.lej.enums.InventoryScope;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class FixCommand extends CommandClass {
     public void fixCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "type", description = "hand/all/armor", defaultValue = "hand", suggestions = "fixTypes") String type,
+            final @NonNull @Argument(value = "type", description = "hand/all/armor", defaultValue = "hand", suggestions = "inventoryScopes") String type,
             final @Nullable @Flag(value = "silent", aliases = "s", description = "Should it not notify the target of the teleportation?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "fix")) {
@@ -35,14 +35,14 @@ public class FixCommand extends CommandClass {
         }
 
         TargetsCallback targets;
-        FixType fixType;
-        if (!FixType.getType(targetName).equals(FixType.UNKNOWN) && sender instanceof Player) {
-            // the sender wants to change their own troll state
+        InventoryScope inventoryScope;
+        if (!InventoryScope.getType(targetName).equals(InventoryScope.UNKNOWN) && sender instanceof Player) {
+            // the sender wants to fix their own items
             targets = this.getTargets(sender, "self");
-            fixType = FixType.getType(targetName);
+            inventoryScope = InventoryScope.getType(targetName);
         } else {
             targets = this.getTargets(sender, targetName);
-            fixType = FixType.getType(type);
+            inventoryScope = InventoryScope.getType(type);
         }
 
         if (targets.notifyIfEmpty()) {
@@ -50,7 +50,7 @@ public class FixCommand extends CommandClass {
             return;
         }
 
-        if (fixType.equals(FixType.UNKNOWN)) {
+        if (inventoryScope.equals(InventoryScope.UNKNOWN)) {
             sender.sendMessage(Config.PREFIX + "§cUnknown fix type §l" + type + "§c!");
             return;
         }
@@ -61,7 +61,7 @@ public class FixCommand extends CommandClass {
         }
 
         targets.forEach(target -> {
-            switch (fixType) {
+            switch (inventoryScope) {
                 case ALL: {
                     for (ItemStack content : target.getInventory().getContents()) {
                         if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
@@ -113,18 +113,49 @@ public class FixCommand extends CommandClass {
                     }
                     break;
                 }
+                case SPECIFIC: {
+                    for (ItemStack content : target.getInventory().getContents()) {
+                        if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
+                            continue;
+                        }
+
+                        if (content.getType() != inventoryScope.getItemStack().getType()) {
+                            continue;
+                        }
+
+                        content.setDurability((short) 0);
+                    }
+
+                    for (ItemStack content : target.getInventory().getArmorContents()) {
+                        if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
+                            continue;
+                        }
+
+                        if (content.getType() != inventoryScope.getItemStack().getType()) {
+                            continue;
+                        }
+
+                        content.setDurability((short) 0);
+                    }
+                    target.updateInventory();
+
+                    if (silent == null || !silent) {
+                        target.sendMessage(Config.PREFIX + "§eRepaired all §d" + inventoryScope.getItemStack().getType() + " §ein your inventory!");
+                    }
+                    break;
+                }
             }
         });
 
         if (others) {
-            sender.sendMessage(Config.PREFIX + "§eRepaired §6" + fixType.getDisplay() + " §for §d" + targets.size() + " players!");
+            sender.sendMessage(Config.PREFIX + "§eRepaired §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " players!");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eRepaired §6" + fixType.getDisplay() + " §efor §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e!"));
         }
     }
 
-    @Suggestions("fixTypes")
-    public List<String> fixTypes(CommandContext<CommandSender> context, String current) {
+    @Suggestions("inventoryScopes")
+    public List<String> inventoryScopes(CommandContext<CommandSender> context, String current) {
         return Stream.of("all", "hand", "armor")
                 .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
                 .collect(Collectors.toList());
