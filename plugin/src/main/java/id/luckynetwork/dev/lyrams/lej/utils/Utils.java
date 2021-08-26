@@ -27,52 +27,55 @@ public class Utils {
     }
 
     /**
-     * see {@link Utils#checkPermission(CommandSender, String, boolean, boolean, String)}
+     * see {@link Utils#checkPermission(CommandSender, String, boolean, boolean, boolean, String)}
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean checkPermission(CommandSender sender, String permission) {
-        return Utils.checkPermission(sender, permission, false, false, null);
+        return Utils.checkPermission(sender, permission, false, false, false, null);
     }
 
     /**
-     * see {@link Utils#checkPermission(CommandSender, String, boolean, boolean, String)}
+     * see {@link Utils#checkPermission(CommandSender, String, boolean, boolean, boolean, String)}
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean checkPermission(CommandSender sender, boolean others, String permission) {
-        return Utils.checkPermission(sender, permission, others, false, null);
+        return Utils.checkPermission(sender, permission, others, false, false, null);
     }
 
     /**
-     * checks if the command sender has a certain permission
+     * checks if the command target has a certain permission
      *
-     * @param sender         the sender
+     * @param target         the target
      * @param permission     the permission
-     * @param others         is the sender executing this to other player(s)?
+     * @param others         is the target executing this to other player(s)?
      * @param showPermission should the permission deny message show the required permission?
+     * @param silent         should the target be notified of their lack of permission?
      * @param command        the command, if set to null then the permission deny message will show the executed command.
      * @return see {@link CommandSender#hasPermission(String)}
      */
-    public boolean checkPermission(CommandSender sender, String permission, boolean others, boolean showPermission, @Nullable String command) {
+    public boolean checkPermission(CommandSender target, String permission, boolean others, boolean showPermission, boolean silent, @Nullable String command) {
         permission = "luckyessentials." + permission.toLowerCase();
         if (others) {
             permission += ".others";
         }
 
-        if (sender.hasPermission(permission)) {
+        if (target.hasPermission(permission)) {
             return true;
         }
 
-        if (showPermission) {
-            if (command != null) {
-                sender.sendMessage(Config.PREFIX + "§cYou don't have the required permission §l" + permission + " to do §l" + command + "§c!");
+        if (!silent) {
+            if (showPermission) {
+                if (command != null) {
+                    target.sendMessage(Config.PREFIX + "§cYou don't have the required permission §l" + permission + " to do §l" + command + "§c!");
+                } else {
+                    target.sendMessage(Config.PREFIX + "§cYou don't have the required permission §l" + permission + " to do that!");
+                }
             } else {
-                sender.sendMessage(Config.PREFIX + "§cYou don't have the required permission §l" + permission + " to do that!");
-            }
-        } else {
-            if (command != null) {
-                sender.sendMessage(Config.PREFIX + "§cYou don't have the required permission to do §l" + command + "§c!");
-            } else {
-                sender.sendMessage(Config.PREFIX + "§cYou don't have the required permission to do that!");
+                if (command != null) {
+                    target.sendMessage(Config.PREFIX + "§cYou don't have the required permission to do §l" + command + "§c!");
+                } else {
+                    target.sendMessage(Config.PREFIX + "§cYou don't have the required permission to do that!");
+                }
             }
         }
         return false;
