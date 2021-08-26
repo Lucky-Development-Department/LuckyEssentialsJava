@@ -44,16 +44,6 @@ public class InvseeListeners implements Listener {
         InventoryType type = topInventory.getType();
 
         Player refreshPlayer = null;
-//        if (type == InventoryType.PLAYER) {
-//            Inventory clickedInventory = event.getClickedInventory();
-//            InventoryHolder inventoryOwner = clickedInventory.getHolder();
-//            if (!(inventoryOwner instanceof HumanEntity)) {
-//                return;
-//            }
-//
-//            Player ownerPlayer = (Player) inventoryOwner;
-//            plugin.getInvseeManager().getInvseers(ownerPlayer).forEach(it -> plugin.getInvseeManager().refresh(it, ownerPlayer));
-//        } else
         if (type == InventoryType.CHEST && topInventory.getSize() == 54) {
             HumanEntity whoClicked = event.getWhoClicked();
             InventoryHolder inventoryOwner = topInventory.getHolder();
