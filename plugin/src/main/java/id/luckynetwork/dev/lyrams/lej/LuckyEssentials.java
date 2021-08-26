@@ -13,7 +13,7 @@ import id.luckynetwork.dev.lyrams.lej.dependency.DependencyHelper;
 import id.luckynetwork.dev.lyrams.lej.listeners.ConnectionListeners;
 import id.luckynetwork.dev.lyrams.lej.listeners.InvseeListeners;
 import id.luckynetwork.dev.lyrams.lej.listeners.trolls.TrollListeners;
-import id.luckynetwork.dev.lyrams.lej.utils.InvseeUtils;
+import id.luckynetwork.dev.lyrams.lej.managers.InvseeManager;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.VersionSupport;
 import lombok.Getter;
@@ -37,6 +37,7 @@ public class LuckyEssentials extends JavaPlugin {
     public static LuckyEssentials instance;
     private LuckyEssentialsCommand mainCommand;
     private VersionSupport versionSupport;
+    private InvseeManager invseeManager;
 
     @Override
     public void onEnable() {
@@ -48,10 +49,10 @@ public class LuckyEssentials extends JavaPlugin {
         this.loadConfigurations();
 
         this.mainCommand = new LuckyEssentialsCommand(this);
-        InvseeUtils.init();
+        invseeManager = new InvseeManager(this);
 
         this.registerListeners(
-                new ConnectionListeners(),
+                new ConnectionListeners(this),
                 new InvseeListeners(this)
         );
         new TrollListeners(this);

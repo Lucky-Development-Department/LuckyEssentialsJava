@@ -1,7 +1,6 @@
 package id.luckynetwork.dev.lyrams.lej.listeners;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
-import id.luckynetwork.dev.lyrams.lej.utils.InvseeUtils;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
@@ -33,8 +32,7 @@ public class InvseeListeners implements Listener {
         if (rightClicked.getType() == EntityType.PLAYER) {
             Player player = event.getPlayer();
             if (player.hasMetadata("vanished") && Utils.checkPermission(player, "invsee", false, false, false, null)) {
-                InvseeUtils.invsee(player, (Player) rightClicked);
-                Utils.applyMetadata(player, "INVSEE", true);
+                plugin.getInvseeManager().invsee(player, (Player) rightClicked);
             }
         }
     }
@@ -46,6 +44,16 @@ public class InvseeListeners implements Listener {
         InventoryType type = topInventory.getType();
 
         Player refreshPlayer = null;
+//        if (type == InventoryType.PLAYER) {
+//            Inventory clickedInventory = event.getClickedInventory();
+//            InventoryHolder inventoryOwner = clickedInventory.getHolder();
+//            if (!(inventoryOwner instanceof HumanEntity)) {
+//                return;
+//            }
+//
+//            Player ownerPlayer = (Player) inventoryOwner;
+//            plugin.getInvseeManager().getInvseers(ownerPlayer).forEach(it -> plugin.getInvseeManager().refresh(it, ownerPlayer));
+//        } else
         if (type == InventoryType.CHEST && topInventory.getSize() == 54) {
             HumanEntity whoClicked = event.getWhoClicked();
             InventoryHolder inventoryOwner = topInventory.getHolder();
@@ -58,7 +66,7 @@ public class InvseeListeners implements Listener {
                 refreshPlayer = (Player) whoClicked;
                 if (!ownerPlayer.isOnline() || !Utils.checkPermission(whoClicked, "invsee.modify", false, false, false, null)) {
                     event.setCancelled(true);
-                } else if (InvseeUtils.separatorSlots.contains(event.getSlot())) {
+                } else if (plugin.getInvseeManager().getSeparatorSlots().contains(event.getSlot())) {
                     event.setCancelled(true);
                 } else {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -73,7 +81,7 @@ public class InvseeListeners implements Listener {
             }
 
             if (refreshPlayer != null) {
-                InvseeUtils.refresh(refreshPlayer, ownerPlayer, topInventory);
+                plugin.getInvseeManager().refresh(refreshPlayer, ownerPlayer, topInventory);
             }
         }
     }
@@ -91,7 +99,7 @@ public class InvseeListeners implements Listener {
             return;
         }
 
-        Utils.removeMetadata(player, "INVSEE");
+        plugin.getInvseeManager().close(player);
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::updateInventory, 1L);
     }
 }
