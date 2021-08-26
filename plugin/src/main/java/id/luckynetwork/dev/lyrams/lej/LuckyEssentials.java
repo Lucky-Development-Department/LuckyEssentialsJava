@@ -11,7 +11,9 @@ import id.luckynetwork.dev.lyrams.lej.config.SlotsConfig;
 import id.luckynetwork.dev.lyrams.lej.config.WhitelistConfig;
 import id.luckynetwork.dev.lyrams.lej.dependency.DependencyHelper;
 import id.luckynetwork.dev.lyrams.lej.listeners.ConnectionListeners;
+import id.luckynetwork.dev.lyrams.lej.listeners.InvseeListeners;
 import id.luckynetwork.dev.lyrams.lej.listeners.trolls.TrollListeners;
+import id.luckynetwork.dev.lyrams.lej.utils.InvseeUtils;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.VersionSupport;
 import lombok.Getter;
@@ -46,9 +48,11 @@ public class LuckyEssentials extends JavaPlugin {
         this.loadConfigurations();
 
         this.mainCommand = new LuckyEssentialsCommand(this);
+        InvseeUtils.init();
 
         this.registerListeners(
-                new ConnectionListeners()
+                new ConnectionListeners(),
+                new InvseeListeners(this)
         );
         new TrollListeners(this);
 
