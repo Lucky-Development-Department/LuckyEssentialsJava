@@ -1,22 +1,16 @@
 package id.luckynetwork.dev.lyrams.lej.listeners;
 
-import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.config.SlotsConfig;
 import id.luckynetwork.dev.lyrams.lej.config.WhitelistConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
-import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
-@AllArgsConstructor
 public class ConnectionListeners implements Listener {
-
-    private final LuckyEssentials plugin;
 
     @EventHandler
     public void onLogin(PlayerLoginEvent event) {
@@ -63,12 +57,5 @@ public class ConnectionListeners implements Listener {
                 }
             }
         }
-    }
-
-    @EventHandler
-    public void onDisconnect(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        plugin.getInvseeManager().close(player);
-        plugin.getInvseeManager().getInvseers(player).forEach(it -> plugin.getInvseeManager().close(it));
     }
 }

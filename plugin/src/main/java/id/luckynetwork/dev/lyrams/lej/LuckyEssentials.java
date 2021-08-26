@@ -52,7 +52,7 @@ public class LuckyEssentials extends JavaPlugin {
         invseeManager = new InvseeManager(this);
 
         this.registerListeners(
-                new ConnectionListeners(this),
+                new ConnectionListeners(),
                 new InvseeListeners(this)
         );
         new TrollListeners(this);

@@ -14,6 +14,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
@@ -91,5 +92,12 @@ public class InvseeListeners implements Listener {
 
         plugin.getInvseeManager().close(player);
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::updateInventory, 1L);
+    }
+
+    @EventHandler
+    public void onDisconnect(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        plugin.getInvseeManager().close(player);
+        plugin.getInvseeManager().getInvseers(player).forEach(it -> plugin.getInvseeManager().close(it));
     }
 }
