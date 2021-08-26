@@ -2,16 +2,16 @@ package id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1;
 
 import id.luckynetwork.dev.lyrams.lej.versionsupport.BukkitCommandWrap;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.VersionSupport;
+import id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.enums.LEffects;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.enums.LEnchants;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.v1_12_R1.enums.LItemStack;
-import net.minecraft.server.v1_12_R1.DamageSource;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,8 +33,31 @@ public class v1_12_R1 extends VersionSupport {
     }
 
     @Override
-    public void kill(Player player) {
-        ((CraftPlayer) player).getHandle().damageEntity(DamageSource.OUT_OF_WORLD, 1000);
+    public PotionEffectType getPotionEffectByName(String name) {
+        name = name.toUpperCase();
+        PotionEffectType cachedPotionEffect = potionEffectTypeCache.getIfPresent(name);
+        if (cachedPotionEffect != null) {
+            return cachedPotionEffect;
+        }
+
+        PotionEffectType potionEffectType = null;
+        try {
+            potionEffectType = LEffects.valueOf(name).getEffectType();
+        } catch (Exception ignored) {
+        }
+
+        if (potionEffectType == null) {
+            try {
+                potionEffectType = PotionEffectType.getByName(name);
+            } catch (Exception ignored) {
+            }
+        }
+
+        if (potionEffectType != null) {
+            potionEffectTypeCache.put(name, potionEffectType);
+        }
+
+        return potionEffectType;
     }
 
     @Override
