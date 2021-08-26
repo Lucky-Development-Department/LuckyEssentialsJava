@@ -216,9 +216,72 @@ public abstract class CommandClass {
             return callback;
         }
 
-        if (arg == null || arg.equals("self")) {
+        if (arg == null) {
             sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
             callback.setNotified(true);
+            return callback;
+        }
+
+        switch (arg.toLowerCase()) {
+            case "self": {
+                sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
+                callback.setNotified(true);
+                return callback;
+            }
+            case "*":
+            case "@a": {
+                // all players
+                callback.addAll(Bukkit.getOnlinePlayers());
+                return callback;
+            }
+            case "@r": {
+                // random player
+                Player[] players = Bukkit.getOnlinePlayers().toArray(new Player[0]);
+
+                Random random = new Random();
+                Player randomPlayer = players[random.nextInt(players.length)];
+
+                callback.add(randomPlayer);
+                return callback;
+            }
+        }
+
+        if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
+            try {
+                // random players with a set amount
+                int amount = Integer.parseInt(arg.split("=")[1].split("]")[0]);
+                List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
+
+                if (amount >= onlinePlayers.size()) {
+                    callback.addAll(onlinePlayers);
+                } else {
+                    Random random = new Random();
+                    while (amount > callback.size()) {
+                        Player randomPlayer = onlinePlayers.get(random.nextInt(onlinePlayers.size()));
+
+                        callback.add(randomPlayer);
+                        onlinePlayers.remove(randomPlayer);
+                    }
+                }
+            } catch (NumberFormatException e) {
+                sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
+                callback.setNotified(true);
+                return callback;
+            }
+            return callback;
+        }
+
+        if (arg.contains(",")) {
+            // selected players
+            for (String potTarget : arg.split(",")) {
+                Player potTargetPlayer = Bukkit.getPlayer(potTarget);
+                if (potTargetPlayer == null) {
+                    sender.sendMessage(Config.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
+                    continue;
+                }
+
+                callback.add(potTargetPlayer);
+            }
             return callback;
         }
 
@@ -427,9 +490,72 @@ public abstract class CommandClass {
             return callback;
         }
 
-        if (arg == null || arg.equals("self")) {
+        if (arg == null) {
             sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
             callback.setNotified(true);
+            return callback;
+        }
+
+        switch (arg.toLowerCase()) {
+            case "self": {
+                sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
+                callback.setNotified(true);
+                return callback;
+            }
+            case "*":
+            case "@a": {
+                // all players
+                callback.addAll(Bukkit.getOnlinePlayers());
+                return callback;
+            }
+            case "@r": {
+                // random player
+                Player[] players = Bukkit.getOnlinePlayers().toArray(new Player[0]);
+
+                Random random = new Random();
+                Player randomPlayer = players[random.nextInt(players.length)];
+
+                callback.add(randomPlayer);
+                return callback;
+            }
+        }
+
+        if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
+            try {
+                // random players with a set amount
+                int amount = Integer.parseInt(arg.split("=")[1].split("]")[0]);
+                List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
+
+                if (amount >= onlinePlayers.size()) {
+                    callback.addAll(onlinePlayers);
+                } else {
+                    Random random = new Random();
+                    while (amount > callback.size()) {
+                        Player randomPlayer = onlinePlayers.get(random.nextInt(onlinePlayers.size()));
+
+                        callback.add(randomPlayer);
+                        onlinePlayers.remove(randomPlayer);
+                    }
+                }
+            } catch (NumberFormatException e) {
+                sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
+                callback.setNotified(true);
+                return callback;
+            }
+            return callback;
+        }
+
+        if (arg.contains(",")) {
+            // selected players
+            for (String potTarget : arg.split(",")) {
+                OfflinePlayer potTargetPlayer = Bukkit.getOfflinePlayer(potTarget);
+                if (potTargetPlayer == null) {
+                    sender.sendMessage(Config.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
+                    continue;
+                }
+
+                callback.add(potTargetPlayer);
+            }
             return callback;
         }
 
