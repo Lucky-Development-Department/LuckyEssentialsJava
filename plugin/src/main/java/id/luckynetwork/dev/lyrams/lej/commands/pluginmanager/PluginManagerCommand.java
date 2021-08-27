@@ -10,7 +10,6 @@ import cloud.commandframework.context.CommandContext;
 import com.google.common.base.Joiner;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
-import id.luckynetwork.dev.lyrams.lej.config.SlotsConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import id.luckynetwork.dev.lyrams.lej.utils.pluginmanager.PluginManagerUtils;
@@ -66,7 +65,7 @@ public class PluginManagerCommand extends CommandClass {
         sender.sendMessage("§e" + plugin.getName() + " info:");
         sender.sendMessage("§8├─ §eVersion: §a" + plugin.getDescription().getVersion());
         sender.sendMessage("§8├─ §eAuthor(s): §a" + Joiner.on(", ").join(plugin.getDescription().getAuthors()));
-        sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(SlotsConfig.enabled, TrueFalseType.ENABLED));
+        sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(plugin.isEnabled(), TrueFalseType.ENABLED));
         sender.sendMessage("§8├─ §eMain Class: §a" + plugin.getDescription().getMain());
         sender.sendMessage("§8├─ §eDepends: §a" + Joiner.on(", ").join(plugin.getDescription().getDepend()));
         sender.sendMessage("§8└─ §eSoft Depends: §a" + Joiner.on(", ").join(plugin.getDescription().getSoftDepend()));
