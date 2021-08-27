@@ -96,6 +96,20 @@ public class Utils {
         return "§c" + trueFalseType.getIfFalse();
     }
 
+    /**
+     * colorizes a string from {@link TrueFalseType} to green if true and to red if false
+     *
+     * @param state         the state
+     * @param trueFalseType see {@link TrueFalseType}
+     * @return a green {@link TrueFalseType#getIfTrue()} if true and a red {@link TrueFalseType#getIfFalse()} if false
+     */
+    public String colorizeTrueFalseBold(boolean state, TrueFalseType trueFalseType) {
+        if (state) {
+            return "§a§l" + trueFalseType.getIfTrue();
+        }
+        return "§c§l" + trueFalseType.getIfFalse();
+    }
+
     public void applyMetadata(Player player, String metadata, Object value) {
         player.setMetadata(metadata, new FixedMetadataValue(LuckyEssentials.getInstance(), value));
     }

@@ -13,6 +13,7 @@ public class MainConfigManager {
     private final LuckyEssentials plugin;
 
     private String prefix;
+    private boolean chatLocked;
 
     public MainConfigManager(LuckyEssentials plugin) {
         this.plugin = plugin;
@@ -23,5 +24,13 @@ public class MainConfigManager {
         plugin.setMainConfig(new ConfigFile(plugin, "config.yml"));
 
         this.prefix = Utils.colorize(plugin.getMainConfig().getString("prefix", "§e§lLUCKYESSENTIALS §a/ "));
+        this.chatLocked = plugin.getMainConfig().getBoolean("chat-lock", false);
+    }
+
+    public void save() {
+        plugin.getMainConfig().set("prefix", this.prefix);
+        plugin.getMainConfig().set("chat-lock", this.chatLocked);
+
+        plugin.getMainConfig().save();
     }
 }

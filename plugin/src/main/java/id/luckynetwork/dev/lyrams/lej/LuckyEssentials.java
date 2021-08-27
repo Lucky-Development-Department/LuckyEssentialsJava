@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import id.luckynetwork.dev.lyrams.lej.commands.main.LuckyEssentialsCommand;
 import id.luckynetwork.dev.lyrams.lej.config.ConfigFile;
 import id.luckynetwork.dev.lyrams.lej.dependency.DependencyHelper;
+import id.luckynetwork.dev.lyrams.lej.listeners.ChatListener;
 import id.luckynetwork.dev.lyrams.lej.listeners.ConnectionListeners;
 import id.luckynetwork.dev.lyrams.lej.listeners.DamageListeners;
 import id.luckynetwork.dev.lyrams.lej.listeners.InvseeListeners;
@@ -67,6 +68,7 @@ public class LuckyEssentials extends JavaPlugin {
         this.invseeManager = new InvseeManager(this);
 
         this.registerListeners(
+                new ChatListener(this),
                 new ConnectionListeners(this),
                 new DamageListeners(),
                 new InvseeListeners(this)
