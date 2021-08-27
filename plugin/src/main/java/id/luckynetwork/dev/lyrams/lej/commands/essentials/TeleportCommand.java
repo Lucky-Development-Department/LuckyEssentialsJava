@@ -2,7 +2,6 @@ package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
 import cloud.commandframework.annotations.*;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -28,35 +27,35 @@ public class TeleportCommand extends CommandClass {
 
         TargetsCallback players = this.getTargets(sender, player);
         if (players.notifyIfEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
         if (target.equals("undefinedTarget2Placeholder")) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(MainConfig.PREFIX + "§cInvalid usage: §l" + player + "§c!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid usage: §l" + player + "§c!");
                 return;
             }
 
             // the player wants to teleport themselves to another player
             if (players.size() > 1) {
-                sender.sendMessage(MainConfig.PREFIX + "§cInvalid usage: §l" + player + "§c!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid usage: §l" + player + "§c!");
                 return;
             }
 
             players.stream().findFirst().ifPresent(destination -> {
                 ((Player) sender).teleport(destination);
-                sender.sendMessage(MainConfig.PREFIX + "§eTeleported you to §d" + destination.getName() + "§e!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + destination.getName() + "§e!");
             });
         } else {
             TargetsCallback targets = this.getTargets(sender, target);
             if (targets.isEmpty()) {
-                sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
                 return;
             }
 
             if (targets.size() > 1) {
-                sender.sendMessage(MainConfig.PREFIX + "§cInvalid usage: §l" + target + "§c!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid usage: §l" + target + "§c!");
                 return;
             }
 
@@ -69,14 +68,14 @@ public class TeleportCommand extends CommandClass {
                 players.forEach(toTeleport -> {
                     toTeleport.teleport(destination);
                     if (silent == null || !silent) {
-                        toTeleport.sendMessage(MainConfig.PREFIX + "§eTeleported you to §d" + destination.getName() + "§e!");
+                        toTeleport.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + destination.getName() + "§e!");
                     }
                 });
 
                 if (players.size() > 1) {
-                    sender.sendMessage(MainConfig.PREFIX + "§eTeleported §d" + players.size() + " §eplayers to §6" + destination.getName() + "§e!");
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + players.size() + " §eplayers to §6" + destination.getName() + "§e!");
                 } else {
-                    players.stream().findFirst().ifPresent(it -> sender.sendMessage(MainConfig.PREFIX + "§eTeleported §d" + it.getName() + " §eto §6" + destination.getName() + "§e!"));
+                    players.stream().findFirst().ifPresent(it -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + it.getName() + " §eto §6" + destination.getName() + "§e!"));
                 }
             });
         }
@@ -95,12 +94,12 @@ public class TeleportCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, target);
         if (targets.isEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
         if (targets.size() > 1) {
-            sender.sendMessage(MainConfig.PREFIX + "§cInvalid usage: §l" + target + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid usage: §l" + target + "§c!");
             return;
         }
 
@@ -109,11 +108,11 @@ public class TeleportCommand extends CommandClass {
             Bukkit.getOnlinePlayers().forEach(toTeleport -> {
                 toTeleport.teleport(destination);
                 if (silent == null || !silent) {
-                    toTeleport.sendMessage(MainConfig.PREFIX + "§eTeleported you to §d" + destination.getName() + "§e!");
+                    toTeleport.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + destination.getName() + "§e!");
                 }
             });
 
-            sender.sendMessage(MainConfig.PREFIX + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to §6" + destination.getName() + "§e!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to §6" + destination.getName() + "§e!");
         });
     }
 
@@ -137,7 +136,7 @@ public class TeleportCommand extends CommandClass {
                     if (worldName != null) {
                         World world = Bukkit.getWorld(worldName);
                         if (world == null) {
-                            sender.sendMessage(MainConfig.PREFIX + "§cUnknown world: §l" + worldName + "§c!");
+                            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown world: §l" + worldName + "§c!");
                             return;
                         }
                         clone.setWorld(world);
@@ -150,7 +149,7 @@ public class TeleportCommand extends CommandClass {
                     }
 
                     sender.teleport(clone);
-                    sender.sendMessage(MainConfig.PREFIX + "§eTeleported you to §d" + this.beautifyLocation(sender.getLocation()) + "§e!");
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + this.beautifyLocation(sender.getLocation()) + "§e!");
                 }).execute();
     }
 
@@ -166,12 +165,12 @@ public class TeleportCommand extends CommandClass {
 
         World world = Bukkit.getWorld(worldName);
         if (world == null) {
-            sender.sendMessage(MainConfig.PREFIX + "§cUnknown world: §l" + worldName + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown world: §l" + worldName + "§c!");
             return;
         }
 
         sender.teleport(world.getSpawnLocation());
-        sender.sendMessage(MainConfig.PREFIX + "§eTeleported you to §d" + this.beautifyLocation(sender.getLocation()) + "§e!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + this.beautifyLocation(sender.getLocation()) + "§e!");
     }
 
     @ProxiedBy("s")
@@ -188,17 +187,17 @@ public class TeleportCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.isEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
         targets.forEach(toTeleport -> {
             toTeleport.teleport(sender.getLocation());
             if (silent == null || !silent) {
-                toTeleport.sendMessage(MainConfig.PREFIX + "§eTeleported you to §d" + sender.getName() + "§e!");
+                toTeleport.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + sender.getName() + "§e!");
             }
 
-            sender.sendMessage(MainConfig.PREFIX + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to your location!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to your location!");
         });
     }
 

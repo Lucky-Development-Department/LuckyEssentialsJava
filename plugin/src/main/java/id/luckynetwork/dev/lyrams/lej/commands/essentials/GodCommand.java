@@ -4,7 +4,6 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
@@ -37,12 +36,12 @@ public class GodCommand extends CommandClass {
         }
 
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
         if (toggleType.equals(ToggleType.UNKNOWN)) {
-            sender.sendMessage(MainConfig.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown toggle type §l" + toggle + "§c!");
             return;
         }
 
@@ -72,13 +71,13 @@ public class GodCommand extends CommandClass {
             }
 
             boolean godMode = target.hasMetadata("GOD");
-            target.sendMessage(MainConfig.PREFIX + "§eGod mode: " + Utils.colorizeTrueFalse(godMode, TrueFalseType.ON_OFF) + "§e!");
+            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode: " + Utils.colorizeTrueFalse(godMode, TrueFalseType.ON_OFF) + "§e!");
         });
 
         if (others) {
-            sender.sendMessage(MainConfig.PREFIX + "§eToggled god for §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled god for §d" + targets.size() + " §eplayers!");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eGod mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata("GOD"), TrueFalseType.ON_OFF) + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata("GOD"), TrueFalseType.ON_OFF) + "§e!"));
         }
     }
 

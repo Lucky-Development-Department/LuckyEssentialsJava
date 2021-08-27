@@ -4,10 +4,9 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
-import id.luckynetwork.dev.lyrams.lej.config.WhitelistConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
+import id.luckynetwork.dev.lyrams.lej.managers.whitelist.WhitelistData;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -31,10 +30,10 @@ public class WhitelistCommand extends CommandClass {
         }
 
         sender.sendMessage("§eWhitelist system info:");
-        sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF));
+        sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF));
 
         ComponentBuilder textBuilder = new ComponentBuilder("")
-                .append("§8├─ §eWhitelisted Players: §a" + WhitelistConfig.whitelistedList.size())
+                .append("§8├─ §eWhitelisted Players: §a" + plugin.getWhitelistManager().getWhitelistedList().size())
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click to run /whitelist list").create()))
                 .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list"));
         BaseComponent[] text = textBuilder.create();
@@ -44,7 +43,7 @@ public class WhitelistCommand extends CommandClass {
             sender.sendMessage(BaseComponent.toLegacyText(text));
         }
 
-        sender.sendMessage("§8└─ §eCheck Mode: §a" + WhitelistConfig.checkMode.toString());
+        sender.sendMessage("§8└─ §eCheck Mode: §a" + plugin.getWhitelistManager().getCheckMode().toString());
     }
 
     @CommandMethod("whitelist list [page]")
@@ -57,7 +56,7 @@ public class WhitelistCommand extends CommandClass {
             return;
         }
 
-        List<WhitelistConfig.WhitelistData> whitelistedPlayers = WhitelistConfig.whitelistedList;
+        List<WhitelistData> whitelistedPlayers = plugin.getWhitelistManager().getWhitelistedList();
         if (whitelistedPlayers.size() > 5) {
             int maxPage = (int) Math.ceil(whitelistedPlayers.size() / 5.0);
             page = Math.min(Math.max(page, 1), maxPage);
@@ -70,9 +69,9 @@ public class WhitelistCommand extends CommandClass {
 
             sender.sendMessage("§6§m------------§a Whitelisted Players §e(§7" + page + "§e/§7" + maxPage + "§e) §6§m------------");
 
-            List<WhitelistConfig.WhitelistData> pagedWhitelistedPlayers = whitelistedPlayers.subList(from, to);
+            List<WhitelistData> pagedWhitelistedPlayers = whitelistedPlayers.subList(from, to);
             int i = from;
-            for (WhitelistConfig.WhitelistData data : pagedWhitelistedPlayers) {
+            for (WhitelistData data : pagedWhitelistedPlayers) {
                 sender.sendMessage("§7Player §a#" + ++i);
                 sender.sendMessage("§8├─ §eUUID: §a" + data.getUuid());
                 sender.sendMessage("§8└─ §eName: §a" + data.getName());
@@ -101,7 +100,7 @@ public class WhitelistCommand extends CommandClass {
         } else {
             sender.sendMessage("§6§m------------§a Whitelisted Players §6§m------------");
             int i = 0;
-            for (WhitelistConfig.WhitelistData data : WhitelistConfig.whitelistedList) {
+            for (WhitelistData data : plugin.getWhitelistManager().getWhitelistedList()) {
                 sender.sendMessage("§7Player §a#" + ++i);
                 sender.sendMessage("§8├─ §eUUID: §a" + data.getUuid());
                 sender.sendMessage("§8└─ §eName: §a" + data.getName());
@@ -123,25 +122,25 @@ public class WhitelistCommand extends CommandClass {
 
         OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
         targets.forEach(target -> {
-            WhitelistConfig.WhitelistData data = WhitelistConfig.WhitelistData.newBuilder()
+            WhitelistData data = WhitelistData.newBuilder()
                     .uuid(target.getUniqueId().toString())
                     .name(target.getName())
                     .build();
 
-            if (WhitelistConfig.whitelistedList.contains(data)) {
-                sender.sendMessage(MainConfig.PREFIX + "§c§l" + data.getName() + " §cis already whitelisted.");
+            if (plugin.getWhitelistManager().getWhitelistedList().contains(data)) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§c§l" + data.getName() + " §cis already whitelisted.");
             } else {
-                WhitelistConfig.whitelistedList.add(data);
-                sender.sendMessage(MainConfig.PREFIX + "§eAdded §d" + data.getName() + " §eto the whitelist.");
+                plugin.getWhitelistManager().getWhitelistedList().add(data);
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eAdded §d" + data.getName() + " §eto the whitelist.");
             }
         });
 
-        WhitelistConfig.save();
+        plugin.getWhitelistManager().save();
     }
 
     @CommandMethod("whitelist remove <target>")
@@ -156,30 +155,30 @@ public class WhitelistCommand extends CommandClass {
 
         OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
         targets.forEach(target -> {
-            WhitelistConfig.WhitelistData data = WhitelistConfig.WhitelistData.newBuilder()
+            WhitelistData data = WhitelistData.newBuilder()
                     .uuid(target.getUniqueId().toString())
                     .name(target.getName())
                     .build();
 
-            if (WhitelistConfig.whitelistedList.contains(data)) {
-                WhitelistConfig.whitelistedList.remove(data);
-                sender.sendMessage(MainConfig.PREFIX + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
+            if (plugin.getWhitelistManager().getWhitelistedList().contains(data)) {
+                plugin.getWhitelistManager().getWhitelistedList().remove(data);
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
             } else {
-                boolean removed = WhitelistConfig.whitelistedList.removeIf(it -> it.getName().equals(target.getName()) || it.getUuid().equals(target.getUniqueId().toString()));
+                boolean removed = plugin.getWhitelistManager().getWhitelistedList().removeIf(it -> it.getName().equals(target.getName()) || it.getUuid().equals(target.getUniqueId().toString()));
                 if (removed) {
-                    sender.sendMessage(MainConfig.PREFIX + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
                 } else {
-                    sender.sendMessage(MainConfig.PREFIX + "§c§l" + data.getName() + " §cis already not whitelisted.");
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§c§l" + data.getName() + " §cis already not whitelisted.");
                 }
             }
         });
 
-        WhitelistConfig.save();
+        plugin.getWhitelistManager().save();
     }
 
     @CommandMethod("whitelist check <target>")
@@ -194,31 +193,31 @@ public class WhitelistCommand extends CommandClass {
 
         OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
         targets.forEach(target -> {
             boolean whitelsited = false;
-            switch (WhitelistConfig.checkMode) {
+            switch (plugin.getWhitelistManager().getCheckMode()) {
                 case UUID: {
-                    whitelsited = WhitelistConfig.whitelistedList.stream().map(WhitelistConfig.WhitelistData::getUuid).anyMatch(it -> it.equals(target.getUniqueId().toString()));
+                    whitelsited = plugin.getWhitelistManager().getWhitelistedList().stream().map(WhitelistData::getUuid).anyMatch(it -> it.equals(target.getUniqueId().toString()));
                     break;
                 }
                 case NAME: {
-                    whitelsited = WhitelistConfig.whitelistedList.stream().map(WhitelistConfig.WhitelistData::getName).anyMatch(it -> it.equals(target.getName()));
+                    whitelsited = plugin.getWhitelistManager().getWhitelistedList().stream().map(WhitelistData::getName).anyMatch(it -> it.equals(target.getName()));
                     break;
                 }
                 case BOTH: {
-                    whitelsited = WhitelistConfig.whitelistedList.stream().anyMatch(it -> it.getUuid().equals(target.getUniqueId().toString()) && it.getName().equals(target.getName()));
+                    whitelsited = plugin.getWhitelistManager().getWhitelistedList().stream().anyMatch(it -> it.getUuid().equals(target.getUniqueId().toString()) && it.getName().equals(target.getName()));
                     break;
                 }
             }
 
             if (whitelsited) {
-                sender.sendMessage(MainConfig.PREFIX + "§d" + target.getName() + " §eis §awhitelisted.");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§d" + target.getName() + " §eis §awhitelisted.");
             } else {
-                sender.sendMessage(MainConfig.PREFIX + "§d" + target.getName() + " §eis §cnot whitelisted.");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§d" + target.getName() + " §eis §cnot whitelisted.");
             }
         });
     }
@@ -235,27 +234,27 @@ public class WhitelistCommand extends CommandClass {
 
         ToggleType toggleType = ToggleType.getToggle(toggle);
         if (toggleType.equals(ToggleType.UNKNOWN)) {
-            sender.sendMessage(MainConfig.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown toggle type §l" + toggle + "§c!");
             return;
         }
 
         switch (toggleType) {
             case ON: {
-                WhitelistConfig.enabled = true;
+                plugin.getWhitelistManager().setEnabled(true);
                 break;
             }
             case OFF: {
-                WhitelistConfig.enabled = false;
+                plugin.getWhitelistManager().setEnabled(false);
                 break;
             }
             case TOGGLE: {
-                WhitelistConfig.enabled = !WhitelistConfig.enabled;
+                plugin.getWhitelistManager().setEnabled(!plugin.getWhitelistManager().isEnabled());
                 break;
             }
         }
 
-        WhitelistConfig.save();
-        sender.sendMessage(MainConfig.PREFIX + "§eToggled whitelist system " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF) + "§e!");
+        plugin.getWhitelistManager().save();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e!");
     }
 
     @CommandMethod("whitelist reload")
@@ -267,7 +266,7 @@ public class WhitelistCommand extends CommandClass {
             return;
         }
 
-        WhitelistConfig.reload();
-        sender.sendMessage(MainConfig.PREFIX + "§eReloaded the whitelist system!");
+        plugin.getWhitelistManager().reload();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eReloaded the whitelist system!");
     }
 }

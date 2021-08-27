@@ -4,7 +4,6 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -23,11 +22,11 @@ public class InvseeCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(player, targetName);
         if (targets.notifyIfEmpty()) {
-            player.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
         if (targets.size() > 1) {
-            player.sendMessage(MainConfig.PREFIX + "§cYou can only check one player at a time!");
+            player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou can only check one player at a time!");
             return;
         }
 

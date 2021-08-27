@@ -7,7 +7,6 @@ import cloud.commandframework.annotations.Flag;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.InventoryScope;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
@@ -46,12 +45,12 @@ public class FixCommand extends CommandClass {
         }
 
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
         if (inventoryScope.equals(InventoryScope.UNKNOWN)) {
-            sender.sendMessage(MainConfig.PREFIX + "§cUnknown inventory scope §l" + type + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown inventory scope §l" + type + "§c!");
             return;
         }
 
@@ -80,7 +79,7 @@ public class FixCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(MainConfig.PREFIX + "§eYour items have been repaired!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour items have been repaired!");
                     }
                     break;
                 }
@@ -94,7 +93,7 @@ public class FixCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(MainConfig.PREFIX + "§eYour item in hand has been repaired!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour item in hand has been repaired!");
                     }
                     break;
                 }
@@ -109,7 +108,7 @@ public class FixCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(MainConfig.PREFIX + "§eYour armor has been repaired!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour armor has been repaired!");
                     }
                     break;
                 }
@@ -140,7 +139,7 @@ public class FixCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(MainConfig.PREFIX + "§eRepaired all §d" + inventoryScope.getItemStack().getType() + " §ein your inventory!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired all §d" + inventoryScope.getItemStack().getType() + " §ein your inventory!");
                     }
                     break;
                 }
@@ -148,9 +147,9 @@ public class FixCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(MainConfig.PREFIX + "§eRepaired §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " players!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " players!");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e!"));
         }
     }
 

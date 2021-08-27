@@ -7,7 +7,6 @@ import cloud.commandframework.annotations.Flag;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.InventoryScope;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
@@ -45,12 +44,12 @@ public class ClearCommand extends CommandClass {
         }
 
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
         if (inventoryScope.equals(InventoryScope.UNKNOWN)) {
-            sender.sendMessage(MainConfig.PREFIX + "§cUnknown inventory scope §l" + type + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown inventory scope §l" + type + "§c!");
             return;
         }
 
@@ -67,7 +66,7 @@ public class ClearCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(MainConfig.PREFIX + "§eYour inventory has been cleared!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour inventory has been cleared!");
                     }
                     break;
                 }
@@ -76,7 +75,7 @@ public class ClearCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(MainConfig.PREFIX + "§eYour item in hand has been cleared!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour item in hand has been cleared!");
                     }
                     break;
                 }
@@ -85,7 +84,7 @@ public class ClearCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(MainConfig.PREFIX + "§eYour armor has been cleared!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour armor has been cleared!");
                     }
                     break;
                 }
@@ -94,7 +93,7 @@ public class ClearCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(MainConfig.PREFIX + "§eCleared all §d" + inventoryScope.getItemStack().getType() + " §efrom your inventory!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared all §d" + inventoryScope.getItemStack().getType() + " §efrom your inventory!");
                     }
                     break;
                 }
@@ -102,9 +101,9 @@ public class ClearCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(MainConfig.PREFIX + "§eCleared §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " players!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " players!");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e!"));
         }
     }
 

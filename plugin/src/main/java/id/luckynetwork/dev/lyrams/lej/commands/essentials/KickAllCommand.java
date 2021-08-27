@@ -5,7 +5,6 @@ import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.specifier.Greedy;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -31,6 +30,6 @@ public class KickAllCommand extends CommandClass {
             }
         });
 
-        sender.sendMessage(MainConfig.PREFIX + "§eKicked all players!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eKicked all players!");
     }
 }

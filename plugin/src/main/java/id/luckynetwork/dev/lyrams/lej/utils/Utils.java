@@ -1,7 +1,6 @@
 package id.luckynetwork.dev.lyrams.lej.utils;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
@@ -15,10 +14,12 @@ import org.jetbrains.annotations.Nullable;
 @UtilityClass
 public class Utils {
 
+    private final LuckyEssentials plugin;
     @Getter
     private final String nmsVersion;
 
     static {
+        plugin = LuckyEssentials.getInstance();
         nmsVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
     }
 
@@ -66,15 +67,15 @@ public class Utils {
         if (!silent) {
             if (showPermission) {
                 if (command != null) {
-                    target.sendMessage(MainConfig.PREFIX + "§cYou don't have the required permission §l" + permission + " to do §l" + command + "§c!");
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou don't have the required permission §l" + permission + " to do §l" + command + "§c!");
                 } else {
-                    target.sendMessage(MainConfig.PREFIX + "§cYou don't have the required permission §l" + permission + " to do that!");
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou don't have the required permission §l" + permission + " to do that!");
                 }
             } else {
                 if (command != null) {
-                    target.sendMessage(MainConfig.PREFIX + "§cYou don't have the required permission to do §l" + command + "§c!");
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou don't have the required permission to do §l" + command + "§c!");
                 } else {
-                    target.sendMessage(MainConfig.PREFIX + "§cYou don't have the required permission to do that!");
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou don't have the required permission to do that!");
                 }
             }
         }

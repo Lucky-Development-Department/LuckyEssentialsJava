@@ -7,7 +7,6 @@ import cloud.commandframework.annotations.ProxiedBy;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -42,18 +41,18 @@ public class EnchantCommand extends CommandClass {
         } else {
             TargetsCallback targets = this.getTargets(sender, enchantmentOrTarget);
             if (targets.notifyIfEmpty()) {
-                sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
                 return;
             }
 
             if (enchantment == null) {
-                sender.sendMessage(MainConfig.PREFIX + "§cPlease specify an enchantment!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cPlease specify an enchantment!");
                 return;
             }
 
             HashMap<Enchantment, Integer> enchants = this.parseEnchants(sender, enchantment);
             if (enchants.isEmpty()) {
-                sender.sendMessage(MainConfig.PREFIX + "§cNo valid enchants found!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo valid enchants found!");
                 return;
             }
 

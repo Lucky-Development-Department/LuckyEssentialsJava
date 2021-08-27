@@ -225,7 +225,7 @@ public class PluginManagerUtils {
             for (File file : Objects.requireNonNull(pluginDir.listFiles())) {
                 if (file.toPath().endsWith(".jar")) {
                     try {
-                        PluginDescriptionFile description = LuckyEssentials.instance.getPluginLoader().getPluginDescription(file);
+                        PluginDescriptionFile description = LuckyEssentials.getInstance().getPluginLoader().getPluginDescription(file);
                         if (description.getName().equalsIgnoreCase(pluginName)) {
                             pluginFile = file;
                             break;
@@ -343,11 +343,11 @@ public class PluginManagerUtils {
 
         pluginManager.disablePlugin(plugin);
 
-        if (plugins != null && plugins.contains(plugin)) {
+        if (plugins != null) {
             plugins.remove(plugin);
         }
 
-        if (names != null && names.containsKey(name)) {
+        if (names != null) {
             names.remove(name);
         }
 

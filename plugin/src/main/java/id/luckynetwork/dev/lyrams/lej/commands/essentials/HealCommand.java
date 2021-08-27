@@ -4,7 +4,6 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,7 +23,7 @@ public class HealCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
@@ -35,13 +34,13 @@ public class HealCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setHealth(plugin.getVersionSupport().getMaxHealth(target));
-            target.sendMessage(MainConfig.PREFIX + "§eYou have been healed!");
+            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been healed!");
         });
 
         if (others) {
-            sender.sendMessage(MainConfig.PREFIX + "§eHealed §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eHealed §d" + targets.size() + " §eplayers!");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eHealed §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eHealed §d" + target.getName() + "§e!"));
         }
     }
 

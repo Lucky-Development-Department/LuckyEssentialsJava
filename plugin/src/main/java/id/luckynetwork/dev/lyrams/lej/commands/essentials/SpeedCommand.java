@@ -7,7 +7,6 @@ import cloud.commandframework.annotations.Flag;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.SpeedType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
@@ -36,7 +35,7 @@ public class SpeedCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
@@ -47,7 +46,7 @@ public class SpeedCommand extends CommandClass {
 
         SpeedType speedType = SpeedType.getType(sender, typeOrSpeed);
         if (speedType.equals(SpeedType.UNKNOWN)) {
-            sender.sendMessage(MainConfig.PREFIX + "§cUnknown speed type §l" + typeOrSpeed + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown speed type §l" + typeOrSpeed + "§c!");
             return;
         }
 
@@ -70,14 +69,14 @@ public class SpeedCommand extends CommandClass {
             }
 
             if (silent == null || !silent) {
-                target.sendMessage(MainConfig.PREFIX + "§eYour §d" + speedType.getDisplay() + " §espeed has been set to §d" + speedType.getSpeed() + "§e!");
+                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour §d" + speedType.getDisplay() + " §espeed has been set to §d" + speedType.getSpeed() + "§e!");
             }
         });
 
         if (others) {
-            sender.sendMessage(MainConfig.PREFIX + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §espeed for §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §espeed for §d" + targets.size() + " §eplayers!");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §efor §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §efor §d" + target.getName() + "§e!"));
         }
     }
 

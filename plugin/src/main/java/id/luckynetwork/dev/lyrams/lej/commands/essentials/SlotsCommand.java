@@ -4,8 +4,6 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
-import id.luckynetwork.dev.lyrams.lej.config.SlotsConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
@@ -24,8 +22,8 @@ public class SlotsCommand extends CommandClass {
         }
 
         sender.sendMessage("§eSlots system info:");
-        sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(SlotsConfig.enabled, TrueFalseType.ON_OFF));
-        sender.sendMessage("§8└─ §eMax Players: §a" + SlotsConfig.maxPlayers);
+        sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(plugin.getSlotsManager().isEnabled(), TrueFalseType.ON_OFF));
+        sender.sendMessage("§8└─ §eMax Players: §a" + plugin.getSlotsManager().getMaxPlayers());
     }
 
     @CommandMethod("slots set <amount>")
@@ -38,9 +36,9 @@ public class SlotsCommand extends CommandClass {
             return;
         }
 
-        SlotsConfig.maxPlayers = amount;
-        sender.sendMessage(MainConfig.PREFIX + "§eSet the max players to §d" + amount + "§e!");
-        SlotsConfig.save();
+        plugin.getSlotsManager().setMaxPlayers(amount);
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet the max players to §d" + amount + "§e!");
+        plugin.getSlotsManager().save();
     }
 
     @CommandMethod("slots toggle [toggle]")
@@ -55,27 +53,27 @@ public class SlotsCommand extends CommandClass {
 
         ToggleType toggleType = ToggleType.getToggle(toggle);
         if (toggleType.equals(ToggleType.UNKNOWN)) {
-            sender.sendMessage(MainConfig.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown toggle type §l" + toggle + "§c!");
             return;
         }
 
         switch (toggleType) {
             case ON: {
-                SlotsConfig.enabled = true;
+                plugin.getSlotsManager().setEnabled(true);
                 break;
             }
             case OFF: {
-                SlotsConfig.enabled = false;
+                plugin.getSlotsManager().setEnabled(false);
                 break;
             }
             case TOGGLE: {
-                SlotsConfig.enabled = !SlotsConfig.enabled;
+                plugin.getSlotsManager().setEnabled(!plugin.getSlotsManager().isEnabled());
                 break;
             }
         }
 
-        SlotsConfig.save();
-        sender.sendMessage(MainConfig.PREFIX + "§eToggled slots system " + Utils.colorizeTrueFalse(SlotsConfig.enabled, TrueFalseType.ON_OFF) + "§e!");
+        plugin.getSlotsManager().save();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled slots system " + Utils.colorizeTrueFalse(plugin.getSlotsManager().isEnabled(), TrueFalseType.ON_OFF) + "§e!");
     }
 
     @CommandMethod("slots reload")
@@ -87,7 +85,7 @@ public class SlotsCommand extends CommandClass {
             return;
         }
 
-        SlotsConfig.reload();
-        sender.sendMessage(MainConfig.PREFIX + "§eReloaded the slots system!");
+        plugin.getSlotsManager().reload();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eReloaded the slots system!");
     }
 }

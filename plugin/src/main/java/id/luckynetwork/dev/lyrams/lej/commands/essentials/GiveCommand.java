@@ -5,7 +5,6 @@ import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.specifier.Greedy;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,7 +30,7 @@ public class GiveCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
             return;
         }
 
@@ -43,7 +42,7 @@ public class GiveCommand extends CommandClass {
         }
 
         if (item == null) {
-            sender.sendMessage(MainConfig.PREFIX + "§cUnknown item: §l " + itemName + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown item: §l " + itemName + "§c!");
             return;
         }
 
@@ -71,13 +70,13 @@ public class GiveCommand extends CommandClass {
         targets.forEach(target -> {
             target.getInventory().addItem(item);
             target.updateInventory();
-            target.sendMessage(MainConfig.PREFIX + "§eYou have been given §d" + item.getAmount() + "x " + item.getType().toString() + "§e!");
+            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been given §d" + item.getAmount() + "x " + item.getType().toString() + "§e!");
         });
 
         if (targets.size() > 1) {
-            sender.sendMessage(MainConfig.PREFIX + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §d" + targets.size() + "§eplayers!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §d" + targets.size() + "§eplayers!");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §eto §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §eto §d" + target.getName() + "§e!"));
         }
     }
 
@@ -101,7 +100,7 @@ public class GiveCommand extends CommandClass {
         }
 
         if (item == null) {
-            sender.sendMessage(MainConfig.PREFIX + "§cUnknown item: §l " + itemName + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown item: §l " + itemName + "§c!");
             return;
         }
 
@@ -128,6 +127,6 @@ public class GiveCommand extends CommandClass {
 
         sender.getInventory().addItem(item);
         sender.updateInventory();
-        sender.sendMessage(MainConfig.PREFIX + "§eYou have been given §d" + item.getAmount() + "x " + item.getType().toString() + "§e!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been given §d" + item.getAmount() + "x " + item.getType().toString() + "§e!");
     }
 }

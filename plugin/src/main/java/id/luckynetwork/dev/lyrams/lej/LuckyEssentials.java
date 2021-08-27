@@ -6,18 +6,20 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import id.luckynetwork.dev.lyrams.lej.commands.main.LuckyEssentialsCommand;
-import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
-import id.luckynetwork.dev.lyrams.lej.config.SlotsConfig;
-import id.luckynetwork.dev.lyrams.lej.config.WhitelistConfig;
+import id.luckynetwork.dev.lyrams.lej.config.ConfigFile;
 import id.luckynetwork.dev.lyrams.lej.dependency.DependencyHelper;
 import id.luckynetwork.dev.lyrams.lej.listeners.ConnectionListeners;
 import id.luckynetwork.dev.lyrams.lej.listeners.DamageListeners;
 import id.luckynetwork.dev.lyrams.lej.listeners.InvseeListeners;
 import id.luckynetwork.dev.lyrams.lej.listeners.trolls.TrollListeners;
 import id.luckynetwork.dev.lyrams.lej.managers.InvseeManager;
+import id.luckynetwork.dev.lyrams.lej.managers.MainConfigManager;
+import id.luckynetwork.dev.lyrams.lej.managers.SlotsManager;
+import id.luckynetwork.dev.lyrams.lej.managers.whitelist.WhitelistManager;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import id.luckynetwork.dev.lyrams.lej.versionsupport.VersionSupport;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,10 +37,18 @@ import java.util.Map;
 public class LuckyEssentials extends JavaPlugin {
 
     @Getter
-    public static LuckyEssentials instance;
+    private static LuckyEssentials instance;
+
+    @Setter
+    private ConfigFile mainConfig, slotsConfig, whitelistConfig;
+
     private LuckyEssentialsCommand mainCommand;
     private VersionSupport versionSupport;
+
     private InvseeManager invseeManager;
+    private MainConfigManager mainConfigManager;
+    private WhitelistManager whitelistManager;
+    private SlotsManager slotsManager;
 
     @Override
     public void onEnable() {
@@ -47,13 +57,17 @@ public class LuckyEssentials extends JavaPlugin {
         instance = this;
         this.loadDependencies();
         this.loadVersionSupport();
-        this.loadConfigurations();
+
+        this.loadConfigs();
+        this.mainConfigManager = new MainConfigManager(this);
+        this.slotsManager = new SlotsManager(this);
+        this.whitelistManager = new WhitelistManager(this);
 
         this.mainCommand = new LuckyEssentialsCommand(this);
-        invseeManager = new InvseeManager(this);
+        this.invseeManager = new InvseeManager(this);
 
         this.registerListeners(
-                new ConnectionListeners(),
+                new ConnectionListeners(this),
                 new DamageListeners(),
                 new InvseeListeners(this)
         );
@@ -70,6 +84,12 @@ public class LuckyEssentials extends JavaPlugin {
 
     private void registerListeners(Listener... listeners) {
         Arrays.stream(listeners).forEach(it -> Bukkit.getPluginManager().registerEvents(it, this));
+    }
+
+    public void loadConfigs() {
+        this.mainConfig = new ConfigFile(this, "config.yml");
+        this.slotsConfig = new ConfigFile(this, "slots.yml");
+        this.whitelistConfig = new ConfigFile(this, "whitelist.yml");
     }
 
     /**
@@ -167,15 +187,6 @@ public class LuckyEssentials extends JavaPlugin {
             this.getLogger().severe("Unsupported server version!");
             Bukkit.getPluginManager().disablePlugin(this);
         }
-    }
-
-    /**
-     * loads the config
-     */
-    private void loadConfigurations() {
-        MainConfig.reload();
-        WhitelistConfig.reload();
-        SlotsConfig.reload();
     }
 
     /**
