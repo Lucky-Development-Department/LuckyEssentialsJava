@@ -5,7 +5,7 @@ import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class Config {
+public class MainConfig {
 
     private final LuckyEssentials plugin = LuckyEssentials.instance;
     public String PREFIX;
@@ -13,7 +13,7 @@ public class Config {
     public void reload() {
         plugin.saveDefaultConfig();
 
-        Config.PREFIX = Utils.colorize(plugin.getConfig().getString("prefix", "§e§lLUCKYESSENTIALS §a/ "));
+        MainConfig.PREFIX = Utils.colorize(plugin.getConfig().getString("prefix", "§e§lLUCKYESSENTIALS §a/ "));
     }
 
 }

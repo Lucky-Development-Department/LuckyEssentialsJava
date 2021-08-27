@@ -4,13 +4,13 @@ import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import com.google.common.base.Joiner;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class InfoCommand extends CommandClass {
 
-    private final String pluginDescription = Config.PREFIX + "§eThis server is running §aLuckyEssentials §c" + plugin.getDescription().getVersion() + " §eby §d" + Joiner.on(",").join(plugin.getDescription().getAuthors());
+    private final String pluginDescription = MainConfig.PREFIX + "§eThis server is running §aLuckyEssentials §c" + plugin.getDescription().getVersion() + " §eby §d" + Joiner.on(",").join(plugin.getDescription().getAuthors());
 
     @CommandMethod("luckyessentials info|ver")
     @CommandDescription("Information about the plugin")

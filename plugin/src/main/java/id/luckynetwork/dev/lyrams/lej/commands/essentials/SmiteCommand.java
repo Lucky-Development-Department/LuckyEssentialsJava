@@ -4,7 +4,7 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -37,16 +37,16 @@ public class SmiteCommand extends CommandClass {
 
         if (!targets.isEmpty()) {
             locations.addAll(targets.stream().map(Player::getLocation).collect(Collectors.toList()));
-            targets.forEach(target -> target.sendMessage(Config.PREFIX + "§eYou have been smitten!"));
+            targets.forEach(target -> target.sendMessage(MainConfig.PREFIX + "§eYou have been smitten!"));
         }
 
         locations.forEach(location -> location.getWorld().strikeLightning(location));
 
         boolean others = !targets.isEmpty() && targets.size() > 1;
         if (others) {
-            sender.sendMessage(Config.PREFIX + "§eSmitten §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSmitten §d" + targets.size() + " §eplayers!");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSmitten §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eSmitten §d" + target.getName() + "§e!"));
         }
     }
 

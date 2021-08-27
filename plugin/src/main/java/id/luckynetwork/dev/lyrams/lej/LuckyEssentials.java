@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import id.luckynetwork.dev.lyrams.lej.commands.main.LuckyEssentialsCommand;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.config.SlotsConfig;
 import id.luckynetwork.dev.lyrams.lej.config.WhitelistConfig;
 import id.luckynetwork.dev.lyrams.lej.dependency.DependencyHelper;
@@ -173,7 +173,7 @@ public class LuckyEssentials extends JavaPlugin {
      * loads the config
      */
     private void loadConfigurations() {
-        Config.reload();
+        MainConfig.reload();
         WhitelistConfig.reload();
         SlotsConfig.reload();
     }

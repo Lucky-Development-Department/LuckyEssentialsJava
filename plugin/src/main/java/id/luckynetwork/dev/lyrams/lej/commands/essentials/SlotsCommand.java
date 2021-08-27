@@ -4,7 +4,7 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.config.SlotsConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
@@ -39,7 +39,7 @@ public class SlotsCommand extends CommandClass {
         }
 
         SlotsConfig.maxPlayers = amount;
-        sender.sendMessage(Config.PREFIX + "§eSet the max players to §d" + amount + "§e!");
+        sender.sendMessage(MainConfig.PREFIX + "§eSet the max players to §d" + amount + "§e!");
         SlotsConfig.save();
     }
 
@@ -55,7 +55,7 @@ public class SlotsCommand extends CommandClass {
 
         ToggleType toggleType = ToggleType.getToggle(toggle);
         if (toggleType.equals(ToggleType.UNKNOWN)) {
-            sender.sendMessage(Config.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
+            sender.sendMessage(MainConfig.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
             return;
         }
 
@@ -75,7 +75,7 @@ public class SlotsCommand extends CommandClass {
         }
 
         SlotsConfig.save();
-        sender.sendMessage(Config.PREFIX + "§eToggled slots system " + Utils.colorizeTrueFalse(SlotsConfig.enabled, TrueFalseType.ON_OFF) + "§e!");
+        sender.sendMessage(MainConfig.PREFIX + "§eToggled slots system " + Utils.colorizeTrueFalse(SlotsConfig.enabled, TrueFalseType.ON_OFF) + "§e!");
     }
 
     @CommandMethod("slots reload")
@@ -88,6 +88,6 @@ public class SlotsCommand extends CommandClass {
         }
 
         SlotsConfig.reload();
-        sender.sendMessage(Config.PREFIX + "§eReloaded the slots system!");
+        sender.sendMessage(MainConfig.PREFIX + "§eReloaded the slots system!");
     }
 }

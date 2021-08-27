@@ -7,13 +7,11 @@ import cloud.commandframework.annotations.Flag;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.InventoryScope;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -47,12 +45,12 @@ public class ClearCommand extends CommandClass {
         }
 
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
         if (inventoryScope.equals(InventoryScope.UNKNOWN)) {
-            sender.sendMessage(Config.PREFIX + "§cUnknown inventory scope §l" + type + "§c!");
+            sender.sendMessage(MainConfig.PREFIX + "§cUnknown inventory scope §l" + type + "§c!");
             return;
         }
 
@@ -69,7 +67,7 @@ public class ClearCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(Config.PREFIX + "§eYour inventory has been cleared!");
+                        target.sendMessage(MainConfig.PREFIX + "§eYour inventory has been cleared!");
                     }
                     break;
                 }
@@ -78,7 +76,7 @@ public class ClearCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(Config.PREFIX + "§eYour item in hand has been cleared!");
+                        target.sendMessage(MainConfig.PREFIX + "§eYour item in hand has been cleared!");
                     }
                     break;
                 }
@@ -87,7 +85,7 @@ public class ClearCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(Config.PREFIX + "§eYour armor has been cleared!");
+                        target.sendMessage(MainConfig.PREFIX + "§eYour armor has been cleared!");
                     }
                     break;
                 }
@@ -96,7 +94,7 @@ public class ClearCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(Config.PREFIX + "§eCleared all §d" + inventoryScope.getItemStack().getType() + " §efrom your inventory!");
+                        target.sendMessage(MainConfig.PREFIX + "§eCleared all §d" + inventoryScope.getItemStack().getType() + " §efrom your inventory!");
                     }
                     break;
                 }
@@ -104,9 +102,9 @@ public class ClearCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(Config.PREFIX + "§eCleared §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " players!");
+            sender.sendMessage(MainConfig.PREFIX + "§eCleared §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " players!");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e!"));
         }
     }
 

@@ -4,7 +4,7 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,7 +26,7 @@ public class MoreCommand extends CommandClass {
 
         ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(player);
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            player.sendMessage(Config.PREFIX + "§cYou are not holding anything!");
+            player.sendMessage(MainConfig.PREFIX + "§cYou are not holding anything!");
             return;
         }
 
@@ -39,6 +39,6 @@ public class MoreCommand extends CommandClass {
         itemInHand.setAmount(newAmount);
 
         player.updateInventory();
-        player.sendMessage(Config.PREFIX + "§eSet item in hand to §d" + newAmount + "x " + itemInHand.getType().toString() + "§e!");
+        player.sendMessage(MainConfig.PREFIX + "§eSet item in hand to §d" + newAmount + "x " + itemInHand.getType().toString() + "§e!");
     }
 }

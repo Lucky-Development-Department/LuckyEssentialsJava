@@ -1,7 +1,7 @@
 package id.luckynetwork.dev.lyrams.lej.utils;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
@@ -66,15 +66,15 @@ public class Utils {
         if (!silent) {
             if (showPermission) {
                 if (command != null) {
-                    target.sendMessage(Config.PREFIX + "§cYou don't have the required permission §l" + permission + " to do §l" + command + "§c!");
+                    target.sendMessage(MainConfig.PREFIX + "§cYou don't have the required permission §l" + permission + " to do §l" + command + "§c!");
                 } else {
-                    target.sendMessage(Config.PREFIX + "§cYou don't have the required permission §l" + permission + " to do that!");
+                    target.sendMessage(MainConfig.PREFIX + "§cYou don't have the required permission §l" + permission + " to do that!");
                 }
             } else {
                 if (command != null) {
-                    target.sendMessage(Config.PREFIX + "§cYou don't have the required permission to do §l" + command + "§c!");
+                    target.sendMessage(MainConfig.PREFIX + "§cYou don't have the required permission to do §l" + command + "§c!");
                 } else {
-                    target.sendMessage(Config.PREFIX + "§cYou don't have the required permission to do that!");
+                    target.sendMessage(MainConfig.PREFIX + "§cYou don't have the required permission to do that!");
                 }
             }
         }

@@ -4,7 +4,7 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.config.WhitelistConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
@@ -123,7 +123,7 @@ public class WhitelistCommand extends CommandClass {
 
         OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
@@ -134,10 +134,10 @@ public class WhitelistCommand extends CommandClass {
                     .build();
 
             if (WhitelistConfig.whitelistedList.contains(data)) {
-                sender.sendMessage(Config.PREFIX + "§c§l" + data.getName() + " §cis already whitelisted.");
+                sender.sendMessage(MainConfig.PREFIX + "§c§l" + data.getName() + " §cis already whitelisted.");
             } else {
                 WhitelistConfig.whitelistedList.add(data);
-                sender.sendMessage(Config.PREFIX + "§eAdded §d" + data.getName() + " §eto the whitelist.");
+                sender.sendMessage(MainConfig.PREFIX + "§eAdded §d" + data.getName() + " §eto the whitelist.");
             }
         });
 
@@ -156,7 +156,7 @@ public class WhitelistCommand extends CommandClass {
 
         OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
@@ -168,13 +168,13 @@ public class WhitelistCommand extends CommandClass {
 
             if (WhitelistConfig.whitelistedList.contains(data)) {
                 WhitelistConfig.whitelistedList.remove(data);
-                sender.sendMessage(Config.PREFIX + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
+                sender.sendMessage(MainConfig.PREFIX + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
             } else {
                 boolean removed = WhitelistConfig.whitelistedList.removeIf(it -> it.getName().equals(target.getName()) || it.getUuid().equals(target.getUniqueId().toString()));
                 if (removed) {
-                    sender.sendMessage(Config.PREFIX + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
+                    sender.sendMessage(MainConfig.PREFIX + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
                 } else {
-                    sender.sendMessage(Config.PREFIX + "§c§l" + data.getName() + " §cis already not whitelisted.");
+                    sender.sendMessage(MainConfig.PREFIX + "§c§l" + data.getName() + " §cis already not whitelisted.");
                 }
             }
         });
@@ -194,7 +194,7 @@ public class WhitelistCommand extends CommandClass {
 
         OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
         if (targets.isEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
@@ -216,9 +216,9 @@ public class WhitelistCommand extends CommandClass {
             }
 
             if (whitelsited) {
-                sender.sendMessage(Config.PREFIX + "§d" + target.getName() + " §eis §awhitelisted.");
+                sender.sendMessage(MainConfig.PREFIX + "§d" + target.getName() + " §eis §awhitelisted.");
             } else {
-                sender.sendMessage(Config.PREFIX + "§d" + target.getName() + " §eis §cnot whitelisted.");
+                sender.sendMessage(MainConfig.PREFIX + "§d" + target.getName() + " §eis §cnot whitelisted.");
             }
         });
     }
@@ -235,7 +235,7 @@ public class WhitelistCommand extends CommandClass {
 
         ToggleType toggleType = ToggleType.getToggle(toggle);
         if (toggleType.equals(ToggleType.UNKNOWN)) {
-            sender.sendMessage(Config.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
+            sender.sendMessage(MainConfig.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
             return;
         }
 
@@ -255,7 +255,7 @@ public class WhitelistCommand extends CommandClass {
         }
 
         WhitelistConfig.save();
-        sender.sendMessage(Config.PREFIX + "§eToggled whitelist system " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF) + "§e!");
+        sender.sendMessage(MainConfig.PREFIX + "§eToggled whitelist system " + Utils.colorizeTrueFalse(WhitelistConfig.enabled, TrueFalseType.ON_OFF) + "§e!");
     }
 
     @CommandMethod("whitelist reload")
@@ -268,6 +268,6 @@ public class WhitelistCommand extends CommandClass {
         }
 
         WhitelistConfig.reload();
-        sender.sendMessage(Config.PREFIX + "§eReloaded the whitelist system!");
+        sender.sendMessage(MainConfig.PREFIX + "§eReloaded the whitelist system!");
     }
 }

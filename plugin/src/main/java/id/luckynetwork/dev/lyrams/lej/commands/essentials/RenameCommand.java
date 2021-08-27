@@ -5,7 +5,7 @@ import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.specifier.Greedy;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class RenameCommand extends CommandClass {
 
         ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(player);
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            player.sendMessage(Config.PREFIX + "§cYou are not holding anything!");
+            player.sendMessage(MainConfig.PREFIX + "§cYou are not holding anything!");
             return;
         }
 
@@ -37,6 +37,6 @@ public class RenameCommand extends CommandClass {
         itemInHand.setItemMeta(itemMeta);
 
         player.updateInventory();
-        player.sendMessage(Config.PREFIX + "§eItem successfully renamed!");
+        player.sendMessage(MainConfig.PREFIX + "§eItem successfully renamed!");
     }
 }

@@ -3,7 +3,7 @@ package id.luckynetwork.dev.lyrams.lej.commands.api;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -116,7 +116,7 @@ public abstract class CommandClass {
                         callback.addAll(nearbyPlayers);
                     }
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cInvalid target range or amount value!");
                     callback.setNotified(true);
                     return callback;
                 }
@@ -158,7 +158,7 @@ public abstract class CommandClass {
                         }
                     }
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cInvalid target range or amount value!");
                     callback.setNotified(true);
                     return callback;
                 }
@@ -183,7 +183,7 @@ public abstract class CommandClass {
                         }
                     }
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cInvalid amount value!");
                     callback.setNotified(true);
                     return callback;
                 }
@@ -195,7 +195,7 @@ public abstract class CommandClass {
                 for (String potTarget : arg.split(",")) {
                     Player potTargetPlayer = Bukkit.getPlayer(potTarget);
                     if (potTargetPlayer == null) {
-                        sender.sendMessage(Config.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
+                        sender.sendMessage(MainConfig.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
                         continue;
                     }
 
@@ -207,7 +207,7 @@ public abstract class CommandClass {
             // selected player
             Player targetPlayer = Bukkit.getPlayer(arg);
             if (targetPlayer == null) {
-                sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
+                sender.sendMessage(MainConfig.PREFIX + "§cPlayer not found!");
                 callback.setNotified(true);
                 return callback;
             }
@@ -217,14 +217,14 @@ public abstract class CommandClass {
         }
 
         if (arg == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlease specify a target player!");
             callback.setNotified(true);
             return callback;
         }
 
         switch (arg.toLowerCase()) {
             case "self": {
-                sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
+                sender.sendMessage(MainConfig.PREFIX + "§cPlease specify a target player!");
                 callback.setNotified(true);
                 return callback;
             }
@@ -264,7 +264,7 @@ public abstract class CommandClass {
                     }
                 }
             } catch (NumberFormatException e) {
-                sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
+                sender.sendMessage(MainConfig.PREFIX + "§cInvalid amount value!");
                 callback.setNotified(true);
                 return callback;
             }
@@ -276,7 +276,7 @@ public abstract class CommandClass {
             for (String potTarget : arg.split(",")) {
                 Player potTargetPlayer = Bukkit.getPlayer(potTarget);
                 if (potTargetPlayer == null) {
-                    sender.sendMessage(Config.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
                     continue;
                 }
 
@@ -287,7 +287,7 @@ public abstract class CommandClass {
 
         Player targetPlayer = Bukkit.getPlayer(arg);
         if (targetPlayer == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlayer not found!");
             callback.setNotified(true);
             return callback;
         }
@@ -390,7 +390,7 @@ public abstract class CommandClass {
                         callback.addAll(nearbyPlayers);
                     }
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cInvalid target range or amount value!");
                     callback.setNotified(true);
                     return callback;
                 }
@@ -432,7 +432,7 @@ public abstract class CommandClass {
                         }
                     }
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid target range or amount value!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cInvalid target range or amount value!");
                     callback.setNotified(true);
                     return callback;
                 }
@@ -457,7 +457,7 @@ public abstract class CommandClass {
                         }
                     }
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cInvalid amount value!");
                     callback.setNotified(true);
                     return callback;
                 }
@@ -469,7 +469,7 @@ public abstract class CommandClass {
                 for (String potTarget : arg.split(",")) {
                     OfflinePlayer potTargetPlayer = Bukkit.getOfflinePlayer(potTarget);
                     if (potTargetPlayer == null) {
-                        sender.sendMessage(Config.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
+                        sender.sendMessage(MainConfig.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
                         continue;
                     }
 
@@ -481,7 +481,7 @@ public abstract class CommandClass {
             // selected player
             OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(arg);
             if (targetPlayer == null) {
-                sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
+                sender.sendMessage(MainConfig.PREFIX + "§cPlayer not found!");
                 callback.setNotified(true);
                 return callback;
             }
@@ -491,14 +491,14 @@ public abstract class CommandClass {
         }
 
         if (arg == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlease specify a target player!");
             callback.setNotified(true);
             return callback;
         }
 
         switch (arg.toLowerCase()) {
             case "self": {
-                sender.sendMessage(Config.PREFIX + "§cPlease specify a target player!");
+                sender.sendMessage(MainConfig.PREFIX + "§cPlease specify a target player!");
                 callback.setNotified(true);
                 return callback;
             }
@@ -538,7 +538,7 @@ public abstract class CommandClass {
                     }
                 }
             } catch (NumberFormatException e) {
-                sender.sendMessage(Config.PREFIX + "§cInvalid amount value!");
+                sender.sendMessage(MainConfig.PREFIX + "§cInvalid amount value!");
                 callback.setNotified(true);
                 return callback;
             }
@@ -550,7 +550,7 @@ public abstract class CommandClass {
             for (String potTarget : arg.split(",")) {
                 OfflinePlayer potTargetPlayer = Bukkit.getOfflinePlayer(potTarget);
                 if (potTargetPlayer == null) {
-                    sender.sendMessage(Config.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cPlayer §l" + potTarget + " §cnot found!");
                     continue;
                 }
 
@@ -561,7 +561,7 @@ public abstract class CommandClass {
 
         OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(arg);
         if (targetPlayer == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlayer not found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlayer not found!");
             callback.setNotified(true);
             return callback;
         }
@@ -586,7 +586,7 @@ public abstract class CommandClass {
                 if (!ench.contains(":") || ench.split(":")[0] == null || ench.split(":")[1] == null) {
                     Enchantment enchantment = plugin.getVersionSupport().getEnchantName(ench);
                     if (enchantment == null) {
-                        sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + ench + "§c!");
+                        sender.sendMessage(MainConfig.PREFIX + "§cInvalid enchantment: §l" + ench + "§c!");
                         continue;
                     }
 
@@ -595,7 +595,7 @@ public abstract class CommandClass {
                 } else {
                     Enchantment enchantment = plugin.getVersionSupport().getEnchantName(ench.split(":")[0]);
                     if (enchantment == null) {
-                        sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + ench + "§c!");
+                        sender.sendMessage(MainConfig.PREFIX + "§cInvalid enchantment: §l" + ench + "§c!");
                         continue;
                     }
 
@@ -603,7 +603,7 @@ public abstract class CommandClass {
                         int level = Integer.parseInt(ench.split(":")[1]);
                         enchantmentMap.put(enchantment, level);
                     } catch (Exception ignored) {
-                        sender.sendMessage(Config.PREFIX + "§cInvalid enchantment level: §l " + ench + "§c!");
+                        sender.sendMessage(MainConfig.PREFIX + "§cInvalid enchantment level: §l " + ench + "§c!");
                     }
                 }
             }
@@ -611,7 +611,7 @@ public abstract class CommandClass {
             if (!enchants.contains(":") || enchants.split(":")[0] == null || enchants.split(":")[1] == null) {
                 Enchantment enchantment = plugin.getVersionSupport().getEnchantName(enchants);
                 if (enchantment == null) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + enchants + "§c!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cInvalid enchantment: §l" + enchants + "§c!");
                     return enchantmentMap;
                 }
 
@@ -620,7 +620,7 @@ public abstract class CommandClass {
             } else {
                 Enchantment enchantment = plugin.getVersionSupport().getEnchantName(enchants.split(":")[0]);
                 if (enchantment == null) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid enchantment: §l" + enchants + "§c!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cInvalid enchantment: §l" + enchants + "§c!");
                     return enchantmentMap;
                 }
 
@@ -628,7 +628,7 @@ public abstract class CommandClass {
                     int level = Integer.parseInt(enchants.split(":")[1]);
                     enchantmentMap.put(enchantment, level);
                 } catch (Exception ignored) {
-                    sender.sendMessage(Config.PREFIX + "§cInvalid enchantment level: §l " + enchants + "§c!");
+                    sender.sendMessage(MainConfig.PREFIX + "§cInvalid enchantment level: §l " + enchants + "§c!");
                 }
             }
         }

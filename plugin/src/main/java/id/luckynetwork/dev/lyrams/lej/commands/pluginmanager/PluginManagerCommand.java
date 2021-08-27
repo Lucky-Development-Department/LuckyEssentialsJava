@@ -9,7 +9,7 @@ import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import com.google.common.base.Joiner;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.config.SlotsConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class PluginManagerCommand extends CommandClass {
 
@@ -45,7 +44,7 @@ public class PluginManagerCommand extends CommandClass {
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        sender.sendMessage(Config.PREFIX + "§ePlugins §d(" + pluginNames.size() + ")§e: " + Joiner.on(", ").join(pluginNames));
+        sender.sendMessage(MainConfig.PREFIX + "§ePlugins §d(" + pluginNames.size() + ")§e: " + Joiner.on(", ").join(pluginNames));
     }
 
     @CommandMethod("luckyessentials pluginmanager|pm info <pluginName>")
@@ -60,7 +59,7 @@ public class PluginManagerCommand extends CommandClass {
 
         Plugin plugin = PluginManagerUtils.getPluginByName(pluginName);
         if (plugin == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin not found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin not found!");
             return;
         }
 
@@ -85,15 +84,15 @@ public class PluginManagerCommand extends CommandClass {
 
         Plugin plugin = PluginManagerUtils.getPluginByName(pluginName);
         if (plugin != null) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin is already loaded!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin is already loaded!");
             return;
         }
 
         boolean loaded = PluginManagerUtils.load(pluginName);
         if (loaded) {
-            sender.sendMessage(Config.PREFIX + "§eSuccessfully loaded §d" + pluginName + "§e!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSuccessfully loaded §d" + pluginName + "§e!");
         } else {
-            sender.sendMessage(Config.PREFIX + "§cFailed loading §l" + pluginName + "§c! §7§oCheck console for more details!");
+            sender.sendMessage(MainConfig.PREFIX + "§cFailed loading §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
     }
 
@@ -109,15 +108,15 @@ public class PluginManagerCommand extends CommandClass {
 
         Plugin plugin = PluginManagerUtils.getPluginByName(pluginName);
         if (plugin == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin is not loaded!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin is not loaded!");
             return;
         }
 
         boolean loaded = PluginManagerUtils.unload(plugin);
         if (loaded) {
-            sender.sendMessage(Config.PREFIX + "§eSuccessfully unloaded §d" + pluginName + "§e!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSuccessfully unloaded §d" + pluginName + "§e!");
         } else {
-            sender.sendMessage(Config.PREFIX + "§cFailed unloading §l" + pluginName + "§c! §7§oCheck console for more details!");
+            sender.sendMessage(MainConfig.PREFIX + "§cFailed unloading §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
     }
 
@@ -133,15 +132,15 @@ public class PluginManagerCommand extends CommandClass {
 
         Plugin plugin = PluginManagerUtils.getPluginByName(pluginName);
         if (plugin == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin not found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin not found!");
             return;
         }
 
         boolean reloaded = PluginManagerUtils.reload(plugin);
         if (reloaded) {
-            sender.sendMessage(Config.PREFIX + "§eSuccessfully reloaded §d" + pluginName + "§e!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSuccessfully reloaded §d" + pluginName + "§e!");
         } else {
-            sender.sendMessage(Config.PREFIX + "§cFailed reloading §l" + pluginName + "§c! §7§oCheck console for more details!");
+            sender.sendMessage(MainConfig.PREFIX + "§cFailed reloading §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
     }
 
@@ -157,19 +156,19 @@ public class PluginManagerCommand extends CommandClass {
 
         Plugin plugin = PluginManagerUtils.getPluginByName(pluginName);
         if (plugin == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin not found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin not found!");
             return;
         }
         if (plugin.isEnabled()) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin is already enabled!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin is already enabled!");
             return;
         }
 
         boolean enabled = PluginManagerUtils.enable(plugin);
         if (enabled) {
-            sender.sendMessage(Config.PREFIX + "§eSuccessfully enabled §d" + pluginName + "§e!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSuccessfully enabled §d" + pluginName + "§e!");
         } else {
-            sender.sendMessage(Config.PREFIX + "§cFailed enabling §l" + pluginName + "§c! §7§oCheck console for more details!");
+            sender.sendMessage(MainConfig.PREFIX + "§cFailed enabling §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
     }
 
@@ -185,19 +184,19 @@ public class PluginManagerCommand extends CommandClass {
 
         Plugin plugin = PluginManagerUtils.getPluginByName(pluginName);
         if (plugin == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin not found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin not found!");
             return;
         }
         if (!plugin.isEnabled()) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin is already disabled!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin is already disabled!");
             return;
         }
 
         boolean disabled = PluginManagerUtils.disable(plugin);
         if (disabled) {
-            sender.sendMessage(Config.PREFIX + "§eSuccessfully disabled §d" + pluginName + "§e!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSuccessfully disabled §d" + pluginName + "§e!");
         } else {
-            sender.sendMessage(Config.PREFIX + "§cFailed disabling §l" + pluginName + "§c! §7§oCheck console for more details!");
+            sender.sendMessage(MainConfig.PREFIX + "§cFailed disabling §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
     }
 
@@ -213,15 +212,15 @@ public class PluginManagerCommand extends CommandClass {
 
         Plugin plugin = PluginManagerUtils.getPluginByName(pluginName);
         if (plugin == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin not found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin not found!");
             return;
         }
 
         boolean restarted = PluginManagerUtils.restart(plugin);
         if (restarted) {
-            sender.sendMessage(Config.PREFIX + "§eSuccessfully restarted §d" + pluginName + "§e!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSuccessfully restarted §d" + pluginName + "§e!");
         } else {
-            sender.sendMessage(Config.PREFIX + "§cFailed restarting §l" + pluginName + "§c! §7§oCheck console for more details!");
+            sender.sendMessage(MainConfig.PREFIX + "§cFailed restarting §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
     }
 
@@ -237,12 +236,12 @@ public class PluginManagerCommand extends CommandClass {
 
         Plugin plugin = PluginManagerUtils.getPluginByName(pluginName);
         if (plugin == null) {
-            sender.sendMessage(Config.PREFIX + "§cPlugin not found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cPlugin not found!");
             return;
         }
 
         String usages = PluginManagerUtils.getUsages(plugin);
-        sender.sendMessage(Config.PREFIX + "§eCommands: §a" + usages);
+        sender.sendMessage(MainConfig.PREFIX + "§eCommands: §a" + usages);
     }
 
     @CommandMethod("luckyessentials pluginmanager|pm lookup <command>")
@@ -257,11 +256,11 @@ public class PluginManagerCommand extends CommandClass {
 
         List<String> pluginByCommands = PluginManagerUtils.findByCommand(command);
         if (pluginByCommands.isEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo plugins found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo plugins found!");
             return;
         }
 
-        sender.sendMessage(Config.PREFIX + "§d" + command + " §eis registered to: §a" + Joiner.on(", ").join(pluginByCommands));
+        sender.sendMessage(MainConfig.PREFIX + "§d" + command + " §eis registered to: §a" + Joiner.on(", ").join(pluginByCommands));
     }
 
     @Suggestions("plugins")

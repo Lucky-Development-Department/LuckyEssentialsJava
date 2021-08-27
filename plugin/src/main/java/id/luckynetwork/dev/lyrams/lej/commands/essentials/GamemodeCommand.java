@@ -7,7 +7,7 @@ import cloud.commandframework.annotations.ProxiedBy;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -34,7 +34,7 @@ public class GamemodeCommand extends CommandClass {
 
         GameMode gameMode = this.getModeFromString(mode);
         if (gameMode == null) {
-            sender.sendMessage(Config.PREFIX + "§cUnknown gamemode: §l" + mode + "§c!");
+            sender.sendMessage(MainConfig.PREFIX + "§cUnknown gamemode: §l" + mode + "§c!");
             return;
         }
 
@@ -44,7 +44,7 @@ public class GamemodeCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
@@ -55,13 +55,13 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(gameMode);
-            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §d" + gameMode + "§e!");
+            target.sendMessage(MainConfig.PREFIX + "§eYour gamemode has been set to §d" + gameMode + "§e!");
         });
 
         if (others) {
-            sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6" + gameMode + " §efor §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6" + gameMode + " §efor §d" + targets.size() + " §eplayers!");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6" + gameMode + " §efor §d" + target.getName() + " §e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6" + gameMode + " §efor §d" + target.getName() + " §e!"));
         }
     }
 
@@ -77,7 +77,7 @@ public class GamemodeCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
@@ -88,13 +88,13 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.SURVIVAL);
-            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dsurvival§e!");
+            target.sendMessage(MainConfig.PREFIX + "§eYour gamemode has been set to §dsurvival§e!");
         });
 
         if (others) {
-            sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6survival §efor §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6survival §efor §d" + targets.size() + " §eplayers!");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6survival §efor §d" + target.getName() + " §e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6survival §efor §d" + target.getName() + " §e!"));
         }
     }
 
@@ -110,7 +110,7 @@ public class GamemodeCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
@@ -121,13 +121,13 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.CREATIVE);
-            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dcreative§e!");
+            target.sendMessage(MainConfig.PREFIX + "§eYour gamemode has been set to §dcreative§e!");
         });
 
         if (others) {
-            sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6creative §efor §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6creative §efor §d" + targets.size() + " §eplayers!");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6creative §efor §d" + target.getName() + " §e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6creative §efor §d" + target.getName() + " §e!"));
         }
     }
 
@@ -143,7 +143,7 @@ public class GamemodeCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
@@ -154,13 +154,13 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.ADVENTURE);
-            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dadventure§e!");
+            target.sendMessage(MainConfig.PREFIX + "§eYour gamemode has been set to §dadventure§e!");
         });
 
         if (others) {
-            sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6adventure §efor §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6adventure §efor §d" + targets.size() + " §eplayers!");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6adventure §efor §d" + target.getName() + " §e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6adventure §efor §d" + target.getName() + " §e!"));
         }
     }
 
@@ -176,7 +176,7 @@ public class GamemodeCommand extends CommandClass {
 
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
@@ -187,13 +187,13 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.SPECTATOR);
-            target.sendMessage(Config.PREFIX + "§eYour gamemode has been set to §dspectator§e!");
+            target.sendMessage(MainConfig.PREFIX + "§eYour gamemode has been set to §dspectator§e!");
         });
 
         if (others) {
-            sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6spectator §efor §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6spectator §efor §d" + targets.size() + " §eplayers!");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eSet gamemode to §6spectator §efor §d" + target.getName() + " §e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eSet gamemode to §6spectator §efor §d" + target.getName() + " §e!"));
         }
     }
 

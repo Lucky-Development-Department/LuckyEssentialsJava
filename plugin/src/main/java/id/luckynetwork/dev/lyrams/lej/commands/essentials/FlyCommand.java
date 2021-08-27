@@ -4,7 +4,7 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
-import id.luckynetwork.dev.lyrams.lej.config.Config;
+import id.luckynetwork.dev.lyrams.lej.config.MainConfig;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
@@ -37,12 +37,12 @@ public class FlyCommand extends CommandClass {
         }
 
         if (targets.notifyIfEmpty()) {
-            sender.sendMessage(Config.PREFIX + "§cNo targets found!");
+            sender.sendMessage(MainConfig.PREFIX + "§cNo targets found!");
             return;
         }
 
         if (toggleType.equals(ToggleType.UNKNOWN)) {
-            sender.sendMessage(Config.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
+            sender.sendMessage(MainConfig.PREFIX + "§cUnknown toggle type §l" + toggle + "§c!");
             return;
         }
 
@@ -68,13 +68,13 @@ public class FlyCommand extends CommandClass {
             }
 
             boolean allowFlight = target.getAllowFlight();
-            target.sendMessage(Config.PREFIX + "§eFlight mode: " + Utils.colorizeTrueFalse(allowFlight, TrueFalseType.ON_OFF) + "§e!");
+            target.sendMessage(MainConfig.PREFIX + "§eFlight mode: " + Utils.colorizeTrueFalse(allowFlight, TrueFalseType.ON_OFF) + "§e!");
         });
 
         if (others) {
-            sender.sendMessage(Config.PREFIX + "§eToggled flight for §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(MainConfig.PREFIX + "§eToggled flight for §d" + targets.size() + " §eplayers!");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(Config.PREFIX + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(MainConfig.PREFIX + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e!"));
         }
     }
 
