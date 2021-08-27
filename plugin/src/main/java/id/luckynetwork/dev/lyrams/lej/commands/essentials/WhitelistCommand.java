@@ -46,7 +46,7 @@ public class WhitelistCommand extends CommandClass {
         sender.sendMessage("§8└─ §eCheck Mode: §a" + plugin.getWhitelistManager().getCheckMode().toString());
     }
 
-    @CommandMethod("whitelist list [page]")
+    @CommandMethod("whitelist|ewl|wl list [page]")
     @CommandDescription("Lists all whitelisted players")
     public void listCommand(
             final @NonNull CommandSender sender,
@@ -75,7 +75,6 @@ public class WhitelistCommand extends CommandClass {
                 sender.sendMessage("§7Player §a#" + ++i);
                 sender.sendMessage("§8├─ §eUUID: §a" + data.getUuid());
                 sender.sendMessage("§8└─ §eName: §a" + data.getName());
-                sender.sendMessage(" ");
             }
 
             boolean lastPage = (page == maxPage);
@@ -104,13 +103,12 @@ public class WhitelistCommand extends CommandClass {
                 sender.sendMessage("§7Player §a#" + ++i);
                 sender.sendMessage("§8├─ §eUUID: §a" + data.getUuid());
                 sender.sendMessage("§8└─ §eName: §a" + data.getName());
-                sender.sendMessage(" ");
             }
             sender.sendMessage("§6§m---------------------------------------------");
         }
     }
 
-    @CommandMethod("whitelist add <target>")
+    @CommandMethod("whitelist|ewl|wl add <target>")
     @CommandDescription("Adds a player to the LuckyEssentials whitelist system")
     public void addCommand(
             final @NonNull CommandSender sender,
@@ -143,7 +141,7 @@ public class WhitelistCommand extends CommandClass {
         plugin.getWhitelistManager().save();
     }
 
-    @CommandMethod("whitelist remove <target>")
+    @CommandMethod("whitelist|ewl|wl remove <target>")
     @CommandDescription("Removes a player to the LuckyEssentials whitelist system")
     public void removeCommand(
             final @NonNull CommandSender sender,
@@ -181,7 +179,7 @@ public class WhitelistCommand extends CommandClass {
         plugin.getWhitelistManager().save();
     }
 
-    @CommandMethod("whitelist check <target>")
+    @CommandMethod("whitelist|ewl|wl check <target>")
     @CommandDescription("Checks if a player is whitelisted in the LuckyEssentials whitelist system")
     public void checkCommand(
             final @NonNull CommandSender sender,
@@ -222,7 +220,7 @@ public class WhitelistCommand extends CommandClass {
         });
     }
 
-    @CommandMethod("whitelist toggle [toggle]")
+    @CommandMethod("whitelist|ewl|wl toggle [toggle]")
     @CommandDescription("Toggles on or off the LuckyEssentials whitelist system")
     public void toggleCommand(
             final @NonNull CommandSender sender,
@@ -257,7 +255,7 @@ public class WhitelistCommand extends CommandClass {
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e!");
     }
 
-    @CommandMethod("whitelist reload")
+    @CommandMethod("whitelist|ewl|wl reload")
     @CommandDescription("Reloads the LuckyEssentials whitelist system")
     public void reloadCommand(
             final @NonNull CommandSender sender
