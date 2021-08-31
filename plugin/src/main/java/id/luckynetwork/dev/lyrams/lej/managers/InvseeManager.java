@@ -91,6 +91,9 @@ public class InvseeManager {
                 .addLoreLine("§8├─ §eYaw: §a" + location.getYaw())
                 .addLoreLine("§8├─ §ePitch: §a" + location.getPitch())
                 .addLoreLine("§8└─ §eDistance: §a" + distanceString)
+                .addLoreLine(" ")
+                .addLoreLine("        §7(( Left-Click to teleport to player ))")
+                .addLoreLine("        §7(( Right-Click to teleport to near the player ))")
                 .toItemStack());
 
         inventory.setItem(52, new ItemBuilder(infoItem.getType())
@@ -165,6 +168,9 @@ public class InvseeManager {
                         .addLoreLine("§8├─ §eYaw: §a" + location.getYaw())
                         .addLoreLine("§8├─ §ePitch: §a" + location.getPitch())
                         .addLoreLine("§8└─ §eDistance: §a" + distanceString)
+                        .addLoreLine(" ")
+                        .addLoreLine("        §7(( Left-Click to teleport to player ))")
+                        .addLoreLine("        §7(( Right-Click to teleport to near the player ))")
                         .toItemStack());
 
                 topInventory.setItem(52, new ItemBuilder(this.infoItem.getType())
@@ -228,6 +234,9 @@ public class InvseeManager {
                         .addLoreLine("§8├─ §eYaw: §a" + location.getYaw())
                         .addLoreLine("§8├─ §ePitch: §a" + location.getPitch())
                         .addLoreLine("§8└─ §eDistance: §a" + distanceString)
+                        .addLoreLine(" ")
+                        .addLoreLine("        §7(( Left-Click to teleport to player ))")
+                        .addLoreLine("        §7(( Right-Click to teleport to behind the player ))")
                         .toItemStack());
 
                 topInventory.setItem(52, new ItemBuilder(this.infoItem.getType())

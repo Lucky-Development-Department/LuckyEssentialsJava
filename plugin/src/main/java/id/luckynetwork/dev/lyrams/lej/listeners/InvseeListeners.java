@@ -4,6 +4,7 @@ import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.Arrays;
 
@@ -59,6 +61,31 @@ public class InvseeListeners implements Listener {
                     event.setCancelled(true);
                 } else if (plugin.getInvseeManager().getSeparatorSlots().contains(event.getSlot())) {
                     event.setCancelled(true);
+                    if (event.getSlot() == 51) {
+                        if (event.isRightClick()) {
+                            if (((Player) whoClicked).isFlying()) {
+                                Location ownerPlayerLocation = ownerPlayer.getLocation();
+                                Vector inverse = ownerPlayerLocation.getDirection().normalize().multiply(-1);
+
+                                Location location = ownerPlayer.getLocation().clone().add(inverse);
+                                location.setY(ownerPlayerLocation.getY() + 5);
+                                location.setPitch(45f);
+                                whoClicked.teleport(location);
+
+                                ((Player) whoClicked).setFlying(true);
+                                whoClicked.setVelocity(new Vector(0, 0, 0));
+                            } else {
+                                Location ownerPlayerLocation = ownerPlayer.getLocation();
+                                Vector inverse = ownerPlayerLocation.getDirection().normalize().multiply(-1);
+
+                                Location location = ownerPlayer.getLocation().clone().add(inverse);
+                                whoClicked.teleport(location);
+                            }
+                        } else {
+                            whoClicked.teleport(ownerPlayer);
+                        }
+                        plugin.getInvseeManager().invsee((Player) whoClicked, ownerPlayer);
+                    }
                 } else {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
                         ItemStack[] contents = Arrays.copyOfRange(topInventory.getContents(), 0, 35);
