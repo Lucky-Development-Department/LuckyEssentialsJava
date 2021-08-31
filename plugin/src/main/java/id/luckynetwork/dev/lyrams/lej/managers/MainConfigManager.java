@@ -14,8 +14,8 @@ public class MainConfigManager {
 
     private String prefix;
     private boolean chatLocked;
-    private boolean discouraged;
     private boolean oldInvsee;
+    private boolean discouraged;
 
     public MainConfigManager(LuckyEssentials plugin) {
         this.plugin = plugin;
@@ -27,8 +27,8 @@ public class MainConfigManager {
 
         this.prefix = Utils.colorize(plugin.getMainConfig().getString("prefix", "§e§lLUCKYESSENTIALS §a/ "));
         this.chatLocked = plugin.getMainConfig().getBoolean("chat-lock", false);
+        this.oldInvsee = plugin.getMainConfig().getBoolean("old-invsee", false);
         this.discouraged = plugin.getMainConfig().getBoolean("discouraged", false);
-        this.oldInvsee = plugin.getMainConfig().getBoolean("discouraged", false);
     }
 
     public void save() {
