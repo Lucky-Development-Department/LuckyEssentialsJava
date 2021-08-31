@@ -25,6 +25,9 @@ public class Utils {
         nmsVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
     }
 
+    /**
+     * Gets the plugin description
+     */
     public String getPluginDescription() {
         if (pluginDescription == null) {
             pluginDescription = plugin.getMainConfigManager().getPrefix() + "§eThis server is running §aLuckyEssentials §c" + plugin.getDescription().getVersion() + " §eby §d" + Joiner.on(",").join(plugin.getDescription().getAuthors());
@@ -120,10 +123,23 @@ public class Utils {
         return "§c§l" + trueFalseType.getIfFalse();
     }
 
+    /**
+     * Applies metadata to player
+     *
+     * @param player   the player
+     * @param metadata the metadata
+     * @param value    the metadata value
+     */
     public void applyMetadata(Player player, String metadata, Object value) {
         player.setMetadata(metadata, new FixedMetadataValue(LuckyEssentials.getInstance(), value));
     }
 
+    /**
+     * Removes metadata from player
+     *
+     * @param player   the player
+     * @param metadata the metadata to remove
+     */
     public void removeMetadata(Player player, String metadata) {
         player.removeMetadata(metadata, LuckyEssentials.getInstance());
     }
