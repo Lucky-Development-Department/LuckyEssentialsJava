@@ -17,7 +17,7 @@ public class TopCommand extends CommandClass {
 
     @CommandMethod("top [target]")
     @CommandDescription("Teleports you or other player to the highest block on their location")
-    public void healCommand(
+    public void topCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
