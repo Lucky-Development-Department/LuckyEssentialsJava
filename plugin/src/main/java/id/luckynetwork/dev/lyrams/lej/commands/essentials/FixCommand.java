@@ -54,7 +54,7 @@ public class FixCommand extends CommandClass {
             return;
         }
 
-        boolean others = targets.size() > 1;
+        boolean others = targets.size() > 1 || (sender instanceof Player && targets.doesNotContain((Player) sender));
         if (others && !Utils.checkPermission(sender, true, "fix")) {
             return;
         }
