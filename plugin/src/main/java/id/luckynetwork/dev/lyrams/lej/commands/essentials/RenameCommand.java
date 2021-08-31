@@ -36,6 +36,6 @@ public class RenameCommand extends CommandClass {
         itemInHand.setItemMeta(itemMeta);
 
         player.updateInventory();
-        player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eItem successfully renamed!");
+        player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eItem successfully renamed.");
     }
 }

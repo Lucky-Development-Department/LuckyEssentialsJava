@@ -93,7 +93,7 @@ public class ClearCommand extends CommandClass {
                     target.updateInventory();
 
                     if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared all §d" + inventoryScope.getItemStack().getType() + " §efrom your inventory!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared all §d" + inventoryScope.getItemStack().getType() + " §efrom your inventory.");
                     }
                     break;
                 }
@@ -101,7 +101,7 @@ public class ClearCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " §eplayers.");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e."));
         }

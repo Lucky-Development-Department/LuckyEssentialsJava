@@ -87,13 +87,13 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.SURVIVAL);
-            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour gamemode has been set to §dsurvival§e!");
+            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour gamemode has been set to §dsurvival§e.");
         });
 
         if (others) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6survival §efor §d" + targets.size() + " §eplayers.");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6survival §efor §d" + target.getName() + " §e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6survival §efor §d" + target.getName() + "§e."));
         }
     }
 
@@ -120,13 +120,13 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.CREATIVE);
-            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour gamemode has been set to §dcreative§e!");
+            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour gamemode has been set to §dcreative§e.");
         });
 
         if (others) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6creative §efor §d" + targets.size() + " §eplayers.");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6creative §efor §d" + target.getName() + " §e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6creative §efor §d" + target.getName() + "§e."));
         }
     }
 
@@ -153,13 +153,13 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.ADVENTURE);
-            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour gamemode has been set to §dadventure§e!");
+            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour gamemode has been set to §dadventure§e.");
         });
 
         if (others) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6adventure §efor §d" + targets.size() + " §eplayers.");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6adventure §efor §d" + target.getName() + " §e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6adventure §efor §d" + target.getName() + "§e."));
         }
     }
 
@@ -186,13 +186,13 @@ public class GamemodeCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setGameMode(GameMode.SPECTATOR);
-            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour gamemode has been set to §dspectator§e!");
+            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour gamemode has been set to §dspectator§e.");
         });
 
         if (others) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6spectator §efor §d" + targets.size() + " §eplayers.");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6spectator §efor §d" + target.getName() + " §e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6spectator §efor §d" + target.getName() + "§e."));
         }
     }
 

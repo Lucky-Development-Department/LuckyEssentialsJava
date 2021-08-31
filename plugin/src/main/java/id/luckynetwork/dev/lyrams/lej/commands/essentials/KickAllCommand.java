@@ -30,6 +30,6 @@ public class KickAllCommand extends CommandClass {
             }
         });
 
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eKicked all players!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eKicked all players.");
     }
 }

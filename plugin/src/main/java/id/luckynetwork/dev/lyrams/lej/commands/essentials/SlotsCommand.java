@@ -86,6 +86,6 @@ public class SlotsCommand extends CommandClass {
         }
 
         plugin.getSlotsManager().reload();
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eReloaded the slots system!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eReloaded the slots system.");
     }
 }
