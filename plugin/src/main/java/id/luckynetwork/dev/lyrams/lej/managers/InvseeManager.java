@@ -83,7 +83,7 @@ public class InvseeManager {
             distanceString = String.valueOf(location.distanceSquared(player.getLocation()));
         }
         inventory.setItem(51, new ItemBuilder(locationItem.getType())
-                .setName("§d" + target.getName() + "§e's info:")
+                .setName("§d" + target.getName() + "§e's location:")
                 .addLoreLine("§8├─ §eWorld: §a" + location.getWorld())
                 .addLoreLine("§8├─ §eX: §a" + location.getX())
                 .addLoreLine("§8├─ §eY: §a" + location.getY())
@@ -157,7 +157,7 @@ public class InvseeManager {
                     distanceString = String.valueOf(location.distanceSquared(player.getLocation()));
                 }
                 topInventory.setItem(51, new ItemBuilder(locationItem.getType())
-                        .setName("§d" + target.getName() + "§e's info:")
+                        .setName("§d" + target.getName() + "§e's location:")
                         .addLoreLine("§8├─ §eWorld: §a" + location.getWorld())
                         .addLoreLine("§8├─ §eX: §a" + location.getX())
                         .addLoreLine("§8├─ §eY: §a" + location.getY())
@@ -220,7 +220,7 @@ public class InvseeManager {
                     distanceString = String.valueOf(location.distanceSquared(player.getLocation()));
                 }
                 topInventory.setItem(51, new ItemBuilder(locationItem.getType())
-                        .setName("§d" + target.getName() + "§e's info:")
+                        .setName("§d" + target.getName() + "§e's location:")
                         .addLoreLine("§8├─ §eWorld: §a" + location.getWorld())
                         .addLoreLine("§8├─ §eX: §a" + location.getX())
                         .addLoreLine("§8├─ §eY: §a" + location.getY())
