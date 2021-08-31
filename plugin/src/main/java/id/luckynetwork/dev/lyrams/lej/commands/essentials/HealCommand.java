@@ -43,9 +43,9 @@ public class HealCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eHealed §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eHealed §d" + targets.size() + " §eplayers.");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eHealed §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eHealed §d" + target.getName() + "§e."));
         }
     }
 

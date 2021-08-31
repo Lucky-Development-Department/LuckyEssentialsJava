@@ -252,7 +252,7 @@ public class WhitelistCommand extends CommandClass {
         }
 
         plugin.getWhitelistManager().save();
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
     }
 
     @CommandMethod("whitelist|ewl|wl reload")

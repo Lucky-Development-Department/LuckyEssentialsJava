@@ -147,9 +147,9 @@ public class FixCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " players!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §for §d" + targets.size() + " §eplayers!");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e."));
         }
     }
 

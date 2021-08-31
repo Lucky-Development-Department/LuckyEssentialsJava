@@ -88,7 +88,7 @@ public class PluginManagerCommand extends CommandClass {
 
         boolean loaded = PluginManagerUtils.load(pluginName);
         if (loaded) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully loaded §d" + pluginName + "§e!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully loaded §d" + pluginName + "§e.");
         } else {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cFailed loading §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
@@ -112,7 +112,7 @@ public class PluginManagerCommand extends CommandClass {
 
         boolean loaded = PluginManagerUtils.unload(pluginByName);
         if (loaded) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully unloaded §d" + pluginName + "§e!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully unloaded §d" + pluginName + "§e.");
         } else {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cFailed unloading §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
@@ -136,7 +136,7 @@ public class PluginManagerCommand extends CommandClass {
 
         boolean reloaded = PluginManagerUtils.reload(pluginByName);
         if (reloaded) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully reloaded §d" + pluginName + "§e!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully reloaded §d" + pluginName + "§e.");
         } else {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cFailed reloading §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
@@ -164,7 +164,7 @@ public class PluginManagerCommand extends CommandClass {
 
         boolean enabled = PluginManagerUtils.enable(pluginByName);
         if (enabled) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully enabled §d" + pluginName + "§e!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully enabled §d" + pluginName + "§e.");
         } else {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cFailed enabling §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
@@ -192,7 +192,7 @@ public class PluginManagerCommand extends CommandClass {
 
         boolean disabled = PluginManagerUtils.disable(pluginByName);
         if (disabled) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully disabled §d" + pluginName + "§e!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully disabled §d" + pluginName + "§e.");
         } else {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cFailed disabling §l" + pluginName + "§c! §7§oCheck console for more details!");
         }
@@ -216,7 +216,7 @@ public class PluginManagerCommand extends CommandClass {
 
         boolean restarted = PluginManagerUtils.restart(pluginByName);
         if (restarted) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully restarted §d" + pluginName + "§e!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSuccessfully restarted §d" + pluginName + "§e.");
         } else {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cFailed restarting §l" + pluginName + "§c! §7§oCheck console for more details!");
         }

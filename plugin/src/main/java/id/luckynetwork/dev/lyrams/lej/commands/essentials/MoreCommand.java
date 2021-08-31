@@ -38,6 +38,6 @@ public class MoreCommand extends CommandClass {
         itemInHand.setAmount(newAmount);
 
         player.updateInventory();
-        player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet item in hand to §d" + newAmount + "x " + itemInHand.getType().toString() + "§e!");
+        player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet item in hand to §d" + newAmount + "x " + itemInHand.getType().toString() + "§e.");
     }
 }

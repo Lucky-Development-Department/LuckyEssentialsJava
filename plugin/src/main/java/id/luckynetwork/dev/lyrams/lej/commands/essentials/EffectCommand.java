@@ -64,13 +64,13 @@ public class EffectCommand extends CommandClass {
         if (potionEffectList.size() == 1) {
             PotionEffect potionEffect = potionEffectList.get(0);
             if (others) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + potionEffect.getAmplifier() + " §efor §b" + potionEffect.getDuration() + " seconds §eto §d" + targets.size() + " players!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + potionEffect.getAmplifier() + " §efor §b" + potionEffect.getDuration() + " seconds §eto §d" + targets.size() + " §eplayers.");
             } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + potionEffect.getAmplifier() + " §efor §b" + potionEffect.getDuration() + " seconds §eto §d" + target.getName() + "§e!"));
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + potionEffect.getAmplifier() + " §efor §b" + potionEffect.getDuration() + " seconds §eto §d" + target.getName() + "§e."));
             }
         } else {
             if (others) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + targets.size() + " players!");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + targets.size() + " §eplayers");
             } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + target.getName() + "!"));
             }

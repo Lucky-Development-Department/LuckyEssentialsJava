@@ -37,7 +37,7 @@ public class SlotsCommand extends CommandClass {
         }
 
         plugin.getSlotsManager().setMaxPlayers(amount);
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet the max players to §d" + amount + "§e!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet the max players to §d" + amount + "§e.");
         plugin.getSlotsManager().save();
     }
 
@@ -73,7 +73,7 @@ public class SlotsCommand extends CommandClass {
         }
 
         plugin.getSlotsManager().save();
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled slots system " + Utils.colorizeTrueFalse(plugin.getSlotsManager().isEnabled(), TrueFalseType.ON_OFF) + "§e!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled slots system " + Utils.colorizeTrueFalse(plugin.getSlotsManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
     }
 
     @CommandMethod("slots reload")

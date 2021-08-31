@@ -70,13 +70,13 @@ public class GiveCommand extends CommandClass {
         targets.forEach(target -> {
             target.getInventory().addItem(item);
             target.updateInventory();
-            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been given §d" + item.getAmount() + "x " + item.getType().toString() + "§e!");
+            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been given §d" + item.getAmount() + "x " + item.getType().toString() + "§e.");
         });
 
         if (targets.size() > 1) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §d" + targets.size() + "§eplayers!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §eto §d" + targets.size() + " §eplayers.");
         } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §eto §d" + target.getName() + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGiven §6" + item.getAmount() + "x " + item.getType().toString() + " §eto §d" + target.getName() + "§e."));
         }
     }
 
@@ -127,6 +127,6 @@ public class GiveCommand extends CommandClass {
 
         sender.getInventory().addItem(item);
         sender.updateInventory();
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been given §d" + item.getAmount() + "x " + item.getType().toString() + "§e!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been given §d" + item.getAmount() + "x " + item.getType().toString() + "§e.");
     }
 }

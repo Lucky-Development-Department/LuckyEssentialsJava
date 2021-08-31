@@ -70,6 +70,6 @@ public class ChatLockCommand extends CommandClass {
                 online.sendMessage("§6§m----------------------------------------------");
             });
         }
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled chat-lock: " + Utils.colorizeTrueFalse(chatLocked, TrueFalseType.ON_OFF) + "§e!");
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled chat-lock: " + Utils.colorizeTrueFalse(chatLocked, TrueFalseType.ON_OFF) + "§e.");
     }
 }

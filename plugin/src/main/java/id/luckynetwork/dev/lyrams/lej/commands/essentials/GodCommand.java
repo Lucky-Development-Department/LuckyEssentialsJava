@@ -75,14 +75,14 @@ public class GodCommand extends CommandClass {
 
             boolean godMode = target.hasMetadata("GOD");
             if (silent == null || !silent) {
-                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode: " + Utils.colorizeTrueFalse(godMode, TrueFalseType.ON_OFF) + "§e!");
+                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode: " + Utils.colorizeTrueFalse(godMode, TrueFalseType.ON_OFF) + "§e.");
             }
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled god for §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled god for §d" + targets.size() + " §eplayers.");
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata("GOD"), TrueFalseType.ON_OFF) + "§e!"));
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata("GOD"), TrueFalseType.ON_OFF) + "§e."));
         }
     }
 

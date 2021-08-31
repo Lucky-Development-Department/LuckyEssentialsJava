@@ -192,7 +192,7 @@ public class TrollCommands extends CommandClass {
         });
 
         if (targets.size() > 1) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled §6" + trollType.getDisplay() + " §efor §d" + targets.size() + " §eplayers!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled §6" + trollType.getDisplay() + " §efor §d" + targets.size() + " §eplayers.");
         } else if (targets.size() == 1 || (!(sender instanceof Player) || targets.doesNotContain((Player) sender))) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled §6" + trollType.getDisplay() + " §efor §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata(trollType.getMetadataKey()), TrueFalseType.ON_OFF)));
         }
