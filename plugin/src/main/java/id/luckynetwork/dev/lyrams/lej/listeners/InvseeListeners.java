@@ -28,7 +28,7 @@ public class InvseeListeners implements Listener {
     private final LuckyEssentials plugin;
 
     @EventHandler
-    public void onInventoryInteract(PlayerInteractAtEntityEvent event) {
+    public void onPlayerInteract(PlayerInteractAtEntityEvent event) {
         Entity rightClicked = event.getRightClicked();
         if (rightClicked.getType() == EntityType.PLAYER) {
             Player player = event.getPlayer();
