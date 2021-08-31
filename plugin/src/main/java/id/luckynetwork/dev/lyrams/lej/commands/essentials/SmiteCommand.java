@@ -23,7 +23,7 @@ public class SmiteCommand extends CommandClass {
     public void smiteCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not get notified?") Boolean silent
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "smite")) {
             return;

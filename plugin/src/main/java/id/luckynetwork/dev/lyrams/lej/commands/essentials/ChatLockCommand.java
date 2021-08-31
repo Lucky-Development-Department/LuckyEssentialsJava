@@ -33,7 +33,7 @@ public class ChatLockCommand extends CommandClass {
     public void toggleCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should it not send a notification about the chatlock") Boolean silent
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "chatlock")) {
             return;

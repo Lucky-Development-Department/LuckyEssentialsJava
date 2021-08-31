@@ -3,6 +3,7 @@ package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
+import cloud.commandframework.annotations.Flag;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
@@ -10,6 +11,7 @@ import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class GodCommand extends CommandClass {
 
@@ -18,7 +20,8 @@ public class GodCommand extends CommandClass {
     public void godCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
+            final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle,
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "god")) {
             return;
@@ -71,7 +74,9 @@ public class GodCommand extends CommandClass {
             }
 
             boolean godMode = target.hasMetadata("GOD");
-            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode: " + Utils.colorizeTrueFalse(godMode, TrueFalseType.ON_OFF) + "§e!");
+            if (silent == null || !silent) {
+                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode: " + Utils.colorizeTrueFalse(godMode, TrueFalseType.ON_OFF) + "§e!");
+            }
         });
 
         if (others) {

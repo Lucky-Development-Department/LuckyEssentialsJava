@@ -27,7 +27,7 @@ public class SpeedCommand extends CommandClass {
             final @NonNull @Argument(value = "target", description = "The the target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "typeOrSpeed", description = "walking/flying", defaultValue = "walking", suggestions = "speedTypes") String typeOrSpeed,
             final @Nullable @Argument(value = "speed", description = "The speed") Float speed,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should it not notify the target of their changed speed attribute") Boolean silent
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "speed")) {
             return;

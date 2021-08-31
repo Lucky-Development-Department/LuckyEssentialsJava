@@ -19,7 +19,7 @@ public class TeleportCommand extends CommandClass {
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "player", description = "The target player", defaultValue = "self", suggestions = "players") String player,
             final @NonNull @Argument(value = "target", description = "The second target player", defaultValue = "undefinedTarget2Placeholder", suggestions = "players") String target,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should it not notify the target of the teleportation?") Boolean silent
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "teleport")) {
             return;
@@ -86,7 +86,7 @@ public class TeleportCommand extends CommandClass {
     public void teleportAllCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String target,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should it not notify the target of the teleportation?") Boolean silent
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "teleport.all")) {
             return;
@@ -179,7 +179,7 @@ public class TeleportCommand extends CommandClass {
     public void teleportHereCommand(
             final @NonNull Player sender,
             final @NonNull @Argument(value = "target", description = "The target location world") String targetName,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should it not notify the target of the teleportation?") Boolean silent
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "teleport.here")) {
             return;

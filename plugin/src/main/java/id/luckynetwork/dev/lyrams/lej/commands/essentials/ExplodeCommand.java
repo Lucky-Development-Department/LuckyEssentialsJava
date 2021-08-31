@@ -25,7 +25,7 @@ public class ExplodeCommand extends CommandClass {
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "power", description = "The explosion power", defaultValue = "4") Float power,
             final @NonNull @Argument(value = "damage", description = "Should the explosion damage blocks", defaultValue = "true") Boolean damage,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not get notified?") Boolean silent
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "explode")) {
             return;

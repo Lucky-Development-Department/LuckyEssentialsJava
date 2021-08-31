@@ -3,11 +3,13 @@ package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
+import cloud.commandframework.annotations.Flag;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class HealCommand extends CommandClass {
 
@@ -15,7 +17,8 @@ public class HealCommand extends CommandClass {
     @CommandDescription("Heals you or other player")
     public void healCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
+            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "heal")) {
             return;
@@ -34,7 +37,9 @@ public class HealCommand extends CommandClass {
 
         targets.forEach(target -> {
             target.setHealth(plugin.getVersionSupport().getMaxHealth(target));
-            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been healed!");
+            if (silent == null || !silent) {
+                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been healed!");
+            }
         });
 
         if (others) {

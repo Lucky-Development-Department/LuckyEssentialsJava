@@ -3,6 +3,7 @@ package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
+import cloud.commandframework.annotations.Flag;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Location;
@@ -10,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class TopCommand extends CommandClass {
 
@@ -17,7 +19,8 @@ public class TopCommand extends CommandClass {
     @CommandDescription("Teleports you or other player to the highest block on their location")
     public void healCommand(
             final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
+            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "top")) {
             return;
@@ -42,7 +45,9 @@ public class TopCommand extends CommandClass {
             newLocation.setY(highest.getY());
             target.teleport(newLocation);
 
-            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been teleported to the highest block!");
+            if (silent == null || !silent) {
+                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been teleported to the highest block!");
+            }
         });
 
         if (others) {

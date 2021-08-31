@@ -26,7 +26,7 @@ public class EffectCommand extends CommandClass {
             final @NonNull @Argument(value = "effect", description = "The potion effect name", defaultValue = "health") String effectName,
             final @NonNull @Argument(value = "amplifier", description = "The effect amplifier", defaultValue = "-1") Integer amplifier,
             final @NonNull @Argument(value = "duration", description = "The effect duration", defaultValue = "-1") Integer duration,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should it not notify the target of the given potion effect") Boolean silent
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "effect")) {
             return;

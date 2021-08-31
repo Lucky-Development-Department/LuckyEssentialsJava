@@ -26,7 +26,7 @@ public class ClearCommand extends CommandClass {
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "type", description = "hand/all/armor", defaultValue = "all", suggestions = "inventoryScopes") String type,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should it not notify the target of their inventory changes?") Boolean silent
+            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "clear")) {
             return;
