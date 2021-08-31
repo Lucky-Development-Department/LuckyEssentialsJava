@@ -2,7 +2,7 @@ package id.luckynetwork.dev.lyrams.lej.managers.whitelist;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.config.ConfigFile;
-import id.luckynetwork.dev.lyrams.lej.enums.WhitelistCheckMode;
+import id.luckynetwork.dev.lyrams.lej.enums.settings.WhitelistCheckMode;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.Getter;
 import lombok.Setter;

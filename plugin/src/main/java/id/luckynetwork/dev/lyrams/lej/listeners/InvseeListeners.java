@@ -20,14 +20,25 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
 import java.util.Arrays;
 
-@AllArgsConstructor
 public class InvseeListeners implements Listener {
 
     private final LuckyEssentials plugin;
+
+    public InvseeListeners(LuckyEssentials plugin) {
+        this.plugin = plugin;
+
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        if (plugin.getMainConfigManager().isOldInvsee()) {
+            pluginManager.registerEvents(new OldInvseeListeners(plugin), plugin);
+        } else {
+            pluginManager.registerEvents(new NewInvseeListeners(plugin), plugin);
+        }
+    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractAtEntityEvent event) {
@@ -40,91 +51,158 @@ public class InvseeListeners implements Listener {
         }
     }
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        InventoryView view = event.getView();
-        Inventory topInventory = view.getTopInventory();
-        InventoryType type = topInventory.getType();
+    @AllArgsConstructor
+    public static class OldInvseeListeners implements Listener {
 
-        Player refreshPlayer = null;
-        if (type == InventoryType.CHEST && topInventory.getSize() == 54) {
-            HumanEntity whoClicked = event.getWhoClicked();
-            InventoryHolder inventoryOwner = topInventory.getHolder();
-            if (!(inventoryOwner instanceof HumanEntity)) {
-                return;
-            }
+        private final LuckyEssentials plugin;
 
-            Player ownerPlayer = (Player) inventoryOwner;
-            if (whoClicked.hasMetadata("INVSEE")) {
-                refreshPlayer = (Player) whoClicked;
-                if (!ownerPlayer.isOnline() || !Utils.checkPermission(whoClicked, "invsee.modify", false, false, false, null)) {
-                    event.setCancelled(true);
-                } else if (plugin.getInvseeManager().getSeparatorSlots().contains(event.getSlot())) {
-                    event.setCancelled(true);
-                    if (event.getSlot() == 51) {
-                        if (event.isRightClick()) {
-                            if (((Player) whoClicked).isFlying()) {
-                                Location ownerPlayerLocation = ownerPlayer.getLocation();
-                                Vector inverse = ownerPlayerLocation.getDirection().normalize().multiply(-1);
+        @EventHandler
+        public void onInventoryClick(InventoryClickEvent event) {
+            InventoryView view = event.getView();
+            Inventory topInventory = view.getTopInventory();
+            InventoryType type = topInventory.getType();
 
-                                Location location = ownerPlayer.getLocation().clone().add(inverse);
-                                location.setY(ownerPlayerLocation.getY() + 5);
-                                location.setPitch(45f);
-                                whoClicked.teleport(location);
+            Player refreshPlayer = null;
+            if (type.equals(InventoryType.PLAYER)) {
+                Player whoClicked = (Player) event.getWhoClicked();
+                InventoryHolder inventoryOwner = topInventory.getHolder();
+                if (!(topInventory.getHolder() instanceof Player)) {
+                    return;
+                }
 
-                                ((Player) whoClicked).setFlying(true);
-                                whoClicked.setVelocity(new Vector(0, 0, 0));
-                            } else {
-                                Location ownerPlayerLocation = ownerPlayer.getLocation();
-                                Vector inverse = ownerPlayerLocation.getDirection().normalize().multiply(-1);
+                Player ownerPlayer = (Player) inventoryOwner;
 
-                                Location location = ownerPlayer.getLocation().clone().add(inverse);
-                                whoClicked.teleport(location);
-                            }
-                        } else {
-                            whoClicked.teleport(ownerPlayer);
-                        }
-                        plugin.getInvseeManager().invsee((Player) whoClicked, ownerPlayer);
+                if (whoClicked.hasMetadata("INVSEE")) {
+                    refreshPlayer = whoClicked;
+                    if (!ownerPlayer.isOnline() || !Utils.checkPermission(whoClicked, "invsee.modify", false, false, false, null)) {
+                        event.setCancelled(true);
+                    } else {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ownerPlayer::updateInventory, 1L);
                     }
-                } else {
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                        ItemStack[] contents = Arrays.copyOfRange(topInventory.getContents(), 0, 35);
-                        ownerPlayer.getInventory().setContents(contents);
-
-                        ItemStack[] armorContents = Arrays.copyOfRange(topInventory.getContents(), 45, 48);
-                        ownerPlayer.getInventory().setArmorContents(armorContents);
-                        ownerPlayer.updateInventory();
-                    }, 1L);
                 }
             }
 
             if (refreshPlayer != null) {
-                plugin.getInvseeManager().refresh(refreshPlayer, ownerPlayer, topInventory);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, refreshPlayer::updateInventory, 1L);
             }
         }
-    }
 
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
-        Inventory topInventory = event.getView().getTopInventory();
-        InventoryType type = topInventory.getType();
-        Player player = (Player) event.getPlayer();
+        @EventHandler
+        public void onInventoryClose(InventoryCloseEvent event) {
+            Inventory topInventory = event.getView().getTopInventory();
+            InventoryType type = topInventory.getType();
+            Player player = (Player) event.getPlayer();
 
-        if (type != InventoryType.CHEST || topInventory.getSize() != 54) {
-            return;
+            if (type == InventoryType.PLAYER) {
+                Utils.removeMetadata(player, "INVSEE");
+            } else if (type == InventoryType.CHEST) {
+                InventoryHolder holder = topInventory.getHolder();
+                if (!(holder instanceof Player)) {
+                    return;
+                }
+
+                Utils.removeMetadata(player, "INVSEE");
+            } else {
+                return;
+            }
+
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::updateInventory, 1L);
         }
-        if (!(topInventory.getHolder() instanceof Player)) {
-            return;
+
+    }
+
+    @AllArgsConstructor
+    public static class NewInvseeListeners implements Listener {
+
+        private final LuckyEssentials plugin;
+
+        @EventHandler
+        public void onInventoryClick(InventoryClickEvent event) {
+            InventoryView view = event.getView();
+            Inventory topInventory = view.getTopInventory();
+            InventoryType type = topInventory.getType();
+
+            Player refreshPlayer = null;
+            if (type == InventoryType.CHEST && topInventory.getSize() == 54) {
+                HumanEntity whoClicked = event.getWhoClicked();
+                InventoryHolder inventoryOwner = topInventory.getHolder();
+                if (!(inventoryOwner instanceof HumanEntity)) {
+                    return;
+                }
+
+                Player ownerPlayer = (Player) inventoryOwner;
+                if (whoClicked.hasMetadata("INVSEE")) {
+                    refreshPlayer = (Player) whoClicked;
+                    if (!ownerPlayer.isOnline() || !Utils.checkPermission(whoClicked, "invsee.modify", false, false, false, null)) {
+                        event.setCancelled(true);
+                    } else if (plugin.getInvseeManager().getSeparatorSlots().contains(event.getSlot())) {
+                        event.setCancelled(true);
+                        if (event.getSlot() == 51) {
+                            if (event.isRightClick()) {
+                                if (((Player) whoClicked).isFlying()) {
+                                    Location ownerPlayerLocation = ownerPlayer.getLocation();
+                                    Vector inverse = ownerPlayerLocation.getDirection().normalize().multiply(-1);
+
+                                    Location location = ownerPlayer.getLocation().clone().add(inverse);
+                                    location.setY(ownerPlayerLocation.getY() + 5);
+                                    location.setPitch(45f);
+                                    whoClicked.teleport(location);
+
+                                    ((Player) whoClicked).setFlying(true);
+                                    whoClicked.setVelocity(new Vector(0, 0, 0));
+                                } else {
+                                    Location ownerPlayerLocation = ownerPlayer.getLocation();
+                                    Vector inverse = ownerPlayerLocation.getDirection().normalize().multiply(-1);
+
+                                    Location location = ownerPlayer.getLocation().clone().add(inverse);
+                                    whoClicked.teleport(location);
+                                }
+                            } else {
+                                whoClicked.teleport(ownerPlayer);
+                            }
+                            plugin.getInvseeManager().invsee((Player) whoClicked, ownerPlayer);
+                        }
+                    } else {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                            ItemStack[] contents = Arrays.copyOfRange(topInventory.getContents(), 0, 35);
+                            ownerPlayer.getInventory().setContents(contents);
+
+                            ItemStack[] armorContents = Arrays.copyOfRange(topInventory.getContents(), 45, 48);
+                            ownerPlayer.getInventory().setArmorContents(armorContents);
+                            ownerPlayer.updateInventory();
+                        }, 1L);
+                    }
+                }
+
+                if (refreshPlayer != null) {
+                    plugin.getInvseeManager().refresh(refreshPlayer, ownerPlayer, topInventory);
+                }
+            }
         }
 
-        plugin.getInvseeManager().close(player);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::updateInventory, 1L);
+        @EventHandler
+        public void onInventoryClose(InventoryCloseEvent event) {
+            Inventory topInventory = event.getView().getTopInventory();
+            InventoryType type = topInventory.getType();
+            Player player = (Player) event.getPlayer();
+
+            if (type != InventoryType.CHEST || topInventory.getSize() != 54) {
+                return;
+            }
+            if (!(topInventory.getHolder() instanceof Player)) {
+                return;
+            }
+
+            plugin.getInvseeManager().close(player);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::updateInventory, 1L);
+        }
+
+        @EventHandler
+        public void onDisconnect(PlayerQuitEvent event) {
+            Player player = event.getPlayer();
+            plugin.getInvseeManager().close(player);
+            plugin.getInvseeManager().getInvseers(player).forEach(it -> plugin.getInvseeManager().close(it));
+        }
     }
 
-    @EventHandler
-    public void onDisconnect(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        plugin.getInvseeManager().close(player);
-        plugin.getInvseeManager().getInvseers(player).forEach(it -> plugin.getInvseeManager().close(it));
-    }
 }

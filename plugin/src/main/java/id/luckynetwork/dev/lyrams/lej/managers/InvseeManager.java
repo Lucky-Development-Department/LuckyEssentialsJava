@@ -16,8 +16,8 @@ import java.util.*;
 public class InvseeManager {
 
     private final LuckyEssentials plugin;
-    private final List<Integer> separatorSlots = Arrays.asList(36, 37, 38, 39, 40, 41, 42, 43, 44, 49, 50, 51, 52, 53);
-    private final Map<Player, List<Player>> invseeMap = new HashMap<>();
+    private final List<Integer> separatorSlots;
+    private final Map<Player, List<Player>> invseeMap;
     private final ItemStack separatorItem;
 
     private final ItemStack infoItem;
@@ -26,12 +26,26 @@ public class InvseeManager {
 
     public InvseeManager(LuckyEssentials plugin) {
         this.plugin = plugin;
-        this.separatorItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("blackglasspane", 1, 0);
-        this.infoItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("paper", 1, 0);
-        this.locationItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("compass", 1, 0);
-        this.effectsItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("brewing_stand_item", 1, 0);
 
-        Bukkit.getScheduler().runTaskTimer(plugin, () -> invseeMap.forEach((key, value) -> value.forEach(invseer -> this.refresh(invseer, key))), 1L, 10L);
+        if (plugin.getMainConfigManager().isOldInvsee()) {
+            this.separatorSlots = null;
+            this.invseeMap = null;
+
+            this.separatorItem = null;
+            this.infoItem = null;
+            this.locationItem = null;
+            this.effectsItem = null;
+        } else {
+            this.separatorSlots = Arrays.asList(36, 37, 38, 39, 40, 41, 42, 43, 44, 49, 50, 51, 52, 53);
+            this.invseeMap = new HashMap<>();
+
+            this.separatorItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("blackglasspane", 1, 0);
+            this.infoItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("paper", 1, 0);
+            this.locationItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("compass", 1, 0);
+            this.effectsItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("brewing_stand_item", 1, 0);
+
+            Bukkit.getScheduler().runTaskTimer(plugin, () -> invseeMap.forEach((key, value) -> value.forEach(invseer -> this.refresh(invseer, key))), 1L, 10L);
+        }
     }
 
     public void addInvseer(Player player, Player invseer) {
@@ -61,6 +75,13 @@ public class InvseeManager {
     }
 
     public void invsee(Player player, Player target) {
+        if (plugin.getMainConfigManager().isOldInvsee()) {
+            player.closeInventory();
+            player.openInventory(target.getInventory());
+            Utils.applyMetadata(player, "INVSEE", true);
+            return;
+        }
+
         Utils.applyMetadata(player, "INVSEE", true);
         this.addInvseer(target, player);
 
