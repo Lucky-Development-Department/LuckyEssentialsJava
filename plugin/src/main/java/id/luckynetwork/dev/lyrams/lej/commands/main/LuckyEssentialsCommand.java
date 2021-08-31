@@ -12,13 +12,13 @@ import cloud.commandframework.minecraft.extras.MinecraftHelp;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.common.reflect.ClassPath;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
+import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.Getter;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.function.Function;
 
 public class LuckyEssentialsCommand {
@@ -81,7 +81,13 @@ public class LuckyEssentialsCommand {
                 .meta(CommandMeta.DESCRIPTION, "The main command")
                 .handler(commandContext -> {
                     CommandSender sender = commandContext.getSender();
-                    this.getMinecraftHelp().queryCommands(Objects.requireNonNull(commandContext.getOrDefault("query", "")), sender);
+                    String query = commandContext.getOrDefault("query", null);
+                    if (query == null) {
+                        sender.sendMessage(Utils.getPluginDescription());
+                        return;
+                    }
+
+                    this.getMinecraftHelp().queryCommands(query, sender);
                 }));
 
         this.initCommands();

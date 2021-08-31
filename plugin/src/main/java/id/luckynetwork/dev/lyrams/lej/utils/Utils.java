@@ -1,5 +1,6 @@
 package id.luckynetwork.dev.lyrams.lej.utils;
 
+import com.google.common.base.Joiner;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import lombok.Getter;
@@ -17,10 +18,19 @@ public class Utils {
     private final LuckyEssentials plugin;
     @Getter
     private final String nmsVersion;
+    private String pluginDescription = null;
 
     static {
         plugin = LuckyEssentials.getInstance();
         nmsVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
+    }
+
+    public String getPluginDescription() {
+        if (pluginDescription == null) {
+            pluginDescription = plugin.getMainConfigManager().getPrefix() + "§eThis server is running §aLuckyEssentials §c" + plugin.getDescription().getVersion() + " §eby §d" + Joiner.on(",").join(plugin.getDescription().getAuthors());
+        }
+
+        return pluginDescription;
     }
 
     public String colorize(String toColor) {
