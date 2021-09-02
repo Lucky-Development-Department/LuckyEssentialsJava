@@ -199,6 +199,12 @@ public class TeleportCommand extends CommandClass {
 
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to your location.");
         });
+
+        if (targets.size() > 1 || targets.doesNotContain(sender)) {
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + targets.size() + " §eplayers to your location.");
+        } else if (targets.doesNotContain(sender)) {
+            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + target.getName() + "§e to your location."));
+        }
     }
 
     private String beautifyLocation(Location location) {
