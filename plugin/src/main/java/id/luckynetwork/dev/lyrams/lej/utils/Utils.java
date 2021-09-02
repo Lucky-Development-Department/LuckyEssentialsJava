@@ -143,4 +143,13 @@ public class Utils {
     public void removeMetadata(Player player, String metadata) {
         player.removeMetadata(metadata, LuckyEssentials.getInstance());
     }
+
+    public boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
 }
