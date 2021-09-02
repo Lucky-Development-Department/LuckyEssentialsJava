@@ -105,7 +105,7 @@ public class InvseeManager {
         }
         inventory.setItem(51, new ItemBuilder(locationItem.getType())
                 .setName("§d" + target.getName() + "§e's location:")
-                .addLoreLine("§8├─ §eWorld: §a" + location.getWorld())
+                .addLoreLine("§8├─ §eWorld: §a" + location.getWorld().getName())
                 .addLoreLine("§8├─ §eX: §a" + location.getX())
                 .addLoreLine("§8├─ §eY: §a" + location.getY())
                 .addLoreLine("§8├─ §eZ: §a" + location.getZ())
@@ -182,7 +182,7 @@ public class InvseeManager {
                 }
                 topInventory.setItem(51, new ItemBuilder(locationItem.getType())
                         .setName("§d" + target.getName() + "§e's location:")
-                        .addLoreLine("§8├─ §eWorld: §a" + location.getWorld())
+                        .addLoreLine("§8├─ §eWorld: §a" + location.getWorld().getName())
                         .addLoreLine("§8├─ §eX: §a" + location.getX())
                         .addLoreLine("§8├─ §eY: §a" + location.getY())
                         .addLoreLine("§8├─ §eZ: §a" + location.getZ())
@@ -248,7 +248,7 @@ public class InvseeManager {
                 }
                 topInventory.setItem(51, new ItemBuilder(locationItem.getType())
                         .setName("§d" + target.getName() + "§e's location:")
-                        .addLoreLine("§8├─ §eWorld: §a" + location.getWorld())
+                        .addLoreLine("§8├─ §eWorld: §a" + location.getWorld().getName())
                         .addLoreLine("§8├─ §eX: §a" + location.getX())
                         .addLoreLine("§8├─ §eY: §a" + location.getY())
                         .addLoreLine("§8├─ §eZ: §a" + location.getZ())
