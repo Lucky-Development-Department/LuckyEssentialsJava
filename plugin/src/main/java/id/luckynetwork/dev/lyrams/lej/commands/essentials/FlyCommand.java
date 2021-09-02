@@ -76,7 +76,11 @@ public class FlyCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled flight for §d" + targets.size() + " §eplayers.");
+            if (targets.size() == 1) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e."));
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled flight for §d" + targets.size() + " §eplayers.");
+            }
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e."));
         }

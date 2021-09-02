@@ -58,7 +58,11 @@ public class GamemodeCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6" + gameMode + " §efor §d" + targets.size() + " §eplayers.");
+            if (targets.size() == 1) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6" + gameMode + " §efor §d" + target.getName() + " §e!"));
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6" + gameMode + " §efor §d" + targets.size() + " §eplayers.");
+            }
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6" + gameMode + " §efor §d" + target.getName() + " §e!"));
         }
@@ -91,7 +95,11 @@ public class GamemodeCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6survival §efor §d" + targets.size() + " §eplayers.");
+            if (targets.size() == 1) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6survival §efor §d" + target.getName() + "§e."));
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6survival §efor §d" + targets.size() + " §eplayers.");
+            }
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6survival §efor §d" + target.getName() + "§e."));
         }
@@ -124,7 +132,11 @@ public class GamemodeCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6creative §efor §d" + targets.size() + " §eplayers.");
+            if (targets.size() == 1) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6creative §efor §d" + target.getName() + "§e."));
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6creative §efor §d" + targets.size() + " §eplayers.");
+            }
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6creative §efor §d" + target.getName() + "§e."));
         }
@@ -157,7 +169,11 @@ public class GamemodeCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6adventure §efor §d" + targets.size() + " §eplayers.");
+            if (targets.size() == 1) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6adventure §efor §d" + target.getName() + "§e."));
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6adventure §efor §d" + targets.size() + " §eplayers.");
+            }
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6adventure §efor §d" + target.getName() + "§e."));
         }
@@ -190,7 +206,11 @@ public class GamemodeCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6spectator §efor §d" + targets.size() + " §eplayers.");
+            if (targets.size() == 1) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6spectator §efor §d" + target.getName() + "§e."));
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6spectator §efor §d" + targets.size() + " §eplayers.");
+            }
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet gamemode to §6spectator §efor §d" + target.getName() + "§e."));
         }

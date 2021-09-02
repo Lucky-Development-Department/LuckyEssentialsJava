@@ -80,7 +80,11 @@ public class GodCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled god for §d" + targets.size() + " §eplayers.");
+            if (targets.size() == 1) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata("GOD"), TrueFalseType.ON_OFF) + "§e."));
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled god for §d" + targets.size() + " §eplayers.");
+            }
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata("GOD"), TrueFalseType.ON_OFF) + "§e."));
         }

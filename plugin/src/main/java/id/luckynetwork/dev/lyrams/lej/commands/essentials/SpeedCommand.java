@@ -74,7 +74,11 @@ public class SpeedCommand extends CommandClass {
         });
 
         if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §espeed for §d" + targets.size() + " §eplayers.");
+            if (targets.size() == 1) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §efor §d" + target.getName() + "§e."));
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §espeed for §d" + targets.size() + " §eplayers.");
+            }
         } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
             targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §efor §d" + target.getName() + "§e."));
         }

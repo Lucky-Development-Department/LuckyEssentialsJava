@@ -70,7 +70,11 @@ public class EffectCommand extends CommandClass {
             }
         } else {
             if (others) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + targets.size() + " §eplayers");
+                if (targets.size() == 1) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + target.getName() + "!"));
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + targets.size() + " §eplayers");
+                }
             } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + target.getName() + "!"));
             }
