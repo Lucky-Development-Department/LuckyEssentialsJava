@@ -3,6 +3,9 @@ package id.luckynetwork.dev.lyrams.lej.commands.api;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
+import id.luckynetwork.dev.lyrams.lej.callbacks.IsDoubleCallback;
+import id.luckynetwork.dev.lyrams.lej.callbacks.IsIntegerCallback;
+import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -85,88 +88,89 @@ public abstract class CommandClass {
             }
 
             if ((arg.startsWith("*[r=") || arg.startsWith("@a[r=") && arg.endsWith("]"))) {
-                try {
-                    double range;
-                    int amount;
-                    if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
-                        // all players in a range with a set amount
-                        range = Double.parseDouble(arg.split("=")[1].split(",")[0]);
-                        amount = Integer.parseInt(arg.split(",n=")[1].split("]")[0]);
-                    } else {
-                        // all players in a range
-                        range = Double.parseDouble(arg.split("=")[1].split("]")[0]);
-                        amount = 0;
-                    }
+                IsDoubleCallback isDoubleCallback;
+                IsIntegerCallback isIntegerCallback;
+                if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
+                    // random players in a range with a set amount
+                    isDoubleCallback = Utils.isDouble(arg.split("=")[1].split(",")[0]);
+                    isIntegerCallback = Utils.isInteger(arg.split(",n=")[1].split("]")[0]);
+                } else {
+                    // random player in a range
+                    isDoubleCallback = Utils.isDouble(arg.split("=")[1].split("]")[0]);
+                    isIntegerCallback = new IsIntegerCallback(true, 1);
+                }
 
-                    List<Player> nearbyPlayers = ((Player) sender).getNearbyEntities(range, range, range).stream()
-                            .filter(entity -> entity instanceof Player)
-                            .map(entity -> (Player) entity)
-                            .collect(Collectors.toCollection(ArrayList::new));
-
-                    if (!nearbyPlayers.contains((Player) sender)) {
-                        nearbyPlayers.add((Player) sender);
-                    }
-
-                    if (amount > 0) {
-                        while (nearbyPlayers.size() > amount) {
-                            nearbyPlayers.remove(nearbyPlayers.size() - 1);
-                        }
-                    } else {
-                        callback.addAll(nearbyPlayers);
-                    }
-                } catch (NumberFormatException e) {
+                if (!isDoubleCallback.isDouble() || !isIntegerCallback.isInteger()) {
                     sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid target range or amount value!");
                     callback.setNotified(true);
                     return callback;
+                }
+
+                List<Player> nearbyPlayers = ((Player) sender).getNearbyEntities(isDoubleCallback.getValue(), isDoubleCallback.getValue(), isDoubleCallback.getValue()).stream()
+                        .filter(entity -> entity instanceof Player)
+                        .map(entity -> (Player) entity)
+                        .collect(Collectors.toCollection(ArrayList::new));
+
+                if (!nearbyPlayers.contains((Player) sender)) {
+                    nearbyPlayers.add((Player) sender);
+                }
+
+                if (isIntegerCallback.getValue() > 0) {
+                    while (nearbyPlayers.size() > isIntegerCallback.getValue()) {
+                        nearbyPlayers.remove(nearbyPlayers.size() - 1);
+                    }
+                } else {
+                    callback.addAll(nearbyPlayers);
                 }
                 return callback;
             }
 
             if (arg.startsWith("@r[r=") && arg.endsWith("]")) {
-                try {
-                    double range;
-                    int amount;
-                    if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
-                        // random players in a range with a set amount
-                        range = Double.parseDouble(arg.split("=")[1].split(",")[0]);
-                        amount = Integer.parseInt(arg.split(",n=")[1].split("]")[0]);
-                    } else {
-                        // random player in a range
-                        range = Double.parseDouble(arg.split("=")[1].split("]")[0]);
-                        amount = 1;
-                    }
+                IsDoubleCallback isDoubleCallback;
+                IsIntegerCallback isIntegerCallback;
+                if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
+                    // random players in a range with a set amount
+                    isDoubleCallback = Utils.isDouble(arg.split("=")[1].split(",")[0]);
+                    isIntegerCallback = Utils.isInteger(arg.split(",n=")[1].split("]")[0]);
+                } else {
+                    // random player in a range
+                    isDoubleCallback = Utils.isDouble(arg.split("=")[1].split("]")[0]);
+                    isIntegerCallback = new IsIntegerCallback(true, 1);
+                }
 
-                    List<Player> nearbyPlayers = ((Player) sender).getNearbyEntities(range, range, range).stream()
-                            .filter(entity -> entity instanceof Player)
-                            .map(entity -> (Player) entity)
-                            .collect(Collectors.toCollection(ArrayList::new));
-
-                    if (!nearbyPlayers.contains((Player) sender)) {
-                        nearbyPlayers.add((Player) sender);
-                    }
-
-                    if (amount >= nearbyPlayers.size()) {
-                        callback.addAll(nearbyPlayers);
-                    } else {
-                        Random random = new Random();
-                        while (amount > callback.size()) {
-                            Player randomPlayer = nearbyPlayers.get(random.nextInt(nearbyPlayers.size()));
-
-                            callback.add(randomPlayer);
-                            nearbyPlayers.remove(randomPlayer);
-                        }
-                    }
-                } catch (NumberFormatException e) {
+                if (!isDoubleCallback.isDouble() || !isIntegerCallback.isInteger()) {
                     sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid target range or amount value!");
                     callback.setNotified(true);
                     return callback;
+                }
+
+                List<Player> nearbyPlayers = ((Player) sender).getNearbyEntities(isDoubleCallback.getValue(), isDoubleCallback.getValue(), isDoubleCallback.getValue()).stream()
+                        .filter(entity -> entity instanceof Player)
+                        .map(entity -> (Player) entity)
+                        .collect(Collectors.toCollection(ArrayList::new));
+
+                if (!nearbyPlayers.contains((Player) sender)) {
+                    nearbyPlayers.add((Player) sender);
+                }
+
+                if (isIntegerCallback.getValue() >= nearbyPlayers.size()) {
+                    callback.addAll(nearbyPlayers);
+                } else {
+                    Random random = new Random();
+                    while (isIntegerCallback.getValue() > callback.size()) {
+                        Player randomPlayer = nearbyPlayers.get(random.nextInt(nearbyPlayers.size()));
+
+                        callback.add(randomPlayer);
+                        nearbyPlayers.remove(randomPlayer);
+                    }
                 }
                 return callback;
             }
 
             if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
-                try {
-                    // random players with a set amount
+                // random players with a set amount
+                IsIntegerCallback isIntegerCallback = Utils.isInteger(arg.split("=")[1].split("]")[0]);
+                if (isIntegerCallback.isInteger()) {
                     int amount = Integer.parseInt(arg.split("=")[1].split("]")[0]);
                     List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
 
@@ -181,10 +185,9 @@ public abstract class CommandClass {
                             onlinePlayers.remove(randomPlayer);
                         }
                     }
-                } catch (NumberFormatException e) {
+                } else {
                     sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid amount value!");
                     callback.setNotified(true);
-                    return callback;
                 }
                 return callback;
             }
@@ -246,8 +249,9 @@ public abstract class CommandClass {
         }
 
         if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
-            try {
-                // random players with a set amount
+            // random players with a set amount
+            IsIntegerCallback isIntegerCallback = Utils.isInteger(arg.split("=")[1].split("]")[0]);
+            if (isIntegerCallback.isInteger()) {
                 int amount = Integer.parseInt(arg.split("=")[1].split("]")[0]);
                 List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
 
@@ -262,10 +266,9 @@ public abstract class CommandClass {
                         onlinePlayers.remove(randomPlayer);
                     }
                 }
-            } catch (NumberFormatException e) {
+            } else {
                 sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid amount value!");
                 callback.setNotified(true);
-                return callback;
             }
             return callback;
         }
@@ -359,88 +362,89 @@ public abstract class CommandClass {
             }
 
             if ((arg.startsWith("*[r=") || arg.startsWith("@a[r=") && arg.endsWith("]"))) {
-                try {
-                    double range;
-                    int amount;
-                    if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
-                        // all players in a range with a set amount
-                        range = Double.parseDouble(arg.split("=")[1].split(",")[0]);
-                        amount = Integer.parseInt(arg.split(",n=")[1].split("]")[0]);
-                    } else {
-                        // all players in a range
-                        range = Double.parseDouble(arg.split("=")[1].split("]")[0]);
-                        amount = 0;
-                    }
+                IsDoubleCallback isDoubleCallback;
+                IsIntegerCallback isIntegerCallback;
+                if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
+                    // random players in a range with a set amount
+                    isDoubleCallback = Utils.isDouble(arg.split("=")[1].split(",")[0]);
+                    isIntegerCallback = Utils.isInteger(arg.split(",n=")[1].split("]")[0]);
+                } else {
+                    // random player in a range
+                    isDoubleCallback = Utils.isDouble(arg.split("=")[1].split("]")[0]);
+                    isIntegerCallback = new IsIntegerCallback(true, 1);
+                }
 
-                    List<Player> nearbyPlayers = ((Player) sender).getNearbyEntities(range, range, range).stream()
-                            .filter(entity -> entity instanceof Player)
-                            .map(entity -> (Player) entity)
-                            .collect(Collectors.toCollection(ArrayList::new));
-
-                    if (!nearbyPlayers.contains((Player) sender)) {
-                        nearbyPlayers.add((Player) sender);
-                    }
-
-                    if (amount > 0) {
-                        while (nearbyPlayers.size() > amount) {
-                            nearbyPlayers.remove(nearbyPlayers.size() - 1);
-                        }
-                    } else {
-                        callback.addAll(nearbyPlayers);
-                    }
-                } catch (NumberFormatException e) {
+                if (!isDoubleCallback.isDouble() || !isIntegerCallback.isInteger()) {
                     sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid target range or amount value!");
                     callback.setNotified(true);
                     return callback;
+                }
+
+                List<Player> nearbyPlayers = ((Player) sender).getNearbyEntities(isDoubleCallback.getValue(), isDoubleCallback.getValue(), isDoubleCallback.getValue()).stream()
+                        .filter(entity -> entity instanceof Player)
+                        .map(entity -> (Player) entity)
+                        .collect(Collectors.toCollection(ArrayList::new));
+
+                if (!nearbyPlayers.contains((Player) sender)) {
+                    nearbyPlayers.add((Player) sender);
+                }
+
+                if (isIntegerCallback.getValue() > 0) {
+                    while (nearbyPlayers.size() > isIntegerCallback.getValue()) {
+                        nearbyPlayers.remove(nearbyPlayers.size() - 1);
+                    }
+                } else {
+                    callback.addAll(nearbyPlayers);
                 }
                 return callback;
             }
 
             if (arg.startsWith("@r[r=") && arg.endsWith("]")) {
-                try {
-                    double range;
-                    int amount;
-                    if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
-                        // random players in a range with a set amount
-                        range = Double.parseDouble(arg.split("=")[1].split(",")[0]);
-                        amount = Integer.parseInt(arg.split(",n=")[1].split("]")[0]);
-                    } else {
-                        // random player in a range
-                        range = Double.parseDouble(arg.split("=")[1].split("]")[0]);
-                        amount = 1;
-                    }
+                IsDoubleCallback isDoubleCallback;
+                IsIntegerCallback isIntegerCallback;
+                if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
+                    // random players in a range with a set amount
+                    isDoubleCallback = Utils.isDouble(arg.split("=")[1].split(",")[0]);
+                    isIntegerCallback = Utils.isInteger(arg.split(",n=")[1].split("]")[0]);
+                } else {
+                    // random player in a range
+                    isDoubleCallback = Utils.isDouble(arg.split("=")[1].split("]")[0]);
+                    isIntegerCallback = new IsIntegerCallback(true, 1);
+                }
 
-                    List<Player> nearbyPlayers = ((Player) sender).getNearbyEntities(range, range, range).stream()
-                            .filter(entity -> entity instanceof Player)
-                            .map(entity -> (Player) entity)
-                            .collect(Collectors.toCollection(ArrayList::new));
-
-                    if (!nearbyPlayers.contains((Player) sender)) {
-                        nearbyPlayers.add((Player) sender);
-                    }
-
-                    if (amount >= nearbyPlayers.size()) {
-                        callback.addAll(nearbyPlayers);
-                    } else {
-                        Random random = new Random();
-                        while (amount > callback.size()) {
-                            Player randomPlayer = nearbyPlayers.get(random.nextInt(nearbyPlayers.size()));
-
-                            callback.add(randomPlayer);
-                            nearbyPlayers.remove(randomPlayer);
-                        }
-                    }
-                } catch (NumberFormatException e) {
+                if (!isDoubleCallback.isDouble() || !isIntegerCallback.isInteger()) {
                     sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid target range or amount value!");
                     callback.setNotified(true);
                     return callback;
+                }
+
+                List<Player> nearbyPlayers = ((Player) sender).getNearbyEntities(isDoubleCallback.getValue(), isDoubleCallback.getValue(), isDoubleCallback.getValue()).stream()
+                        .filter(entity -> entity instanceof Player)
+                        .map(entity -> (Player) entity)
+                        .collect(Collectors.toCollection(ArrayList::new));
+
+                if (!nearbyPlayers.contains((Player) sender)) {
+                    nearbyPlayers.add((Player) sender);
+                }
+
+                if (isIntegerCallback.getValue() >= nearbyPlayers.size()) {
+                    callback.addAll(nearbyPlayers);
+                } else {
+                    Random random = new Random();
+                    while (isIntegerCallback.getValue() > callback.size()) {
+                        Player randomPlayer = nearbyPlayers.get(random.nextInt(nearbyPlayers.size()));
+
+                        callback.add(randomPlayer);
+                        nearbyPlayers.remove(randomPlayer);
+                    }
                 }
                 return callback;
             }
 
             if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
-                try {
-                    // random players with a set amount
+                // random players with a set amount
+                IsIntegerCallback isIntegerCallback = Utils.isInteger(arg.split("=")[1].split("]")[0]);
+                if (isIntegerCallback.isInteger()) {
                     int amount = Integer.parseInt(arg.split("=")[1].split("]")[0]);
                     List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
 
@@ -455,10 +459,9 @@ public abstract class CommandClass {
                             onlinePlayers.remove(randomPlayer);
                         }
                     }
-                } catch (NumberFormatException e) {
+                } else {
                     sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid amount value!");
                     callback.setNotified(true);
-                    return callback;
                 }
                 return callback;
             }
@@ -520,8 +523,9 @@ public abstract class CommandClass {
         }
 
         if (arg.startsWith("@r[n=") && arg.endsWith("]")) {
-            try {
-                // random players with a set amount
+            // random players with a set amount
+            IsIntegerCallback isIntegerCallback = Utils.isInteger(arg.split("=")[1].split("]")[0]);
+            if (isIntegerCallback.isInteger()) {
                 int amount = Integer.parseInt(arg.split("=")[1].split("]")[0]);
                 List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
 
@@ -536,10 +540,9 @@ public abstract class CommandClass {
                         onlinePlayers.remove(randomPlayer);
                     }
                 }
-            } catch (NumberFormatException e) {
+            } else {
                 sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid amount value!");
                 callback.setNotified(true);
-                return callback;
             }
             return callback;
         }
@@ -598,10 +601,11 @@ public abstract class CommandClass {
                         continue;
                     }
 
-                    try {
-                        int level = Integer.parseInt(ench.split(":")[1]);
+                    IsIntegerCallback isIntegerCallback = Utils.isInteger(ench.split(":")[1]);
+                    if (isIntegerCallback.isInteger()) {
+                        int level = isIntegerCallback.getValue();
                         enchantmentMap.put(enchantment, level);
-                    } catch (Exception ignored) {
+                    } else {
                         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + ench + "§c!");
                     }
                 }
@@ -623,10 +627,11 @@ public abstract class CommandClass {
                     return enchantmentMap;
                 }
 
-                try {
-                    int level = Integer.parseInt(enchants.split(":")[1]);
+                IsIntegerCallback isIntegerCallback = Utils.isInteger(enchants.split(":")[1]);
+                if (isIntegerCallback.isInteger()) {
+                    int level = isIntegerCallback.getValue();
                     enchantmentMap.put(enchantment, level);
-                } catch (Exception ignored) {
+                } else {
                     sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + enchants + "§c!");
                 }
             }
