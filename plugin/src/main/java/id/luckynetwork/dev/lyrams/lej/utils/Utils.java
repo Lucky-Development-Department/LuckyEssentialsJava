@@ -2,6 +2,7 @@ package id.luckynetwork.dev.lyrams.lej.utils;
 
 import com.google.common.base.Joiner;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
+import id.luckynetwork.dev.lyrams.lej.callbacks.IsIntegerCallback;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
@@ -150,12 +151,16 @@ public class Utils {
      * @param s the string
      * @return true if parsable
      */
-    public boolean isInteger(String s) {
+    public IsIntegerCallback isInteger(String s) {
+        IsIntegerCallback callback = new IsIntegerCallback(false, 0);
+        if (s == null) {
+            return callback;
+        }
+
         try {
-            Integer.parseInt(s);
-            return true;
+            return callback.setInteger(true).setValue(Integer.parseInt(s));
         } catch (Exception ignored) {
-            return false;
+            return callback;
         }
     }
 }
