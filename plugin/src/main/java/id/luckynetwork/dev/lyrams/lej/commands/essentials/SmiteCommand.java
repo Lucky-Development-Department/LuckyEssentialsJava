@@ -23,6 +23,7 @@ public class SmiteCommand extends CommandClass {
     public void smiteCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
+            final @Nullable @Flag(value = "damage", aliases = "d", description = "Should the lighting not do damage?") Boolean damage,
             final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "smite")) {
@@ -44,7 +45,11 @@ public class SmiteCommand extends CommandClass {
             }
         }
 
-        locations.forEach(location -> location.getWorld().strikeLightning(location));
+        if (damage == null || !damage) {
+            locations.forEach(location -> location.getWorld().strikeLightning(location));
+        } else {
+            locations.forEach(location -> location.getWorld().strikeLightningEffect(location));
+        }
 
         boolean others = !targets.isEmpty() && targets.size() > 1;
         if (others) {
