@@ -144,6 +144,12 @@ public class Utils {
         player.removeMetadata(metadata, LuckyEssentials.getInstance());
     }
 
+    /**
+     * Checks if a string is parsable to an Integer
+     *
+     * @param s the string
+     * @return true if parsable
+     */
     public boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
