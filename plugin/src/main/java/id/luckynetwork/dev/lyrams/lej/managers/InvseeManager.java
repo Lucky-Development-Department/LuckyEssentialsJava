@@ -17,7 +17,7 @@ public class InvseeManager {
 
     private final LuckyEssentials plugin;
     private final List<Integer> separatorSlots;
-    private final Map<Player, List<Player>> invseeMap;
+    private final Map<Player, Set<Player>> invseeMap;
     private final ItemStack separatorItem;
 
     private final ItemStack infoItem;
@@ -66,7 +66,7 @@ public class InvseeManager {
             return;
         }
 
-        List<Player> invseers = new ArrayList<>();
+        Set<Player> invseers = new HashSet<>();
         invseers.add(invseer);
         invseeMap.put(player, invseers);
     }
@@ -94,8 +94,8 @@ public class InvseeManager {
      * @param player the player
      * @return all invseers
      */
-    public List<Player> getInvseers(Player player) {
-        return invseeMap.getOrDefault(player, new ArrayList<>());
+    public Set<Player> getInvseers(Player player) {
+        return invseeMap.getOrDefault(player, new HashSet<>());
     }
 
     /**
