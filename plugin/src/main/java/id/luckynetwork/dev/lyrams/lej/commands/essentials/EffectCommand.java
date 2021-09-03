@@ -19,7 +19,7 @@ import java.util.List;
 public class EffectCommand extends CommandClass {
 
     @CommandMethod("effect <target> <effect> [amplifier] [duration]")
-    @CommandDescription("Give a potion effect for you or other player")
+    @CommandDescription("Applies a potion effect for you or other player")
     public void effectCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
