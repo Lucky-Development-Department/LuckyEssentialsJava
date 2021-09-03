@@ -1,6 +1,7 @@
 package id.luckynetwork.dev.lyrams.lej.listeners;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
+import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.AllArgsConstructor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +15,9 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         if (plugin.getMainConfigManager().isChatLocked()) {
-            event.setCancelled(true);
+            if (!Utils.checkPermission(event.getPlayer(), "chatlock.bypass", false, false, false, null)) {
+                event.setCancelled(true);
+            }
         }
     }
 }
