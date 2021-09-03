@@ -42,7 +42,7 @@ public class GiveCommand extends CommandClass {
         }
 
         if (item == null) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown item: §l " + itemName + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown item: §l" + itemName + "§c!");
             return;
         }
 
@@ -100,7 +100,7 @@ public class GiveCommand extends CommandClass {
         }
 
         if (item == null) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown item: §l " + itemName + "§c!");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown item: §l" + itemName + "§c!");
             return;
         }
 

@@ -606,7 +606,7 @@ public abstract class CommandClass {
                         int level = isIntegerCallback.getValue();
                         enchantmentMap.put(enchantment, level);
                     } else {
-                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + ench + "§c!");
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + ench + "§c!");
                     }
                 }
             }
@@ -632,7 +632,7 @@ public abstract class CommandClass {
                     int level = isIntegerCallback.getValue();
                     enchantmentMap.put(enchantment, level);
                 } else {
-                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + enchants + "§c!");
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + enchants + "§c!");
                 }
             }
         }

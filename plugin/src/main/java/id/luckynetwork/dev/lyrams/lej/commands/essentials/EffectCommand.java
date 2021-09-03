@@ -113,7 +113,7 @@ public class EffectCommand extends CommandClass {
                         PotionEffect potionEffect = new PotionEffect(effectType, 30, amplifier);
                         potionEffectList.add(potionEffect);
                     } catch (Exception ignored) {
-                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + strings[0] + "§c!");
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
                     }
                 } else if (strings.length == 3) {
                     PotionEffectType effectType = plugin.getVersionSupport().getPotionEffectByName(strings[0]);
@@ -129,10 +129,10 @@ public class EffectCommand extends CommandClass {
                             PotionEffect potionEffect = new PotionEffect(effectType, duration, amplifier);
                             potionEffectList.add(potionEffect);
                         } catch (Exception ignored) {
-                            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + strings[0] + "§c!");
+                            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
                         }
                     } catch (Exception ignored) {
-                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + strings[0] + "§c!");
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
                     }
                 }
             }
@@ -162,7 +162,7 @@ public class EffectCommand extends CommandClass {
                     PotionEffect potionEffect = new PotionEffect(effectType, 30, amplifier);
                     potionEffectList.add(potionEffect);
                 } catch (Exception ignored) {
-                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + strings[0] + "§c!");
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
                 }
             } else if (strings.length == 3) {
                 PotionEffectType effectType = plugin.getVersionSupport().getPotionEffectByName(strings[0]);
@@ -178,10 +178,10 @@ public class EffectCommand extends CommandClass {
                         PotionEffect potionEffect = new PotionEffect(effectType, duration, amplifier);
                         potionEffectList.add(potionEffect);
                     } catch (Exception ignored) {
-                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + strings[0] + "§c!");
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
                     }
                 } catch (Exception ignored) {
-                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l " + strings[0] + "§c!");
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
                 }
             }
         }
