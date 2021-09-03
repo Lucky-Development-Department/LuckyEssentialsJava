@@ -25,7 +25,7 @@ public class EffectCommand extends CommandClass {
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
             final @NonNull @Argument(value = "effect", description = "The potion effect name", defaultValue = "health") String effectName,
             final @NonNull @Argument(value = "amplifier", description = "The effect amplifier", defaultValue = "-1") Integer amplifier,
-            final @NonNull @Argument(value = "duration", description = "The effect duration", defaultValue = "-1") Integer duration,
+            final @NonNull @Argument(value = "duration", description = "The effect duration in seconds", defaultValue = "-1") Integer duration,
             final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "effect")) {
@@ -51,7 +51,7 @@ public class EffectCommand extends CommandClass {
 
         targets.forEach(target ->
                 potionEffectList.forEach(it -> {
-                    int finalDuration = duration == -1 ? it.getDuration() : duration;
+                    int finalDuration = duration == -1 ? it.getDuration() : duration * 20;
                     int finalAmplifier = amplifier == -1 ? it.getAmplifier() : amplifier;
 
                     PotionEffect potionEffect = new PotionEffect(it.getType(), finalDuration, finalAmplifier);
