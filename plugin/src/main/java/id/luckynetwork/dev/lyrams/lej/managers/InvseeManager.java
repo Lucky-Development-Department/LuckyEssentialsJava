@@ -28,6 +28,9 @@ public class InvseeManager {
         this.plugin = plugin;
 
         if (plugin.getMainConfigManager().isOldInvsee()) {
+            // old invsee is lighter as it utilizes more of bukkit's way of seeing other's inventory
+            // old invsee only gives the invseer the target's inventory
+            // old invsee system is more responsive and less buggy, but is boring
             this.separatorSlots = null;
             this.invseeMap = null;
 
@@ -36,6 +39,9 @@ public class InvseeManager {
             this.locationItem = null;
             this.effectsItem = null;
         } else {
+            // new invsee system is heavier as it utilizes more of my bad programming :)
+            // new invsee gives more information as it use a custom gui
+            // new invsee system is less responsive and more buggy, but looks cooler
             this.separatorSlots = Arrays.asList(36, 37, 38, 39, 40, 41, 42, 43, 44, 49, 50, 51, 52, 53);
             this.invseeMap = new HashMap<>();
 
@@ -48,6 +54,12 @@ public class InvseeManager {
         }
     }
 
+    /**
+     * Adds a player as an invseer of another player
+     *
+     * @param player  the inventory owner
+     * @param invseer the invseer be added
+     */
     public void addInvseer(Player player, Player invseer) {
         if (invseeMap.containsKey(player)) {
             invseeMap.get(player).add(invseer);
@@ -59,6 +71,12 @@ public class InvseeManager {
         invseeMap.put(player, invseers);
     }
 
+    /**
+     * Removes a player who is an invseer of another player
+     *
+     * @param player  the inventory owner
+     * @param invseer the invseer to be removed
+     */
     public void removeInvseer(Player player, Player invseer) {
         if (!invseeMap.containsKey(player)) {
             return;
@@ -70,10 +88,22 @@ public class InvseeManager {
         }
     }
 
+    /**
+     * Gets all invseer for a player
+     *
+     * @param player the player
+     * @return all invseers
+     */
     public List<Player> getInvseers(Player player) {
         return invseeMap.getOrDefault(player, new ArrayList<>());
     }
 
+    /**
+     * Peeks another player's inventory
+     *
+     * @param player the player
+     * @param target the target player
+     */
     public void invsee(Player player, Player target) {
         if (plugin.getMainConfigManager().isOldInvsee()) {
             player.closeInventory();
@@ -147,6 +177,11 @@ public class InvseeManager {
         player.updateInventory();
     }
 
+    /**
+     * Closes an invsee inventory for player
+     *
+     * @param player the player
+     */
     public void close(Player player) {
         Utils.removeMetadata(player, "INVSEE");
 
@@ -162,6 +197,13 @@ public class InvseeManager {
         }
     }
 
+    /**
+     * Refreshes the invsee inventory for an invseer
+     *
+     * @param player       the invseer player
+     * @param target       the invsee owner
+     * @param topInventory the invsee inventory
+     */
     public void refresh(Player player, Player target, Inventory topInventory) {
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             player.updateInventory();
@@ -223,6 +265,12 @@ public class InvseeManager {
         }, 1L);
     }
 
+    /**
+     * Refreshes the invsee inventory for an invseer
+     *
+     * @param player the invseer player
+     * @param target the invsee owner
+     */
     public void refresh(Player player, Player target) {
         Inventory topInventory = player.getOpenInventory().getTopInventory();
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -289,7 +337,13 @@ public class InvseeManager {
         }, 1L);
     }
 
-    public List<String> getActiveEffects(Player player) {
+    /**
+     * Gets all active effect of player and formats it
+     *
+     * @param player the player
+     * @return all active effects formatted
+     */
+    private List<String> getActiveEffects(Player player) {
         List<String> activeEffects = new ArrayList<>();
         player.getActivePotionEffects().forEach(it -> {
             activeEffects.add("§a" + it.getType().getName() + " §7effect:");

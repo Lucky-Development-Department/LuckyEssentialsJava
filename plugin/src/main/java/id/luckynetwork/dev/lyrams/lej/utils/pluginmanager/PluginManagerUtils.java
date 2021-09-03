@@ -25,6 +25,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/**
+ * Utilities for managing plugins.
+ *
+ * @author rylinaux, slight modification by LyraMS
+ */
 @UtilityClass
 public class PluginManagerUtils {
 
@@ -34,6 +39,7 @@ public class PluginManagerUtils {
      * Enable a plugin.
      *
      * @param plugin the plugin to enable
+     * @return true if successful
      */
     public boolean enable(Plugin plugin) {
         if (plugin != null && !plugin.isEnabled()) {
@@ -53,6 +59,7 @@ public class PluginManagerUtils {
      * Disable a plugin.
      *
      * @param plugin the plugin to disable
+     * @return true if successful
      */
     public boolean disable(Plugin plugin) {
         if (plugin != null && plugin.isEnabled()) {
@@ -68,6 +75,12 @@ public class PluginManagerUtils {
         return false;
     }
 
+    /**
+     * Restarts a plugin
+     *
+     * @param plugin the plugin
+     * @return true if successful
+     */
     public boolean restart(Plugin plugin) {
         if (plugin.isEnabled()) {
             return PluginManagerUtils.disable(plugin) && PluginManagerUtils.enable(plugin);
@@ -391,8 +404,8 @@ public class PluginManagerUtils {
 
         }
 
-        // Will not work on processes started with the -XX:+DisableExplicitGC flag, but lets try it anyway.
-        // This tries to get around the issue where Windows refuses to unlock jar files that were previously loaded into the JVM.
+        // Will not work on processes started with the -XX:+DisableExplicitGC flag, but let's try it anyway.
+        // This tries to get around the issue where Windows refuse to unlock jar files that were previously loaded into the JVM.
         System.gc();
         return true;
     }
@@ -401,6 +414,7 @@ public class PluginManagerUtils {
      * Reload a plugin.
      *
      * @param plugin the plugin to reload
+     * @return true if successful
      */
     public boolean reload(Plugin plugin) {
         if (plugin != null) {

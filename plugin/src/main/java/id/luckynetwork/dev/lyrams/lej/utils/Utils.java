@@ -38,6 +38,12 @@ public class Utils {
         return pluginDescription;
     }
 
+    /**
+     * Colorizes string
+     *
+     * @param toColor the string to colorize
+     * @return colorized string
+     */
     public String colorize(String toColor) {
         return ChatColor.translateAlternateColorCodes('&', toColor);
     }
