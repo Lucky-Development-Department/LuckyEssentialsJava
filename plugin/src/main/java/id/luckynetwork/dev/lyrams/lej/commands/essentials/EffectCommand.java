@@ -51,7 +51,7 @@ public class EffectCommand extends CommandClass {
 
         targets.forEach(target ->
                 potionEffectList.forEach(it -> {
-                    int finalDuration = duration == -1 ? it.getDuration() : duration * 20;
+                    int finalDuration = duration == -1 ? it.getDuration() : (duration * 20);
                     int finalAmplifier = amplifier == -1 ? it.getAmplifier() : amplifier;
 
                     PotionEffect potionEffect = new PotionEffect(it.getType(), finalDuration, finalAmplifier);
@@ -63,7 +63,7 @@ public class EffectCommand extends CommandClass {
 
         if (potionEffectList.size() == 1) {
             PotionEffect potionEffect = potionEffectList.get(0);
-            int finalDuration = duration == -1 ? potionEffect.getDuration() : duration * 20;
+            int finalDuration = duration == -1 ? potionEffect.getDuration() : (duration * 20);
             int finalAmplifier = amplifier == -1 ? potionEffect.getAmplifier() : amplifier;
             if (others) {
                 sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + finalDuration + " seconds §eto §d" + targets.size() + " §eplayers.");
