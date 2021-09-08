@@ -25,14 +25,14 @@ import org.bukkit.util.Vector;
 
 import java.util.Arrays;
 
-public class InvseeListeners implements Listener {
-
-    private final LuckyEssentials plugin;
+public class InvseeListeners {
 
     public InvseeListeners(LuckyEssentials plugin) {
-        this.plugin = plugin;
-
         PluginManager pluginManager = Bukkit.getPluginManager();
+        if (plugin.getMainConfigManager().isRightClickInvsee()) {
+            pluginManager.registerEvents(new RightClickInvsee(plugin), plugin);
+        }
+
         if (plugin.getMainConfigManager().isOldInvsee()) {
             pluginManager.registerEvents(new OldInvseeListeners(plugin), plugin);
         } else {
@@ -40,15 +40,22 @@ public class InvseeListeners implements Listener {
         }
     }
 
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractAtEntityEvent event) {
-        Entity rightClicked = event.getRightClicked();
-        if (rightClicked.getType() == EntityType.PLAYER) {
-            Player player = event.getPlayer();
-            if (player.hasMetadata("vanished") && Utils.checkPermission(player, "invsee", false, false, false, null)) {
-                plugin.getInvseeManager().invsee(player, (Player) rightClicked);
+    @AllArgsConstructor
+    public static class RightClickInvsee implements Listener {
+
+        private final LuckyEssentials plugin;
+
+        @EventHandler
+        public void onPlayerInteract(PlayerInteractAtEntityEvent event) {
+            Entity rightClicked = event.getRightClicked();
+            if (rightClicked.getType() == EntityType.PLAYER) {
+                Player player = event.getPlayer();
+                if (player.hasMetadata("vanished") && Utils.checkPermission(player, "invsee", false, false, false, null)) {
+                    plugin.getInvseeManager().invsee(player, (Player) rightClicked);
+                }
             }
         }
+
     }
 
     @AllArgsConstructor

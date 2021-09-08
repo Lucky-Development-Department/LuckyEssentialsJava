@@ -16,6 +16,7 @@ public class MainConfigManager {
     private boolean chatLocked;
     private boolean oldInvsee;
     private boolean discouraged;
+    private boolean rightClickInvsee;
 
     public MainConfigManager(LuckyEssentials plugin) {
         this.plugin = plugin;
@@ -29,6 +30,7 @@ public class MainConfigManager {
         this.chatLocked = plugin.getMainConfig().getBoolean("chat-lock", false);
         this.oldInvsee = plugin.getMainConfig().getBoolean("old-invsee", false);
         this.discouraged = plugin.getMainConfig().getBoolean("discouraged", false);
+        this.rightClickInvsee = plugin.getMainConfig().getBoolean("rightclick-invsee", true);
     }
 
     public void save() {

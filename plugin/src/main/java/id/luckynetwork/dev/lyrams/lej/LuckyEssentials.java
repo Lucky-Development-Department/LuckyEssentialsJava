@@ -68,10 +68,10 @@ public class LuckyEssentials extends JavaPlugin {
                 new ChatListener(this),
                 new ConnectionListeners(this),
                 new DamageListeners(),
-                new DeathListeners(this),
-                new InvseeListeners(this)
+                new DeathListeners(this)
         );
         new TrollListeners(this);
+        new InvseeListeners(this);
 
         this.sendStuffToConsoleLmao();
         this.getLogger().info("LuckyEssentials v" + this.getDescription().getVersion() + " loaded in " + (System.currentTimeMillis() - millis) + "ms!");
