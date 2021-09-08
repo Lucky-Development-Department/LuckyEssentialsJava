@@ -58,7 +58,7 @@ public class DiscouragedModeCommand extends CommandClass {
 
         plugin.getMainConfigManager().save();
 
-        boolean chatLocked = plugin.getMainConfigManager().isDiscouraged();
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled discouraged mode: " + Utils.colorizeTrueFalse(chatLocked, TrueFalseType.ON_OFF) + "§e.");
+        boolean discouraged = plugin.getMainConfigManager().isDiscouraged();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled discouraged mode: " + Utils.colorizeTrueFalse(discouraged, TrueFalseType.ON_OFF) + "§e.");
     }
 }
