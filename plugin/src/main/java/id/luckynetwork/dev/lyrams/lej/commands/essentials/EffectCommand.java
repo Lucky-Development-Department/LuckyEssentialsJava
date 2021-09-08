@@ -57,18 +57,17 @@ public class EffectCommand extends CommandClass {
                     PotionEffect potionEffect = new PotionEffect(it.getType(), finalDuration, finalAmplifier);
                     target.addPotionEffect(potionEffect);
                     if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + finalDuration + " seconds§e!");
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + duration + " seconds§e!");
                     }
                 }));
 
         if (potionEffectList.size() == 1) {
             PotionEffect potionEffect = potionEffectList.get(0);
-            int finalDuration = duration == -1 ? potionEffect.getDuration() : (duration * 20);
             int finalAmplifier = amplifier == -1 ? potionEffect.getAmplifier() : amplifier;
             if (others) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + finalDuration + " seconds §eto §d" + targets.size() + " §eplayers.");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + duration + " seconds §eto §d" + targets.size() + " §eplayers.");
             } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + finalDuration + " seconds §eto §d" + target.getName() + "§e."));
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + duration + " seconds §eto §d" + target.getName() + "§e."));
             }
         } else {
             if (others) {
