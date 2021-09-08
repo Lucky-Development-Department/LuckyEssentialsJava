@@ -4,6 +4,7 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.Flag;
+import id.luckynetwork.dev.lyrams.lej.callbacks.IsIntegerCallback;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
@@ -70,25 +71,31 @@ public class EffectCommand extends CommandClass {
                     int finalDuration = duration == -1 ? it.getDuration() : (duration * 20);
                     int finalAmplifier = amplifier == -1 ? it.getAmplifier() : amplifier;
 
-                    // remove the effect first
-                    if (target.hasPotionEffect(it.getType()) || finalDuration == 0) {
+                    // remove the effect
+                    boolean isRemove = finalDuration == 0;
+                    if (target.hasPotionEffect(it.getType()) || isRemove) {
                         target.removePotionEffect(it.getType());
+                        if (isRemove) {
+                            return;
+                        }
                     }
 
                     PotionEffect potionEffect = new PotionEffect(it.getType(), finalDuration, finalAmplifier);
                     target.addPotionEffect(potionEffect);
                     if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + duration + " seconds§e!");
+                        String durationSeconds = String.valueOf(duration == -1 ? (it.getDuration() / 20) : duration);
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds§e!");
                     }
                 }));
 
         if (potionEffectList.size() == 1) {
             PotionEffect potionEffect = potionEffectList.get(0);
             int finalAmplifier = amplifier == -1 ? potionEffect.getAmplifier() : amplifier;
+            String durationSeconds = String.valueOf(duration == -1 ? (potionEffect.getDuration() / 20) : duration);
             if (others) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + duration + " seconds §eto §d" + targets.size() + " §eplayers.");
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds §eto §d" + targets.size() + " §eplayers.");
             } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §d" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + duration + " seconds §eto §d" + target.getName() + "§e."));
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds §eto §d" + target.getName() + "§e."));
             }
         } else {
             if (others) {
@@ -115,7 +122,7 @@ public class EffectCommand extends CommandClass {
                         continue;
                     }
 
-                    PotionEffect potionEffect = new PotionEffect(effectType, 30, 0);
+                    PotionEffect potionEffect = new PotionEffect(effectType, 600, 0);
                     potionEffectList.add(potionEffect);
                     continue;
                 }
@@ -128,12 +135,13 @@ public class EffectCommand extends CommandClass {
                         continue;
                     }
 
-                    try {
-                        int amplifier = Integer.parseInt(strings[1]);
-                        PotionEffect potionEffect = new PotionEffect(effectType, 30, amplifier);
+                    IsIntegerCallback isIntegerCallback = Utils.isInteger(strings[1]);
+                    if (isIntegerCallback.isInteger()) {
+                        int amplifier = isIntegerCallback.getValue();
+                        PotionEffect potionEffect = new PotionEffect(effectType, 600, amplifier);
                         potionEffectList.add(potionEffect);
-                    } catch (Exception ignored) {
-                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
+                    } else {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid potion effect level: §l" + strings[0] + "§c!");
                     }
                 } else if (strings.length == 3) {
                     PotionEffectType effectType = plugin.getVersionSupport().getPotionEffectByName(strings[0]);
@@ -142,17 +150,19 @@ public class EffectCommand extends CommandClass {
                         continue;
                     }
 
-                    try {
-                        int amplifier = Integer.parseInt(strings[1]);
-                        try {
-                            int duration = Integer.parseInt(strings[2]);
+                    IsIntegerCallback isIntegerCallback = Utils.isInteger(strings[1]);
+                    if (isIntegerCallback.isInteger()) {
+                        int amplifier = isIntegerCallback.getValue();
+                        IsIntegerCallback isIntegerCallback1 = Utils.isInteger(strings[2]);
+                        if (isIntegerCallback1.isInteger()) {
+                            int duration = isIntegerCallback1.getValue();
                             PotionEffect potionEffect = new PotionEffect(effectType, duration, amplifier);
                             potionEffectList.add(potionEffect);
-                        } catch (Exception ignored) {
-                            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
+                        } else {
+                            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid potion effect level: §l" + strings[0] + "§c!");
                         }
-                    } catch (Exception ignored) {
-                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
+                    } else {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid potion effect level: §l" + strings[0] + "§c!");
                     }
                 }
             }
@@ -164,7 +174,7 @@ public class EffectCommand extends CommandClass {
                     return potionEffectList;
                 }
 
-                PotionEffect potionEffect = new PotionEffect(effectType, 30, 0);
+                PotionEffect potionEffect = new PotionEffect(effectType, 600, 0);
                 potionEffectList.add(potionEffect);
                 return potionEffectList;
             }
@@ -177,12 +187,13 @@ public class EffectCommand extends CommandClass {
                     return potionEffectList;
                 }
 
-                try {
-                    int amplifier = Integer.parseInt(strings[1]);
-                    PotionEffect potionEffect = new PotionEffect(effectType, 30, amplifier);
+                IsIntegerCallback isIntegerCallback = Utils.isInteger(strings[1]);
+                if (isIntegerCallback.isInteger()) {
+                    int amplifier = isIntegerCallback.getValue();
+                    PotionEffect potionEffect = new PotionEffect(effectType, 600, amplifier);
                     potionEffectList.add(potionEffect);
-                } catch (Exception ignored) {
-                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid potion effect level: §l" + strings[0] + "§c!");
                 }
             } else if (strings.length == 3) {
                 PotionEffectType effectType = plugin.getVersionSupport().getPotionEffectByName(strings[0]);
@@ -191,17 +202,19 @@ public class EffectCommand extends CommandClass {
                     return potionEffectList;
                 }
 
-                try {
-                    int amplifier = Integer.parseInt(strings[1]);
-                    try {
-                        int duration = Integer.parseInt(strings[2]);
+                IsIntegerCallback isIntegerCallback = Utils.isInteger(strings[1]);
+                if (isIntegerCallback.isInteger()) {
+                    int amplifier = isIntegerCallback.getValue();
+                    IsIntegerCallback isIntegerCallback1 = Utils.isInteger(strings[2]);
+                    if (isIntegerCallback1.isInteger()) {
+                        int duration = isIntegerCallback1.getValue();
                         PotionEffect potionEffect = new PotionEffect(effectType, duration, amplifier);
                         potionEffectList.add(potionEffect);
-                    } catch (Exception ignored) {
-                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
+                    } else {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid potion effect level: §l" + strings[0] + "§c!");
                     }
-                } catch (Exception ignored) {
-                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid enchantment level: §l" + strings[0] + "§c!");
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid potion effect level: §l" + strings[0] + "§c!");
                 }
             }
         }
