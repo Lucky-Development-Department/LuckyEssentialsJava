@@ -23,7 +23,7 @@ public class EffectCommand extends CommandClass {
     public void effectCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "effect", description = "The potion effect name", defaultValue = "health") String effectName,
+            final @NonNull @Argument(value = "effect", description = "The potion effect name or 'clear'", defaultValue = "health") String effectName,
             final @NonNull @Argument(value = "amplifier", description = "The effect amplifier", defaultValue = "-1") Integer amplifier,
             final @NonNull @Argument(value = "duration", description = "The effect duration in seconds", defaultValue = "-1") Integer duration,
             final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
@@ -43,6 +43,22 @@ public class EffectCommand extends CommandClass {
             return;
         }
 
+        if (effectName.equalsIgnoreCase("clear")) {
+            targets.forEach(target -> {
+                target.getActivePotionEffects().forEach(it -> target.removePotionEffect(it.getType()));
+                if (silent == null || !silent) {
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved all potion effects.");
+                }
+            });
+
+            if (others) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved all potion effects from §d" + targets.size() + " §eplayers.");
+            } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved all potion effects from §d" + target.getName() + "§e."));
+            }
+            return;
+        }
+
         List<PotionEffect> potionEffectList = this.parseEffects(sender, effectName);
         if (potionEffectList.isEmpty()) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo valid effects found!");
@@ -53,6 +69,11 @@ public class EffectCommand extends CommandClass {
                 potionEffectList.forEach(it -> {
                     int finalDuration = duration == -1 ? it.getDuration() : (duration * 20);
                     int finalAmplifier = amplifier == -1 ? it.getAmplifier() : amplifier;
+
+                    // remove the effect first
+                    if (target.hasPotionEffect(it.getType()) || finalDuration == 0) {
+                        target.removePotionEffect(it.getType());
+                    }
 
                     PotionEffect potionEffect = new PotionEffect(it.getType(), finalDuration, finalAmplifier);
                     target.addPotionEffect(potionEffect);
