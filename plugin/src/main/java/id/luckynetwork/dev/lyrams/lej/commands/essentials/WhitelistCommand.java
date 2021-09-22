@@ -255,6 +255,34 @@ public class WhitelistCommand extends CommandClass {
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
     }
 
+    @CommandMethod("whitelist|ewl|wl on")
+    @CommandDescription("Toggles on the LuckyEssentials whitelist system")
+    public void onCommand(
+            final @NonNull CommandSender sender
+    ) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
+        plugin.getWhitelistManager().setEnabled(true);
+        plugin.getWhitelistManager().save();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
+    }
+
+    @CommandMethod("whitelist|ewl|wl off")
+    @CommandDescription("Toggles off the LuckyEssentials whitelist system")
+    public void offCommand(
+            final @NonNull CommandSender sender
+    ) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
+        plugin.getWhitelistManager().setEnabled(false);
+        plugin.getWhitelistManager().save();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
+    }
+
     @CommandMethod("whitelist|ewl|wl reload")
     @CommandDescription("Reloads the LuckyEssentials whitelist system")
     public void reloadCommand(

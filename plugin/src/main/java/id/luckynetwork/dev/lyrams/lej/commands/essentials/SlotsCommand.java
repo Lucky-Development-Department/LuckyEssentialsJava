@@ -76,6 +76,34 @@ public class SlotsCommand extends CommandClass {
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled slots system " + Utils.colorizeTrueFalse(plugin.getSlotsManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
     }
 
+    @CommandMethod("slots on")
+    @CommandDescription("Toggles on the LuckyEssentials slots system")
+    public void onCommand(
+            final @NonNull CommandSender sender
+    ) {
+        if (!Utils.checkPermission(sender, "slots")) {
+            return;
+        }
+
+        plugin.getSlotsManager().setEnabled(true);
+        plugin.getSlotsManager().save();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled slots system " + Utils.colorizeTrueFalse(plugin.getSlotsManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
+    }
+
+    @CommandMethod("slots off")
+    @CommandDescription("Toggles off the LuckyEssentials slots system")
+    public void offCommand(
+            final @NonNull CommandSender sender
+    ) {
+        if (!Utils.checkPermission(sender, "slots")) {
+            return;
+        }
+
+        plugin.getSlotsManager().setEnabled(false);
+        plugin.getSlotsManager().save();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled slots system " + Utils.colorizeTrueFalse(plugin.getSlotsManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
+    }
+
     @CommandMethod("slots reload")
     @CommandDescription("Reloads the LuckyEssentials slots system")
     public void reloadCommand(
