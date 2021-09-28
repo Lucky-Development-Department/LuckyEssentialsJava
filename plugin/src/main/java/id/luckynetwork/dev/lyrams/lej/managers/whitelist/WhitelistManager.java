@@ -27,7 +27,7 @@ public class WhitelistManager {
     }
 
     public void reload() {
-        plugin.setMainConfig(new ConfigFile(plugin, "whitelist.yml"));
+        plugin.setWhitelistConfig(new ConfigFile(plugin, "whitelist.yml"));
 
         this.enabled = plugin.getWhitelistConfig().getBoolean("toggled", false);
         this.denyMessage = Utils.colorize(plugin.getWhitelistConfig().getString("deny-message", "§cYou are not whitelisted!"));
