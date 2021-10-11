@@ -91,13 +91,13 @@ public abstract class CommandClass {
                 IsDoubleCallback isDoubleCallback;
                 IsIntegerCallback isIntegerCallback;
                 if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
-                    // random players in a range with a set amount
+                    // all players in a range with a set amount
                     isDoubleCallback = Utils.isDouble(arg.split("=")[1].split(",")[0]);
                     isIntegerCallback = Utils.isInteger(arg.split(",n=")[1].split("]")[0]);
                 } else {
-                    // random player in a range
+                    // all player in a range
                     isDoubleCallback = Utils.isDouble(arg.split("=")[1].split("]")[0]);
-                    isIntegerCallback = new IsIntegerCallback(true, 1);
+                    isIntegerCallback = new IsIntegerCallback(true, -1);
                 }
 
                 if (!isDoubleCallback.isDouble() || !isIntegerCallback.isInteger()) {
@@ -135,7 +135,7 @@ public abstract class CommandClass {
                 } else {
                     // random player in a range
                     isDoubleCallback = Utils.isDouble(arg.split("=")[1].split("]")[0]);
-                    isIntegerCallback = new IsIntegerCallback(true, 1);
+                    isIntegerCallback = new IsIntegerCallback(true, -1);
                 }
 
                 if (!isDoubleCallback.isDouble() || !isIntegerCallback.isInteger()) {
@@ -365,13 +365,13 @@ public abstract class CommandClass {
                 IsDoubleCallback isDoubleCallback;
                 IsIntegerCallback isIntegerCallback;
                 if (arg.split("r=")[1].split("]")[0].contains(",n=")) {
-                    // random players in a range with a set amount
+                    // all players in a range with a set amount
                     isDoubleCallback = Utils.isDouble(arg.split("=")[1].split(",")[0]);
                     isIntegerCallback = Utils.isInteger(arg.split(",n=")[1].split("]")[0]);
                 } else {
-                    // random player in a range
+                    // all player in a range
                     isDoubleCallback = Utils.isDouble(arg.split("=")[1].split("]")[0]);
-                    isIntegerCallback = new IsIntegerCallback(true, 1);
+                    isIntegerCallback = new IsIntegerCallback(true, -1);
                 }
 
                 if (!isDoubleCallback.isDouble() || !isIntegerCallback.isInteger()) {
@@ -409,7 +409,7 @@ public abstract class CommandClass {
                 } else {
                     // random player in a range
                     isDoubleCallback = Utils.isDouble(arg.split("=")[1].split("]")[0]);
-                    isIntegerCallback = new IsIntegerCallback(true, 1);
+                    isIntegerCallback = new IsIntegerCallback(true, -1);
                 }
 
                 if (!isDoubleCallback.isDouble() || !isIntegerCallback.isInteger()) {
