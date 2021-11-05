@@ -4,6 +4,7 @@ import com.google.common.base.Joiner;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
+import lombok.Data;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -106,17 +107,14 @@ public class PluginManagerUtils {
      * @param plugin the plugin to format
      * @return the formatted name
      */
-    public String getFormattedName(@NotNull Plugin plugin, boolean includeVersion) {
+    public PluginInfo getPluginInfo(@NotNull Plugin plugin) {
         TrueFalseType trueFalseType = TrueFalseType.DEFAULT;
         trueFalseType.setIfTrue(plugin.getName());
         trueFalseType.setIfFalse(plugin.getName());
 
         String pluginName = Utils.colorizeTrueFalse(plugin.isEnabled(), trueFalseType);
-        if (includeVersion) {
-            pluginName += " (" + plugin.getDescription().getVersion() + ")";
-        }
 
-        return pluginName;
+        return new PluginInfo(plugin.getName(), pluginName, plugin.getDescription().getVersion());
     }
 
     /**
@@ -182,6 +180,7 @@ public class PluginManagerUtils {
             e.printStackTrace();
             return null;
         }
+
         SimpleCommandMap commandMap;
         try {
             commandMap = (SimpleCommandMap) commandMapField.get(Bukkit.getServer());
@@ -199,7 +198,6 @@ public class PluginManagerUtils {
         }
 
         Map<String, Command> knownCommands;
-
         try {
             knownCommands = (Map<String, Command>) knownCommandsField.get(commandMap);
         } catch (IllegalAccessException e) {
@@ -245,7 +243,6 @@ public class PluginManagerUtils {
                         }
                     } catch (InvalidDescriptionException e) {
                         e.printStackTrace();
-                        return false;
                     }
                 }
             }
@@ -271,10 +268,9 @@ public class PluginManagerUtils {
                     luckyEssentials.getVersionSupport().getCommandWrap().wrap(command, alias);
                 }
 
-                if (Bukkit.getOnlinePlayers().size() >= 1)
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        luckyEssentials.getVersionSupport().reloadCommands(player);
-                    }
+                if (Bukkit.getOnlinePlayers().size() >= 1) {
+                    Bukkit.getOnlinePlayers().forEach(player -> luckyEssentials.getVersionSupport().reloadCommands(player));
+                }
             }, 10L);
         }
 
@@ -308,10 +304,8 @@ public class PluginManagerUtils {
             }
         }
 
-        String name = plugin.getName();
 
         PluginManager pluginManager = Bukkit.getPluginManager();
-
         SimpleCommandMap commandMap = null;
 
         List<Plugin> plugins = null;
@@ -351,33 +345,36 @@ public class PluginManagerUtils {
                 e.printStackTrace();
                 return false;
             }
-
         }
 
+        assert pluginManager != null;
         pluginManager.disablePlugin(plugin);
 
         if (plugins != null) {
             plugins.remove(plugin);
         }
 
+        String name = plugin.getName();
         if (names != null) {
             names.remove(name);
         }
 
-        if (listeners != null && reloadlisteners) for (SortedSet<RegisteredListener> set : listeners.values())
-            set.removeIf(value -> value.getPlugin() == plugin);
+        if (listeners != null) {
+            listeners.values().forEach(set -> set.removeIf(value -> value.getPlugin() == plugin));
+        }
 
-        if (commandMap != null)
+        if (commandMap != null) {
             for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext(); ) {
                 Map.Entry<String, Command> entry = it.next();
                 if (entry.getValue() instanceof PluginCommand) {
-                    PluginCommand c = (PluginCommand) entry.getValue();
-                    if (c.getPlugin() == plugin) {
-                        c.unregister(commandMap);
+                    PluginCommand command = (PluginCommand) entry.getValue();
+                    if (command.getPlugin() == plugin) {
+                        command.unregister(commandMap);
                         it.remove();
                     }
                 }
             }
+        }
 
         // Attempt to close the classloader to unlock any handles on the plugin's jar file.
         ClassLoader classLoader = plugin.getClass().getClassLoader();
@@ -390,18 +387,15 @@ public class PluginManagerUtils {
                 Field pluginInitField = classLoader.getClass().getDeclaredField("pluginInit");
                 pluginInitField.setAccessible(true);
                 pluginInitField.set(classLoader, null);
-
             } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
                 Logger.getLogger(PluginManagerUtils.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             try {
-
                 ((URLClassLoader) classLoader).close();
             } catch (IOException ex) {
                 Logger.getLogger(PluginManagerUtils.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
 
         // Will not work on processes started with the -XX:+DisableExplicitGC flag, but let's try it anyway.
@@ -425,5 +419,10 @@ public class PluginManagerUtils {
         }
 
         return false;
+    }
+
+    @Data
+    public static class PluginInfo {
+        private final String rawName, name, version;
     }
 }

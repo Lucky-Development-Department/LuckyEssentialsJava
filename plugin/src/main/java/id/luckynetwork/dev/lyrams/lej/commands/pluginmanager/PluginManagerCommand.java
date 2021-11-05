@@ -3,7 +3,6 @@ package id.luckynetwork.dev.lyrams.lej.commands.pluginmanager;
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
 import cloud.commandframework.annotations.specifier.Greedy;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
@@ -16,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,20 +27,31 @@ public class PluginManagerCommand extends CommandClass {
     @CommandMethod("luckyessentials pluginmanager|pm list")
     @CommandDescription("Lists all loaded plugin")
     public void listCommand(
-            final @NonNull CommandSender sender,
-            final @Nullable @Flag(value = "fullname", aliases = "f", description = "Should it also show the plugin version?") Boolean fullName
+            final @NonNull CommandSender sender
     ) {
         if (!Utils.checkPermission(sender, "pluginmanager.list")) {
             return;
         }
 
-        boolean includeName = fullName != null && fullName;
-        List<String> pluginNames = Arrays.stream(Bukkit.getPluginManager().getPlugins())
-                .map(it -> PluginManagerUtils.getFormattedName(it, includeName))
-                .sorted(Comparator.naturalOrder())
+        List<PluginManagerUtils.PluginInfo> pluginInfos = Arrays.stream(Bukkit.getPluginManager().getPlugins())
+                .map(PluginManagerUtils::getPluginInfo)
+                .sorted(Comparator.comparing(PluginManagerUtils.PluginInfo::getRawName))
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§ePlugins §d(" + pluginNames.size() + ")§e: " + Joiner.on(", ").join(pluginNames));
+        final int[] size = {pluginInfos.size()};
+        sender.sendMessage("§ePlugins §d(" + size[0] + ")§e: ");
+        pluginInfos.forEach(it -> {
+            boolean last = (--size[0] < 1);
+            String message;
+            if (last) {
+                message = "§8└─ ";
+            } else {
+                message = "§8├─ ";
+            }
+
+            message += it.getName() + " §7(§6v§e" + it.getVersion() + "§7)";
+            sender.sendMessage(message);
+        });
     }
 
     @CommandMethod("luckyessentials pluginmanager|pm info <pluginName>")
