@@ -10,6 +10,7 @@ import id.luckynetwork.dev.lyrams.lej.config.ConfigFile;
 import id.luckynetwork.dev.lyrams.lej.dependency.DependencyHelper;
 import id.luckynetwork.dev.lyrams.lej.listeners.*;
 import id.luckynetwork.dev.lyrams.lej.listeners.trolls.TrollListeners;
+import id.luckynetwork.dev.lyrams.lej.managers.ConfirmationManager;
 import id.luckynetwork.dev.lyrams.lej.managers.InvseeManager;
 import id.luckynetwork.dev.lyrams.lej.managers.MainConfigManager;
 import id.luckynetwork.dev.lyrams.lej.managers.SlotsManager;
@@ -48,6 +49,8 @@ public class LuckyEssentials extends JavaPlugin {
     private WhitelistManager whitelistManager;
     private SlotsManager slotsManager;
 
+    private ConfirmationManager confirmationManager;
+
     @Override
     public void onEnable() {
         long millis = System.currentTimeMillis();
@@ -60,6 +63,8 @@ public class LuckyEssentials extends JavaPlugin {
         this.mainConfigManager = new MainConfigManager(this);
         this.slotsManager = new SlotsManager(this);
         this.whitelistManager = new WhitelistManager(this);
+
+        this.confirmationManager = new ConfirmationManager(this);
 
         this.mainCommand = new LuckyEssentialsCommand(this);
         this.invseeManager = new InvseeManager(this);
