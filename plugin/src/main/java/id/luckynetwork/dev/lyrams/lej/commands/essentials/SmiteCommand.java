@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,25 +40,29 @@ public class SmiteCommand extends CommandClass {
             targets = this.getTargets(sender, targetName);
         }
 
-        if (!targets.isEmpty()) {
-            locations.addAll(targets.stream().map(Player::getLocation).collect(Collectors.toList()));
-            if (silent == null || !silent) {
-                targets.forEach(target -> target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been smitten!"));
-            }
-        }
+        TargetsCallback finalTargets = targets;
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+                    if (!finalTargets.isEmpty()) {
+                        locations.addAll(finalTargets.stream().map(Player::getLocation).collect(Collectors.toList()));
+                        if (silent == null || !silent) {
+                            finalTargets.forEach(target -> target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been smitten!"));
+                        }
+                    }
 
-        if (damage == null || !damage) {
-            locations.forEach(location -> location.getWorld().strikeLightning(location));
-        } else {
-            locations.forEach(location -> location.getWorld().strikeLightningEffect(location));
-        }
+                    if (damage == null || !damage) {
+                        locations.forEach(location -> location.getWorld().strikeLightning(location));
+                    } else {
+                        locations.forEach(location -> location.getWorld().strikeLightningEffect(location));
+                    }
 
-        boolean others = !targets.isEmpty() && targets.size() > 1;
-        if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSmitten §d" + targets.size() + " §eplayers.");
-        } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSmitten §d" + target.getName() + "§e."));
-        }
+                    boolean others = !finalTargets.isEmpty() && finalTargets.size() > 1;
+                    if (others) {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSmitten §d" + finalTargets.size() + " §eplayers.");
+                    } else if ((!(sender instanceof Player)) || (finalTargets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
+                        finalTargets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSmitten §d" + target.getName() + "§e."));
+                    }
+                }, sender, targets.size() <= 5,
+                Collections.singletonList(plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to smite §l" + targets.size() + " §6players?"));
     }
 
 }
