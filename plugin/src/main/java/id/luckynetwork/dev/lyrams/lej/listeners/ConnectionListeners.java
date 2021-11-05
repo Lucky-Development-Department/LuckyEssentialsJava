@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 @AllArgsConstructor
 public class ConnectionListeners implements Listener {
@@ -61,5 +62,11 @@ public class ConnectionListeners implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        plugin.getConfirmationManager().deleteConfirmation(player);
     }
 }
