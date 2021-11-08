@@ -643,6 +643,10 @@ public abstract class CommandClass {
     }
 
     public CanSkipCallback canSkip(String action, TargetsCallback targetsCallback, CommandSender sender) {
+        if (!plugin.getMainConfigManager().isUseConfirmation()) {
+            return new CanSkipCallback(sender, true, null);
+        }
+
         if (targetsCallback.size() >= 75) {
             return new CanSkipCallback(sender, false, Collections.singletonList(
                     plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §l" + action + " §6on §l" + targetsCallback.size() + " §6players?"

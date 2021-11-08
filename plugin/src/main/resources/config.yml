@@ -1,5 +1,6 @@
 prefix: "&e&lLUCKYESSENTIALS &a/ "
 rightclick-invsee: true
+use-confirmation: true
 chat-lock: false
 old-invsee: false
 discouraged: false

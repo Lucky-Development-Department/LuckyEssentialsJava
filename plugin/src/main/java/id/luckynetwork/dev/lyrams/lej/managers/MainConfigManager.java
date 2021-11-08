@@ -17,6 +17,7 @@ public class MainConfigManager {
     private boolean oldInvsee;
     private boolean discouraged;
     private boolean rightClickInvsee;
+    private boolean useConfirmation;
 
     public MainConfigManager(LuckyEssentials plugin) {
         this.plugin = plugin;
@@ -31,6 +32,7 @@ public class MainConfigManager {
         this.oldInvsee = plugin.getMainConfig().getBoolean("old-invsee", false);
         this.discouraged = plugin.getMainConfig().getBoolean("discouraged", false);
         this.rightClickInvsee = plugin.getMainConfig().getBoolean("rightclick-invsee", true);
+        this.useConfirmation = plugin.getMainConfig().getBoolean("use-confirmation", true);
     }
 
     public void save() {
