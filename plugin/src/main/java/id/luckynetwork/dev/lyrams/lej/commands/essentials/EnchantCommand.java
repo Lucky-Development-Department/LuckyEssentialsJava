@@ -56,13 +56,14 @@ public class EnchantCommand extends CommandClass {
                 return;
             }
 
-            targets.forEach(target -> {
-                ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(target);
-                if (itemInHand != null && itemInHand.getType() != Material.AIR) {
-                    enchants.keySet().forEach(key -> itemInHand.addEnchantment(key, enchants.get(key)));
-                    target.updateInventory();
-                }
-            });
+            plugin.getConfirmationManager().requestConfirmation(() ->
+                    targets.forEach(target -> {
+                        ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(target);
+                        if (itemInHand != null && itemInHand.getType() != Material.AIR) {
+                            enchants.keySet().forEach(key -> itemInHand.addUnsafeEnchantment(key, enchants.get(key)));
+                            target.updateInventory();
+                        }
+                    }), this.canSkip("enchant", targets, sender));
         }
     }
 

@@ -45,18 +45,20 @@ public class EffectCommand extends CommandClass {
         }
 
         if (effectName.equalsIgnoreCase("clear")) {
-            targets.forEach(target -> {
-                target.getActivePotionEffects().forEach(it -> target.removePotionEffect(it.getType()));
-                if (silent == null || !silent) {
-                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved all potion effects.");
-                }
-            });
+            plugin.getConfirmationManager().requestConfirmation(() -> {
+                targets.forEach(target -> {
+                    target.getActivePotionEffects().forEach(it -> target.removePotionEffect(it.getType()));
+                    if (silent == null || !silent) {
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved all potion effects.");
+                    }
+                });
 
-            if (others) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved all potion effects from §d" + targets.size() + " §eplayers.");
-            } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved all potion effects from §d" + target.getName() + "§e."));
-            }
+                if (others) {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved all potion effects from §d" + targets.size() + " §eplayers.");
+                } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved all potion effects from §d" + target.getName() + "§e."));
+                }
+            }, this.canSkip("clear all active potion effect", targets, sender));
             return;
         }
 
@@ -66,48 +68,50 @@ public class EffectCommand extends CommandClass {
             return;
         }
 
-        targets.forEach(target ->
-                potionEffectList.forEach(it -> {
-                    int finalDuration = duration == -1 ? it.getDuration() : (duration * 20);
-                    int finalAmplifier = amplifier == -1 ? it.getAmplifier() : amplifier;
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target ->
+                    potionEffectList.forEach(it -> {
+                        int finalDuration = duration == -1 ? it.getDuration() : (duration * 20);
+                        int finalAmplifier = amplifier == -1 ? it.getAmplifier() : amplifier;
 
-                    // remove the effect
-                    boolean isRemove = finalDuration == 0;
-                    if (target.hasPotionEffect(it.getType()) || isRemove) {
-                        target.removePotionEffect(it.getType());
-                        if (isRemove) {
-                            return;
+                        // remove the effect
+                        boolean isRemove = finalDuration == 0;
+                        if (target.hasPotionEffect(it.getType()) || isRemove) {
+                            target.removePotionEffect(it.getType());
+                            if (isRemove) {
+                                return;
+                            }
                         }
-                    }
 
-                    PotionEffect potionEffect = new PotionEffect(it.getType(), finalDuration, finalAmplifier);
-                    target.addPotionEffect(potionEffect);
-                    if (silent == null || !silent) {
-                        String durationSeconds = String.valueOf(duration == -1 ? (it.getDuration() / 20) : duration);
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds§e!");
-                    }
-                }));
+                        PotionEffect potionEffect = new PotionEffect(it.getType(), finalDuration, finalAmplifier);
+                        target.addPotionEffect(potionEffect);
+                        if (silent == null || !silent) {
+                            String durationSeconds = String.valueOf(duration == -1 ? (it.getDuration() / 20) : duration);
+                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds§e!");
+                        }
+                    }));
 
-        if (potionEffectList.size() == 1) {
-            PotionEffect potionEffect = potionEffectList.get(0);
-            int finalAmplifier = amplifier == -1 ? potionEffect.getAmplifier() : amplifier;
-            String durationSeconds = String.valueOf(duration == -1 ? (potionEffect.getDuration() / 20) : duration);
-            if (others) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds §eto §d" + targets.size() + " §eplayers.");
-            } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds §eto §d" + target.getName() + "§e."));
-            }
-        } else {
-            if (others) {
-                if (targets.size() == 1) {
-                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + target.getName() + "!"));
-                } else {
-                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + targets.size() + " §eplayers");
+            if (potionEffectList.size() == 1) {
+                PotionEffect potionEffect = potionEffectList.get(0);
+                int finalAmplifier = amplifier == -1 ? potionEffect.getAmplifier() : amplifier;
+                String durationSeconds = String.valueOf(duration == -1 ? (potionEffect.getDuration() / 20) : duration);
+                if (others) {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds §eto §d" + targets.size() + " §eplayers.");
+                } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds §eto §d" + target.getName() + "§e."));
                 }
-            } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + target.getName() + "!"));
+            } else {
+                if (others) {
+                    if (targets.size() == 1) {
+                        targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + target.getName() + "!"));
+                    } else {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + targets.size() + " §eplayers");
+                    }
+                } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied all potion effects to §d" + target.getName() + "!"));
+                }
             }
-        }
+        }, this.canSkip("apply potion effect", targets, sender));
     }
 
     private List<PotionEffect> parseEffects(CommandSender sender, String effects) {

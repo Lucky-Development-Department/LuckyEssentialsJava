@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collections;
+
 public class TeleportCommand extends CommandClass {
 
     @CommandMethod("tp <player> [target]")
@@ -104,16 +106,25 @@ public class TeleportCommand extends CommandClass {
         }
 
         // the sender wants to teleport other player to another player
-        targets.stream().findFirst().ifPresent(destination -> {
-            Bukkit.getOnlinePlayers().forEach(toTeleport -> {
-                toTeleport.teleport(destination);
-                if (silent == null || !silent) {
-                    toTeleport.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + destination.getName() + "§e.");
-                }
-            });
+        plugin.getConfirmationManager().requestConfirmation(() ->
+                targets.stream().findFirst().ifPresent(destination -> {
+                    Bukkit.getOnlinePlayers().forEach(toTeleport -> {
+                        if (sender instanceof Player && toTeleport.equals(sender)) {
+                            return;
+                        }
 
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to §6" + destination.getName() + "§e.");
-        });
+                        toTeleport.teleport(destination);
+                        if (silent == null || !silent) {
+                            toTeleport.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + destination.getName() + "§e.");
+                        }
+                    });
+
+                    if (destination.getName().equalsIgnoreCase(sender.getName())) {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to §6you§e.");
+                    } else {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to §6" + destination.getName() + "§e.");
+                    }
+                }), sender, Collections.singletonList(plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §lteleport all player§6?"));
     }
 
     @CommandMethod("tppos <location>")
@@ -191,20 +202,20 @@ public class TeleportCommand extends CommandClass {
             return;
         }
 
-        targets.forEach(toTeleport -> {
-            toTeleport.teleport(sender.getLocation());
-            if (silent == null || !silent) {
-                toTeleport.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + sender.getName() + "§e.");
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(toTeleport -> {
+                toTeleport.teleport(sender.getLocation());
+                if (silent == null || !silent) {
+                    toTeleport.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported you to §d" + sender.getName() + "§e.");
+                }
+            });
+
+            if (targets.size() > 1 && targets.doesNotContain(sender)) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + targets.size() + " §eplayers to your location.");
+            } else if (targets.doesNotContain(sender)) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + target.getName() + "§e to your location."));
             }
-
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to your location.");
-        });
-
-        if (targets.size() > 1 || targets.doesNotContain(sender)) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + targets.size() + " §eplayers to your location.");
-        } else if (targets.doesNotContain(sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + target.getName() + "§e to your location."));
-        }
+        }, this.canSkip("teleport players", targets, sender));
     }
 
     private String beautifyLocation(Location location) {

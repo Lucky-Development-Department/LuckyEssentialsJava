@@ -110,7 +110,7 @@ public class ClearCommand extends CommandClass {
             } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e."));
             }
-        }, this.canSkip("clear", targets, sender));
+        }, this.canSkip("clear player inventory", targets, sender));
     }
 
     @Suggestions("inventoryScopes")

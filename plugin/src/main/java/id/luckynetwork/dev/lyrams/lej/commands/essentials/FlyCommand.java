@@ -53,37 +53,39 @@ public class FlyCommand extends CommandClass {
             return;
         }
 
-        targets.forEach(target -> {
-            switch (toggleType) {
-                case ON: {
-                    target.setAllowFlight(true);
-                    break;
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target -> {
+                switch (toggleType) {
+                    case ON: {
+                        target.setAllowFlight(true);
+                        break;
+                    }
+                    case OFF: {
+                        target.setAllowFlight(false);
+                        break;
+                    }
+                    case TOGGLE: {
+                        target.setAllowFlight(!target.getAllowFlight());
+                        break;
+                    }
                 }
-                case OFF: {
-                    target.setAllowFlight(false);
-                    break;
-                }
-                case TOGGLE: {
-                    target.setAllowFlight(!target.getAllowFlight());
-                    break;
-                }
-            }
 
-            boolean allowFlight = target.getAllowFlight();
-            if (silent == null || !silent) {
-                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFlight mode: " + Utils.colorizeTrueFalse(allowFlight, TrueFalseType.ON_OFF) + "§e.");
-            }
-        });
+                boolean allowFlight = target.getAllowFlight();
+                if (silent == null || !silent) {
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFlight mode: " + Utils.colorizeTrueFalse(allowFlight, TrueFalseType.ON_OFF) + "§e.");
+                }
+            });
 
-        if (others) {
-            if (targets.size() == 1) {
+            if (others) {
+                if (targets.size() == 1) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e."));
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled flight for §d" + targets.size() + " §eplayers.");
+                }
+            } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e."));
-            } else {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled flight for §d" + targets.size() + " §eplayers.");
             }
-        } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFlight mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.getAllowFlight(), TrueFalseType.ON_OFF) + "§e."));
-        }
+        }, this.canSkip("toggle flight", targets, sender));
     }
 
 }

@@ -53,41 +53,43 @@ public class GodCommand extends CommandClass {
             return;
         }
 
-        targets.forEach(target -> {
-            switch (toggleType) {
-                case ON: {
-                    Utils.applyMetadata(target, "GOD", true);
-                    break;
-                }
-                case OFF: {
-                    Utils.removeMetadata(target, "GOD");
-                    break;
-                }
-                case TOGGLE: {
-                    if (target.hasMetadata("GOD")) {
-                        Utils.removeMetadata(target, "GOD");
-                    } else {
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target -> {
+                switch (toggleType) {
+                    case ON: {
                         Utils.applyMetadata(target, "GOD", true);
+                        break;
                     }
-                    break;
+                    case OFF: {
+                        Utils.removeMetadata(target, "GOD");
+                        break;
+                    }
+                    case TOGGLE: {
+                        if (target.hasMetadata("GOD")) {
+                            Utils.removeMetadata(target, "GOD");
+                        } else {
+                            Utils.applyMetadata(target, "GOD", true);
+                        }
+                        break;
+                    }
                 }
-            }
 
-            boolean godMode = target.hasMetadata("GOD");
-            if (silent == null || !silent) {
-                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode: " + Utils.colorizeTrueFalse(godMode, TrueFalseType.ON_OFF) + "§e.");
-            }
-        });
+                boolean godMode = target.hasMetadata("GOD");
+                if (silent == null || !silent) {
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode: " + Utils.colorizeTrueFalse(godMode, TrueFalseType.ON_OFF) + "§e.");
+                }
+            });
 
-        if (others) {
-            if (targets.size() == 1) {
+            if (others) {
+                if (targets.size() == 1) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata("GOD"), TrueFalseType.ON_OFF) + "§e."));
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled god for §d" + targets.size() + " §eplayers.");
+                }
+            } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata("GOD"), TrueFalseType.ON_OFF) + "§e."));
-            } else {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled god for §d" + targets.size() + " §eplayers.");
             }
-        } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eGod mode for §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata("GOD"), TrueFalseType.ON_OFF) + "§e."));
-        }
+        }, this.canSkip("godmode toggle", targets, sender));
     }
 
 }

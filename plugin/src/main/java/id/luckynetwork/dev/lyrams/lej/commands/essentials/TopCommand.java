@@ -37,28 +37,30 @@ public class TopCommand extends CommandClass {
             return;
         }
 
-        targets.forEach(target -> {
-            Location targetLocation = target.getLocation();
-            Block highest = target.getWorld().getHighestBlockAt(targetLocation.getBlockX(), targetLocation.getBlockZ());
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target -> {
+                Location targetLocation = target.getLocation();
+                Block highest = target.getWorld().getHighestBlockAt(targetLocation.getBlockX(), targetLocation.getBlockZ());
 
-            Location newLocation = targetLocation.clone();
-            newLocation.setY(highest.getY());
-            target.teleport(newLocation);
+                Location newLocation = targetLocation.clone();
+                newLocation.setY(highest.getY());
+                target.teleport(newLocation);
 
-            if (silent == null || !silent) {
-                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been teleported to the highest block!");
-            }
-        });
+                if (silent == null || !silent) {
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been teleported to the highest block!");
+                }
+            });
 
-        if (others) {
-            if (targets.size() == 1) {
+            if (others) {
+                if (targets.size() == 1) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + target.getName() + "§e."));
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + targets.size() + " §eplayers.");
+                }
+            } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + target.getName() + "§e."));
-            } else {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + targets.size() + " §eplayers.");
             }
-        } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + target.getName() + "§e."));
-        }
+        },this.canSkip("teleport player to highest block", targets, sender));
     }
 
 }

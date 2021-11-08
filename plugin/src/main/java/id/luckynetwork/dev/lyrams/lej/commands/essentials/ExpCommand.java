@@ -137,41 +137,43 @@ public class ExpCommand extends CommandClass {
 
         boolean finalIsLevel = isLevel;
         int finalAmount1 = finalAmount;
-        targets.forEach(target -> {
-            if (finalIsLevel) {
-                target.giveExpLevels(-finalAmount1);
-                if (silent == null || !silent) {
-                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + finalAmount1 + " §efrom your player level.");
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target -> {
+                if (finalIsLevel) {
+                    target.giveExpLevels(-finalAmount1);
+                    if (silent == null || !silent) {
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + finalAmount1 + " §efrom your player level.");
+                    }
+                } else {
+                    target.giveExp(-finalAmount1);
+                    if (silent == null || !silent) {
+                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + finalAmount1 + " §efrom your player experience.");
+                    }
                 }
-            } else {
-                target.giveExp(-finalAmount1);
-                if (silent == null || !silent) {
-                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + finalAmount1 + " §efrom your player experience.");
-                }
-            }
-        });
+            });
 
-        if (others) {
-            if (targets.size() == 1) {
+            if (others) {
+                if (targets.size() == 1) {
+                    if (finalIsLevel) {
+                        targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §elevel from §d" + target.getName() + "§e."));
+                    } else {
+                        targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §eexperience from §d" + target.getName() + "§e."));
+                    }
+                } else {
+                    if (finalIsLevel) {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §elevel from §d" + targets.size() + " §eplayers.");
+                    } else {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §eexperience from §d" + targets.size() + " §eplayers.");
+                    }
+                }
+            } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                 if (finalIsLevel) {
                     targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §elevel from §d" + target.getName() + "§e."));
                 } else {
                     targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §eexperience from §d" + target.getName() + "§e."));
                 }
-            } else {
-                if (finalIsLevel) {
-                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §elevel from §d" + targets.size() + " §eplayers.");
-                } else {
-                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §eexperience from §d" + targets.size() + " §eplayers.");
-                }
             }
-        } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            if (finalIsLevel) {
-                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §elevel from §d" + target.getName() + "§e."));
-            } else {
-                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §6" + finalAmount1 + " §eexperience from §d" + target.getName() + "§e."));
-            }
-        }
+        }, this.canSkip("change player exp", targets, sender));
     }
 
     @CommandMethod("exp|xp set <target> <amount>")

@@ -56,32 +56,34 @@ public class SpeedCommand extends CommandClass {
 
         speedType.setSpeed(Math.min(Math.max(speedType.getSpeed(), 0.0001f), 10f));
         speedType.setSpeed(speedType.getSpeed() / 10f);
-        targets.forEach(target -> {
-            switch (speedType) {
-                case WALKING: {
-                    target.setWalkSpeed(speedType.getSpeed());
-                    break;
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target -> {
+                switch (speedType) {
+                    case WALKING: {
+                        target.setWalkSpeed(speedType.getSpeed());
+                        break;
+                    }
+                    case FLYING: {
+                        target.setFlySpeed(speedType.getSpeed());
+                        break;
+                    }
                 }
-                case FLYING: {
-                    target.setFlySpeed(speedType.getSpeed());
-                    break;
+
+                if (silent == null || !silent) {
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour §d" + speedType.getDisplay() + " §espeed has been set to §d" + speedType.getSpeed() + "§e.");
                 }
-            }
+            });
 
-            if (silent == null || !silent) {
-                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour §d" + speedType.getDisplay() + " §espeed has been set to §d" + speedType.getSpeed() + "§e.");
-            }
-        });
-
-        if (others) {
-            if (targets.size() == 1) {
+            if (others) {
+                if (targets.size() == 1) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §efor §d" + target.getName() + "§e."));
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §espeed for §d" + targets.size() + " §eplayers.");
+                }
+            } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §efor §d" + target.getName() + "§e."));
-            } else {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §espeed for §d" + targets.size() + " §eplayers.");
             }
-        } else if (!(sender instanceof Player) || targets.doesNotContain((Player) sender)) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSet §6" + speedType.getDisplay() + " §espeed to §b" + speedType.getSpeed() + " §efor §d" + target.getName() + "§e."));
-        }
+        }, this.canSkip("set player speed", targets, sender));
     }
 
     @Suggestions("speedTypes")

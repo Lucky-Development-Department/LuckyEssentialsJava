@@ -35,23 +35,25 @@ public class FeedCommand extends CommandClass {
             return;
         }
 
-        targets.forEach(target -> {
-            target.setFoodLevel(20);
-            target.setSaturation(20f);
-            if (silent == null || !silent) {
-                target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been fed!");
-            }
-        });
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target -> {
+                target.setFoodLevel(20);
+                target.setSaturation(20f);
+                if (silent == null || !silent) {
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been fed!");
+                }
+            });
 
-        if (others) {
-            if (targets.size() == 1) {
+            if (others) {
+                if (targets.size() == 1) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFed §d" + target.getName() + "§e."));
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFed §d" + targets.size() + " §eplayers.");
+                }
+            } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFed §d" + target.getName() + "§e."));
-            } else {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFed §d" + targets.size() + " §eplayers.");
             }
-        } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eFed §d" + target.getName() + "§e."));
-        }
+        }, this.canSkip("feed", targets, sender));
     }
 
 }

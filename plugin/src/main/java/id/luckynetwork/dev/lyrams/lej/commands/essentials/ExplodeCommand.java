@@ -46,14 +46,17 @@ public class ExplodeCommand extends CommandClass {
             }
         }
 
-        locations.forEach(location -> location.getWorld().createExplosion(location, power, damage));
+        TargetsCallback finalTargets = targets;
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            locations.forEach(location -> location.getWorld().createExplosion(location, power, damage));
 
-        boolean others = !targets.isEmpty() && targets.size() > 1;
-        if (others) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eExploded §d" + targets.size() + " §eplayers.");
-        } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eExploded §d" + target.getName() + "§e."));
-        }
+            boolean others = !finalTargets.isEmpty() && finalTargets.size() > 1;
+            if (others) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eExploded §d" + finalTargets.size() + " §eplayers.");
+            } else if ((!(sender instanceof Player)) || (finalTargets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
+                finalTargets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eExploded §d" + target.getName() + "§e."));
+            }
+        }, this.canSkip("explode", targets, sender));
     }
 
 }

@@ -59,102 +59,104 @@ public class FixCommand extends CommandClass {
             return;
         }
 
-        targets.forEach(target -> {
-            switch (inventoryScope) {
-                case ALL: {
-                    for (ItemStack content : target.getInventory().getContents()) {
-                        if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
-                            continue;
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target -> {
+                switch (inventoryScope) {
+                    case ALL: {
+                        for (ItemStack content : target.getInventory().getContents()) {
+                            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
+                                continue;
+                            }
+
+                            content.setDurability((short) 0);
+                        }
+                        for (ItemStack content : target.getInventory().getArmorContents()) {
+                            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
+                                continue;
+                            }
+
+                            content.setDurability((short) 0);
+                        }
+                        target.updateInventory();
+
+                        if (silent == null || !silent) {
+                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour items have been repaired.");
+                        }
+                        break;
+                    }
+                    case HAND: {
+                        ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(target);
+                        if (itemInHand == null || itemInHand.getType().isBlock() || itemInHand.getDurability() == 0 || itemInHand.getType().getMaxDurability() < 1) {
+                            return;
                         }
 
-                        content.setDurability((short) 0);
+                        itemInHand.setDurability((short) 0);
+                        target.updateInventory();
+
+                        if (silent == null || !silent) {
+                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour item in hand has been repaired.");
+                        }
+                        break;
                     }
-                    for (ItemStack content : target.getInventory().getArmorContents()) {
-                        if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
-                            continue;
+                    case ARMOR: {
+                        for (ItemStack content : target.getInventory().getArmorContents()) {
+                            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
+                                continue;
+                            }
+
+                            content.setDurability((short) 0);
+                        }
+                        target.updateInventory();
+
+                        if (silent == null || !silent) {
+                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour armor has been repaired.");
+                        }
+                        break;
+                    }
+                    case SPECIFIC: {
+                        for (ItemStack content : target.getInventory().getContents()) {
+                            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
+                                continue;
+                            }
+
+                            if (content.getType() != inventoryScope.getItemStack().getType()) {
+                                continue;
+                            }
+
+                            content.setDurability((short) 0);
                         }
 
-                        content.setDurability((short) 0);
-                    }
-                    target.updateInventory();
+                        for (ItemStack content : target.getInventory().getArmorContents()) {
+                            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
+                                continue;
+                            }
 
-                    if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour items have been repaired.");
+                            if (content.getType() != inventoryScope.getItemStack().getType()) {
+                                continue;
+                            }
+
+                            content.setDurability((short) 0);
+                        }
+                        target.updateInventory();
+
+                        if (silent == null || !silent) {
+                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired all §d" + inventoryScope.getItemStack().getType() + " §ein your inventory.");
+                        }
+                        break;
                     }
-                    break;
                 }
-                case HAND: {
-                    ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(target);
-                    if (itemInHand == null || itemInHand.getType().isBlock() || itemInHand.getDurability() == 0 || itemInHand.getType().getMaxDurability() < 1) {
-                        return;
-                    }
+            });
 
-                    itemInHand.setDurability((short) 0);
-                    target.updateInventory();
-
-                    if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour item in hand has been repaired.");
-                    }
-                    break;
+            if (others) {
+                if (targets.size() == 1) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e."));
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + targets.size() + " §eplayers.");
                 }
-                case ARMOR: {
-                    for (ItemStack content : target.getInventory().getArmorContents()) {
-                        if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
-                            continue;
-                        }
-
-                        content.setDurability((short) 0);
-                    }
-                    target.updateInventory();
-
-                    if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour armor has been repaired.");
-                    }
-                    break;
-                }
-                case SPECIFIC: {
-                    for (ItemStack content : target.getInventory().getContents()) {
-                        if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
-                            continue;
-                        }
-
-                        if (content.getType() != inventoryScope.getItemStack().getType()) {
-                            continue;
-                        }
-
-                        content.setDurability((short) 0);
-                    }
-
-                    for (ItemStack content : target.getInventory().getArmorContents()) {
-                        if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
-                            continue;
-                        }
-
-                        if (content.getType() != inventoryScope.getItemStack().getType()) {
-                            continue;
-                        }
-
-                        content.setDurability((short) 0);
-                    }
-                    target.updateInventory();
-
-                    if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired all §d" + inventoryScope.getItemStack().getType() + " §ein your inventory.");
-                    }
-                    break;
-                }
-            }
-        });
-
-        if (others) {
-            if (targets.size() == 1) {
+            } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e."));
-            } else {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + targets.size() + " §eplayers.");
             }
-        } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRepaired §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e."));
-        }
+        }, this.canSkip("repair", targets, sender));
     }
 
     @Suggestions("inventoryScopes")

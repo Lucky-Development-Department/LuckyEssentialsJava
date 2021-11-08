@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collections;
+
 public class KickAllCommand extends CommandClass {
 
     @CommandMethod("kickall [reason]")
@@ -24,12 +26,14 @@ public class KickAllCommand extends CommandClass {
         }
 
         String message = reason == null ? "§cKicked by a staff member!" : Utils.colorize(reason);
-        Bukkit.getOnlinePlayers().forEach(target -> {
-            if (target != sender && !Utils.checkPermission(target, "kickall.bypass", false, false, true, null)) {
-                target.kickPlayer(message);
-            }
-        });
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            Bukkit.getOnlinePlayers().forEach(target -> {
+                if (target != sender && !Utils.checkPermission(target, "kickall.bypass", false, false, true, null)) {
+                    target.kickPlayer(message);
+                }
+            });
 
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eKicked all players.");
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eKicked all players.");
+        }, sender, Collections.singletonList(plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §lkick all§6?"));
     }
 }
