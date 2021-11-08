@@ -58,57 +58,59 @@ public class ClearCommand extends CommandClass {
             return;
         }
 
-        targets.forEach(target -> {
-            switch (inventoryScope) {
-                case ALL: {
-                    target.getInventory().clear();
-                    target.getInventory().setArmorContents(null);
-                    target.updateInventory();
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target -> {
+                switch (inventoryScope) {
+                    case ALL: {
+                        target.getInventory().clear();
+                        target.getInventory().setArmorContents(null);
+                        target.updateInventory();
 
-                    if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour inventory has been cleared!");
+                        if (silent == null || !silent) {
+                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour inventory has been cleared!");
+                        }
+                        break;
                     }
-                    break;
-                }
-                case HAND: {
-                    target.getInventory().clear(target.getInventory().getHeldItemSlot());
-                    target.updateInventory();
+                    case HAND: {
+                        target.getInventory().clear(target.getInventory().getHeldItemSlot());
+                        target.updateInventory();
 
-                    if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour item in hand has been cleared!");
+                        if (silent == null || !silent) {
+                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour item in hand has been cleared!");
+                        }
+                        break;
                     }
-                    break;
-                }
-                case ARMOR: {
-                    target.getInventory().setArmorContents(null);
-                    target.updateInventory();
+                    case ARMOR: {
+                        target.getInventory().setArmorContents(null);
+                        target.updateInventory();
 
-                    if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour armor has been cleared!");
+                        if (silent == null || !silent) {
+                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour armor has been cleared!");
+                        }
+                        break;
                     }
-                    break;
-                }
-                case SPECIFIC: {
-                    target.getInventory().remove(inventoryScope.getItemStack().getType());
-                    target.updateInventory();
+                    case SPECIFIC: {
+                        target.getInventory().remove(inventoryScope.getItemStack().getType());
+                        target.updateInventory();
 
-                    if (silent == null || !silent) {
-                        target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared all §d" + inventoryScope.getItemStack().getType() + " §efrom your inventory.");
+                        if (silent == null || !silent) {
+                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared all §d" + inventoryScope.getItemStack().getType() + " §efrom your inventory.");
+                        }
+                        break;
                     }
-                    break;
                 }
-            }
-        });
+            });
 
-        if (others) {
-            if (targets.size() == 1) {
+            if (others) {
+                if (targets.size() == 1) {
+                    targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e."));
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + targets.size() + " §eplayers.");
+                }
+            } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e."));
-            } else {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + targets.size() + " §eplayers.");
             }
-        } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCleared §6" + inventoryScope.getDisplay() + " §efor §d" + target.getName() + "§e."));
-        }
+        }, this.canSkip("clear", targets, sender));
     }
 
     @Suggestions("inventoryScopes")
