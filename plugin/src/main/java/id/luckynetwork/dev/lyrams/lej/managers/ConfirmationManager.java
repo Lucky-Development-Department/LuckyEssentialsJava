@@ -1,6 +1,7 @@
 package id.luckynetwork.dev.lyrams.lej.managers;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
+import id.luckynetwork.dev.lyrams.lej.callbacks.CanSkipCallback;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -59,6 +60,13 @@ public class ConfirmationManager {
      */
     public void requestConfirmation(Callable callable, CommandSender sender) {
         this.requestConfirmation(callable, sender, false, null);
+    }
+
+    /**
+     * @see ConfirmationManager#requestConfirmation(Callable, CommandSender, boolean, List)
+     */
+    public void requestConfirmation(Callable callable, CanSkipCallback skipCallback) {
+        this.requestConfirmation(callable, skipCallback.getSender(), skipCallback.isCanSkip(), skipCallback.getReason());
     }
 
     /**

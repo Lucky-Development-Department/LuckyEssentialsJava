@@ -3,12 +3,14 @@ package id.luckynetwork.dev.lyrams.lej.commands.api;
 import cloud.commandframework.annotations.suggestions.Suggestions;
 import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
+import id.luckynetwork.dev.lyrams.lej.callbacks.CanSkipCallback;
 import id.luckynetwork.dev.lyrams.lej.callbacks.IsDoubleCallback;
 import id.luckynetwork.dev.lyrams.lej.callbacks.IsIntegerCallback;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.HumanEntity;
@@ -638,6 +640,43 @@ public abstract class CommandClass {
         }
 
         return enchantmentMap;
+    }
+
+    public CanSkipCallback canSkip(String action, TargetsCallback targetsCallback, CommandSender sender) {
+        if (targetsCallback.size() >= 75) {
+            return new CanSkipCallback(sender, false, Collections.singletonList(
+                    plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §l" + action + " §6on §l" + targetsCallback.size() + " §6players?"
+            ));
+        }
+
+        boolean playerSender = sender instanceof Player;
+
+        World world = null;
+        for (Player target : targetsCallback.getTargets()) {
+            if (world != null) {
+                if (world != target.getWorld()) {
+                    return new CanSkipCallback(sender, false, Arrays.asList(
+                            plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §l" + action + " §6on §l" + targetsCallback.size() + " §6players?",
+                            plugin.getMainConfigManager().getPrefix() + "§6Some players are scattered across different worlds."
+                    ));
+                }
+
+                if (playerSender) {
+                    if (((Player) sender).getWorld() == target.getWorld() && ((Player) sender).getLocation().distanceSquared(target.getLocation()) >= 50) {
+                        return new CanSkipCallback(sender, false, Arrays.asList(
+                                plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §l" + action + " §6on §l" + targetsCallback.size() + " §6players?",
+                                plugin.getMainConfigManager().getPrefix() + "§6Some players are located really far away from you."
+                        ));
+                    }
+                }
+
+                continue;
+            }
+
+            world = target.getWorld();
+        }
+
+        return new CanSkipCallback(sender, true, null);
     }
 
     @Suggestions("players")

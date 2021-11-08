@@ -61,8 +61,7 @@ public class SmiteCommand extends CommandClass {
                     } else if ((!(sender instanceof Player)) || (finalTargets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                         finalTargets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eSmitten §d" + target.getName() + "§e."));
                     }
-                }, sender, targets.size() <= 5,
-                Collections.singletonList(plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to smite §l" + targets.size() + " §6players?"));
+                }, this.canSkip("smite", targets, sender));
     }
 
 }
