@@ -37,7 +37,7 @@ public class ConfirmationManager {
             warnings.forEach(player::sendMessage);
         }
 
-        player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§6Please type §l/less confirm §6to confirm your action.");
+        player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§ePlease type §d/less confirm §eto confirm your action.");
         this.confirmationMap.put(player, callable);
     }
 
@@ -76,6 +76,7 @@ public class ConfirmationManager {
      */
     public void confirm(Player player) {
         if (!this.confirmationMap.containsKey(player)) {
+            player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou don't have any pending action!");
             return;
         }
 

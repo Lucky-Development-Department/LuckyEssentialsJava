@@ -124,7 +124,7 @@ public class TeleportCommand extends CommandClass {
                     } else {
                         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + Bukkit.getOnlinePlayers().size() + " §eplayers to §6" + destination.getName() + "§e.");
                     }
-                }), sender, Collections.singletonList(plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §lteleport all player§6?"));
+                }), sender, Collections.singletonList(plugin.getMainConfigManager().getPrefix() + "§eAre you sure you want to execute §dteleport all player§e?"));
     }
 
     @CommandMethod("tppos <location>")

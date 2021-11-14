@@ -656,7 +656,7 @@ public abstract class CommandClass {
 
         if (targetsCallback.size() >= 75) {
             return new CanSkipCallback(sender, false, Collections.singletonList(
-                    plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §l" + action + " §6on §l" + targetsCallback.size() + " §6players?"
+                    plugin.getMainConfigManager().getPrefix() + "§eAre you sure you want to execute §d" + action + " §eon §b" + targetsCallback.size() + " §eplayers?"
             ));
         }
 
@@ -667,16 +667,16 @@ public abstract class CommandClass {
             if (world != null) {
                 if (world != target.getWorld()) {
                     return new CanSkipCallback(sender, false, Arrays.asList(
-                            plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §l" + action + " §6on §l" + targetsCallback.size() + " §6players?",
-                            plugin.getMainConfigManager().getPrefix() + "§6Some players are scattered across different worlds."
+                            plugin.getMainConfigManager().getPrefix() + "§eAre you sure you want to execute §d" + action + " §eon §b" + targetsCallback.size() + " §eplayers?",
+                            plugin.getMainConfigManager().getPrefix() + "§eSome players are scattered across different worlds."
                     ));
                 }
 
                 if (playerSender) {
                     if (((Player) sender).getWorld() == target.getWorld() && ((Player) sender).getLocation().distanceSquared(target.getLocation()) >= 50) {
                         return new CanSkipCallback(sender, false, Arrays.asList(
-                                plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §l" + action + " §6on §l" + targetsCallback.size() + " §6players?",
-                                plugin.getMainConfigManager().getPrefix() + "§6Some players are located really far away from you."
+                                plugin.getMainConfigManager().getPrefix() + "§eAre you sure you want to execute §d" + action + " §eon §b" + targetsCallback.size() + " §eplayers?",
+                                plugin.getMainConfigManager().getPrefix() + "§eSome players are located really far away from you."
                         ));
                     }
                 }

@@ -34,6 +34,6 @@ public class KickAllCommand extends CommandClass {
             });
 
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eKicked all players.");
-        }, sender, Collections.singletonList(plugin.getMainConfigManager().getPrefix() + "§6Are you sure you want to execute §lkick all§6?"));
+        }, sender, Collections.singletonList(plugin.getMainConfigManager().getPrefix() + "§eAre you sure you want to execute §dkick all§e?"));
     }
 }
