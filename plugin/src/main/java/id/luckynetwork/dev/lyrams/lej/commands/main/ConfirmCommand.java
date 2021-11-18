@@ -11,7 +11,7 @@ public class ConfirmCommand extends CommandClass {
 
     @ProxiedBy("confirm")
     @CommandMethod("luckyessentials confirm|yes|accept")
-    @CommandDescription("Information about the plugin")
+    @CommandDescription("Confirms a pending command action")
     public void confirmCommand(
             final @NonNull Player sender
     ) {
@@ -20,7 +20,7 @@ public class ConfirmCommand extends CommandClass {
 
     @ProxiedBy("cancel")
     @CommandMethod("luckyessentials cancel|undo|deny|no")
-    @CommandDescription("Information about the plugin")
+    @CommandDescription("Cancels a pending command action")
     public void cancelCommand(
             final @NonNull Player sender
     ) {
