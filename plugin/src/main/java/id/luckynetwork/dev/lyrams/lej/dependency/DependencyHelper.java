@@ -91,11 +91,12 @@ public class DependencyHelper {
      * loads all dependencies on a specific directory
      *
      * @param dirPath the directory path
+     * @param retarded whether to load the retarded dependencies
      * @throws IOException            if the dependency file doesn't exist
      * @throws IllegalAccessException if the dependency file isn't a .jar
      */
     @SuppressWarnings("ConstantConditions")
-    public void loadDir(Path dirPath) throws IOException, IllegalAccessException {
+    public void loadDir(Path dirPath, boolean retarded) throws IOException, IllegalAccessException {
         File dir = dirPath.toFile();
         if (!dir.isDirectory()) {
             return;
@@ -103,6 +104,9 @@ public class DependencyHelper {
 
         for (File file : dir.listFiles()) {
             if (!file.getName().endsWith(".jar")) {
+                continue;
+            }
+            if (!retarded && file.getName().contains("adventure-api")) {
                 continue;
             }
             this.load(file);

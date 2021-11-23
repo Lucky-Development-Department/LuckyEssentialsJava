@@ -57,6 +57,7 @@ public class LuckyEssentials extends JavaPlugin {
 
         instance = this;
         this.loadDependencies();
+        this.loadRetardedDependencies();
         this.loadVersionSupport();
 
         this.loadConfigs();
@@ -120,10 +121,12 @@ public class LuckyEssentials extends JavaPlugin {
 
             for (JsonElement element : dependencies) {
                 JsonObject dependency = element.getAsJsonObject();
-                dependencyMap.put(
-                        dependency.get("name").getAsString(),
-                        dependency.get("url").getAsString()
-                );
+                if (!dependency.get("name").getAsString().contains("adventure-api")) {
+                    dependencyMap.put(
+                            dependency.get("name").getAsString(),
+                            dependency.get("url").getAsString()
+                    );
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,7 +151,72 @@ public class LuckyEssentials extends JavaPlugin {
         File dir = new File("plugins/LuckyEssentials/libs");
         try {
             helper.download(dependencyMap, dir.toPath());
-            helper.loadDir(dir.toPath());
+            helper.loadDir(dir.toPath(), false);
+        } catch (IOException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * downloads and/or loads retarded dependencies
+     */
+    private void loadRetardedDependencies() {
+        try {
+            Class.forName("net.kyori.adventure.sound.Sound");
+            return;
+        } catch (ClassNotFoundException ignored) {
+        }
+
+        this.getLogger().info("Loading and injecting retarded dependencies...");
+        Map<String, String> dependencyMap = new HashMap<>();
+
+        InputStream stream = null;
+        InputStreamReader reader = null;
+        try {
+            stream = LuckyEssentials.class.getClassLoader().getResourceAsStream("dependencies-retarded.json");
+
+            assert stream != null;
+            reader = new InputStreamReader(stream);
+
+            JsonParser parser = new JsonParser();
+            JsonArray dependencies = parser.parse(reader).getAsJsonArray();
+            if (dependencies.size() == 0) {
+                return;
+            }
+
+            for (JsonElement element : dependencies) {
+                JsonObject dependency = element.getAsJsonObject();
+                if (dependency.get("name").getAsString().contains("adventure-api")) {
+                    dependencyMap.put(
+                            dependency.get("name").getAsString(),
+                            dependency.get("url").getAsString()
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        DependencyHelper helper = new DependencyHelper(LuckyEssentials.class.getClassLoader());
+        File dir = new File("plugins/LuckyEssentials/libs");
+        try {
+            helper.download(dependencyMap, dir.toPath());
+            helper.loadDir(dir.toPath(), true);
         } catch (IOException | IllegalAccessException e) {
             e.printStackTrace();
         }
