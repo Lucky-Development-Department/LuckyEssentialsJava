@@ -5,6 +5,9 @@ import id.luckynetwork.dev.lyrams.lej.config.ConfigFile;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerLoginEvent;
 
 @Getter
 @Setter
@@ -35,5 +38,25 @@ public class SlotsManager {
         plugin.getSlotsConfig().set("deny-message", this.denyMessage);
 
         plugin.getSlotsConfig().save();
+    }
+
+    public void checkJoin(PlayerLoginEvent event) {
+        if (this.enabled) {
+            PlayerLoginEvent.Result result = event.getResult();
+            if (result.equals(PlayerLoginEvent.Result.KICK_FULL) || result.equals(PlayerLoginEvent.Result.ALLOWED)) {
+                int currentOnline = Bukkit.getOnlinePlayers().size();
+                if (currentOnline < plugin.getSlotsManager().getMaxPlayers()) {
+                    event.allow();
+                    return;
+                }
+
+                Player player = event.getPlayer();
+                if (Utils.checkPermission(player, "join_full")) {
+                    event.allow();
+                } else {
+                    event.disallow(PlayerLoginEvent.Result.KICK_FULL, plugin.getSlotsManager().getDenyMessage());
+                }
+            }
+        }
     }
 }

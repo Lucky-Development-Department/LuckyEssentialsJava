@@ -6,6 +6,7 @@ import id.luckynetwork.dev.lyrams.lej.enums.settings.WhitelistCheckMode;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,5 +74,29 @@ public class WhitelistManager {
         });
 
         plugin.getWhitelistConfig().save();
+    }
+
+    public boolean canJoin(Player player) {
+        if (!this.enabled) {
+            return true;
+        }
+
+        boolean allowed = false;
+        switch (plugin.getWhitelistManager().getCheckMode()) {
+            case UUID: {
+                allowed = plugin.getWhitelistManager().getWhitelistedList().stream().map(WhitelistData::getUuid).anyMatch(it -> it.equals(player.getUniqueId().toString()));
+                break;
+            }
+            case NAME: {
+                allowed = plugin.getWhitelistManager().getWhitelistedList().stream().map(WhitelistData::getName).anyMatch(it -> it.equals(player.getName()));
+                break;
+            }
+            case BOTH: {
+                allowed = plugin.getWhitelistManager().getWhitelistedList().stream().anyMatch(it -> it.getUuid().equals(player.getUniqueId().toString()) && it.getName().equals(player.getName()));
+                break;
+            }
+        }
+
+        return allowed;
     }
 }
