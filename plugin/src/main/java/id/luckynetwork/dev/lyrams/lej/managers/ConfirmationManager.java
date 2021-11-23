@@ -91,6 +91,11 @@ public class ConfirmationManager {
      * @param player the player who has the code pending
      */
     public void deleteConfirmation(Player player) {
+        if (!this.confirmationMap.containsKey(player)) {
+            player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou don't have any pending action!");
+            return;
+        }
+
         this.confirmationMap.remove(player);
     }
 
