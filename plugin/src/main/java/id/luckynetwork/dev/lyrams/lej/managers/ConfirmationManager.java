@@ -82,6 +82,7 @@ public class ConfirmationManager {
 
         player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§aAction confirmed.");
         this.confirmationMap.get(player).call();
+        this.confirmationMap.remove(player);
     }
 
 
