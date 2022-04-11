@@ -93,7 +93,9 @@ public class ConfirmationManager {
      */
     public void deleteConfirmation(Player player) {
         if (!this.confirmationMap.containsKey(player)) {
-            player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou don't have any pending action!");
+            if (player != null && player.isOnline()) {
+                player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou don't have any pending action!");
+            }
             return;
         }
 
