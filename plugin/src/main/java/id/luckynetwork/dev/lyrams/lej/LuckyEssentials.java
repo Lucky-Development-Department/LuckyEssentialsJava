@@ -254,9 +254,23 @@ public class LuckyEssentials extends JavaPlugin {
                 }
                 case "v1_14_R1":
                 case "v1_15_R1":
-                case "v1_16_R1": {
+                case "v1_16_R1":
+                case "v1_16_R3": {
                     support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.v1_16_R1");
                     this.getLogger().info("Loaded version support v1_16_R1");
+                    break;
+                }
+                case "v1_17_R1": {
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.v1_16_R1");
+//                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_17_R1.v1_17_R1");
+                    this.getLogger().info("Loaded version support v1_17_R1");
+                    break;
+                }
+                case "v1_18_R1":
+                case "v1_18_R2": {
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.v1_16_R1");
+//                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_18_R2.v1_18_R2");
+                    this.getLogger().info("Loaded version support v1_18_R2");
                     break;
                 }
                 default: {
@@ -267,7 +281,8 @@ public class LuckyEssentials extends JavaPlugin {
             }
 
             versionSupport = (VersionSupport) support.getConstructor(Class.forName("org.bukkit.plugin.Plugin")).newInstance(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException |
+                 IllegalAccessException e) {
             e.printStackTrace();
             this.getLogger().severe("Unsupported server version!");
             Bukkit.getPluginManager().disablePlugin(this);

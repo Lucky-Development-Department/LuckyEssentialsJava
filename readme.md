@@ -12,11 +12,17 @@ New features:
 - 0 dependency as it will automatically download them itself,
 - `/luckyessentials help` command,
 - more options for target selecting in commands(e.g. `/fly <target>` can now target random player(s)),
-- support for minecraft version 1.8.9, 1.12.2, 1.16.5,
+- support for minecraft version 1.8.9, 1.12.2, 1.16.5
 - command confirmation,
 - and more!
 
 > This plugin is still under development, expect bugs and lack of features!
+
+### Running Lucky Essentials in Java 16 and Java 17 (For Minecraft 1.17+)
+
+You need to add `--add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED` to your server startup command.
+
+This to bypass the Java 16 and Java 17 illegal reflective access issue due to dependency injecting.
 
 ### Wiki
 - [Soon™](https://www.youtube.com/watch?v=dQw4w9WgXcQ)

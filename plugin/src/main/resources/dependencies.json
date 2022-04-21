@@ -1,35 +1,35 @@
 [
   {
-    "name": "cloud-core-1.5.0.jar",
-    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-core/1.5.0/cloud-core-1.5.0.jar"
+    "name": "cloud-core-1.6.2.jar",
+    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-core/1.6.2/cloud-core-1.6.2.jar"
   },
   {
-    "name": "cloud-annotations-1.5.0.jar",
-    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-annotations/1.5.0/cloud-annotations-1.5.0.jar"
+    "name": "cloud-annotations-1.6.2.jar",
+    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-annotations/1.6.2/cloud-annotations-1.6.2.jar"
   },
   {
-    "name": "cloud-paper-1.5.0.jar",
-    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-paper/1.5.0/cloud-paper-1.5.0.jar"
+    "name": "cloud-paper-1.6.2.jar",
+    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-paper/1.6.2/cloud-paper-1.6.2.jar"
   },
   {
-    "name": "cloud-bukkit-1.5.0.jar",
-    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-bukkit/1.5.0/cloud-bukkit-1.5.0.jar"
+    "name": "cloud-bukkit-1.6.2.jar",
+    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-bukkit/1.6.2/cloud-bukkit-1.6.2.jar"
   },
   {
-    "name": "cloud-brigadier-1.5.0.jar",
-    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-brigadier/1.5.0/cloud-brigadier-1.5.0.jar"
+    "name": "cloud-brigadier-1.6.2.jar",
+    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-brigadier/1.6.2/cloud-brigadier-1.6.2.jar"
   },
   {
-    "name": "cloud-services-1.5.0.jar",
-    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-services/1.5.0/cloud-services-1.5.0.jar"
+    "name": "cloud-services-1.6.2.jar",
+    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-services/1.6.2/cloud-services-1.6.2.jar"
   },
   {
-    "name": "cloud-tasks-1.5.0.jar",
-    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-tasks/1.5.0/cloud-tasks-1.5.0.jar"
+    "name": "cloud-tasks-1.6.2.jar",
+    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-tasks/1.6.2/cloud-tasks-1.6.2.jar"
   },
   {
-    "name": "cloud-minecraft-extras-1.5.0.jar",
-    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-minecraft-extras/1.5.0/cloud-minecraft-extras-1.5.0.jar"
+    "name": "cloud-minecraft-extras-1.6.2.jar",
+    "url": "https://search.maven.org/remotecontent?filepath=cloud/commandframework/cloud-minecraft-extras/1.6.2/cloud-minecraft-extras-1.6.2.jar"
   },
   {
     "name": "adventure-key-4.9.3.jar",

@@ -2,3 +2,4 @@ name: @name@
 version: @version@
 author: LyraMS
 main: @mainClass@
+api-version: 1.13

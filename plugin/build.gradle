@@ -6,7 +6,7 @@ plugins {
 
 def pluginName = 'LuckyEssentials'
 group 'id.luckynetwork.dev.lyrams.lej'
-version '0.5.6-RELEASE'
+version '0.6.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -21,15 +21,15 @@ configurations {
 }
 
 dependencies {
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    compileOnly 'org.jetbrains:annotations:21.0.1'
-    compileOnly 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.jetbrains:annotations:23.0.0'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
-    compileOnly 'cloud.commandframework:cloud-paper:1.5.0'
-    compileOnly 'cloud.commandframework:cloud-core:1.5.0'
-    compileOnly 'cloud.commandframework:cloud-annotations:1.5.0'
-    compileOnly 'cloud.commandframework:cloud-minecraft-extras:1.5.0'
+    compileOnly 'cloud.commandframework:cloud-paper:1.6.2'
+    compileOnly 'cloud.commandframework:cloud-core:1.6.2'
+    compileOnly 'cloud.commandframework:cloud-annotations:1.6.2'
+    compileOnly 'cloud.commandframework:cloud-minecraft-extras:1.6.2'
     compileOnly 'net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT'
 
     extraLibs project(":version-support")
