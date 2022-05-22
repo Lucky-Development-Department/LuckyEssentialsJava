@@ -50,7 +50,7 @@ public class InvseeListeners {
             Entity rightClicked = event.getRightClicked();
             if (rightClicked.getType() == EntityType.PLAYER) {
                 Player player = event.getPlayer();
-                if (player.hasMetadata("vanished") && Utils.checkPermission(player, "invsee", false, false, false, null)) {
+                if (player.hasMetadata("vanished") && Utils.checkPermission(player, "invsee", false, false, true, null)) {
                     plugin.getInvseeManager().invsee(player, (Player) rightClicked);
                 }
             }
@@ -81,7 +81,7 @@ public class InvseeListeners {
 
                 if (whoClicked.hasMetadata("INVSEE")) {
                     refreshPlayer = whoClicked;
-                    if (!ownerPlayer.isOnline() || !Utils.checkPermission(whoClicked, "invsee.modify", false, false, false, null)) {
+                    if (!ownerPlayer.isOnline() || !Utils.checkPermission(whoClicked, "invsee.modify", false, false, true, null)) {
                         event.setCancelled(true);
                     } else {
                         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ownerPlayer::updateInventory, 1L);
@@ -140,7 +140,7 @@ public class InvseeListeners {
                 Player ownerPlayer = (Player) inventoryOwner;
                 if (whoClicked.hasMetadata("INVSEE")) {
                     refreshPlayer = (Player) whoClicked;
-                    if (!ownerPlayer.isOnline() || !Utils.checkPermission(whoClicked, "invsee.modify", false, false, false, null)) {
+                    if (!ownerPlayer.isOnline() || !Utils.checkPermission(whoClicked, "invsee.modify", false, false, true, null)) {
                         event.setCancelled(true);
                     } else if (plugin.getInvseeManager().getSeparatorSlots().contains(event.getSlot())) {
                         event.setCancelled(true);

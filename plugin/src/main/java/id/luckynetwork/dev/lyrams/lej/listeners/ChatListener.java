@@ -15,7 +15,7 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         if (plugin.getMainConfigManager().isChatLocked()) {
-            if (!Utils.checkPermission(event.getPlayer(), "chatlock.bypass", false, false, false, null)) {
+            if (!Utils.checkPermission(event.getPlayer(), "chatlock.bypass", false, false, true, null)) {
                 event.setCancelled(true);
             }
         }

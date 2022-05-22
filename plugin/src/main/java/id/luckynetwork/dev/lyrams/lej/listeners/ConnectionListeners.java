@@ -1,7 +1,7 @@
 package id.luckynetwork.dev.lyrams.lej.listeners;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
-import lombok.AllArgsConstructor;
+import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,10 +9,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-@AllArgsConstructor
 public class ConnectionListeners implements Listener {
 
     private final LuckyEssentials plugin;
+    private final boolean flyOnJoin;
+
+    public ConnectionListeners(LuckyEssentials plugin) {
+        this.plugin = plugin;
+        this.flyOnJoin = plugin.getMainConfig().getBoolean("fly-on-join");
+    }
 
     @EventHandler
     public void onLogin(PlayerLoginEvent event) {
@@ -20,6 +25,13 @@ public class ConnectionListeners implements Listener {
             boolean canJoin = plugin.getWhitelistManager().canJoin(event.getPlayer());
             if (!canJoin) {
                 event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, plugin.getWhitelistManager().getDenyMessage());
+                return;
+            }
+
+            if (Utils.checkPermission(event.getPlayer(), "fly.on-join", false, false, true, null)) {
+                if (flyOnJoin) {
+                    event.getPlayer().setAllowFlight(true);
+                }
             }
         }
     }
