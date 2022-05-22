@@ -30,7 +30,7 @@ public class FlyCommand extends CommandClass {
         TargetsCallback targets;
         ToggleType toggleType;
         if (!ToggleType.getToggle(targetName).equals(ToggleType.UNKNOWN) && sender instanceof Player) {
-            // the sender wants to change their own flight state
+            // the sender wants to change their own flight status
             targets = this.getTargets(sender, "self");
             toggleType = ToggleType.getToggle(targetName);
         } else {

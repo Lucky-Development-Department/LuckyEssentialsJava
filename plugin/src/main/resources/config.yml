@@ -4,3 +4,4 @@ use-confirmation: true
 chat-lock: false
 old-invsee: false
 discouraged: false
+fly-on-join: false

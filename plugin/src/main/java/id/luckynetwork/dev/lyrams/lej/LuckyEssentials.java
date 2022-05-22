@@ -74,7 +74,8 @@ public class LuckyEssentials extends JavaPlugin {
                 new ChatListener(this),
                 new ConnectionListeners(this),
                 new DamageListeners(),
-                new DeathListeners(this)
+                new DeathListeners(this),
+                new JoinListeners(this)
         );
         new TrollListeners(this);
         new InvseeListeners(this);
