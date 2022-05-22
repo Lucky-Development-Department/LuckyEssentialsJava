@@ -2,6 +2,7 @@ package id.luckynetwork.dev.lyrams.lej.listeners;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,16 +23,21 @@ public class ConnectionListeners implements Listener {
     @EventHandler
     public void onLogin(PlayerLoginEvent event) {
         if (event.getResult().equals(PlayerLoginEvent.Result.ALLOWED)) {
-            boolean canJoin = plugin.getWhitelistManager().canJoin(event.getPlayer());
+            Player player = event.getPlayer();
+            boolean canJoin = plugin.getWhitelistManager().canJoin(player);
             if (!canJoin) {
                 event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, plugin.getWhitelistManager().getDenyMessage());
                 return;
             }
 
-            if (Utils.checkPermission(event.getPlayer(), "fly.on-join", false, false, true, null)) {
-                if (flyOnJoin) {
-                    event.getPlayer().setAllowFlight(true);
-                }
+            if (flyOnJoin) {
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    if (player != null) {
+                        if (Utils.checkPermission(player, "fly.on-join", false, false, true, null)) {
+                            player.setAllowFlight(true);
+                        }
+                    }
+                }, 3L);
             }
         }
     }
