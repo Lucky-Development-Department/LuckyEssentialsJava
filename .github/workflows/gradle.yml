@@ -30,7 +30,7 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Clean artifaacts with Gradle
-        run: ./gradlew clean versionsupport:build versionsupport1_8:build versionsupport1_12:build versionsupport1_13:build versionsupport1_14:build versionsupport1_15:build versionsupport1_16:build versionsupport1_17:build versionsupport1_18:build plugin:build
+        run: ./gradlew clean version-support:build version-support1_8:build version-support1_12:build version-support1_13:build version-support1_14:build version-support1_15:build version-support1_16:build version-support1_17:build version-support1_18:build plugin:build
       - name: Build with Gradle
         run: ./gradlew build
       - uses: actions/upload-artifact@v2
