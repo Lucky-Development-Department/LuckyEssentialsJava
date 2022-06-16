@@ -467,6 +467,11 @@ public enum LItemStack {
     COMMANDBLOCK(new ItemStack(Material.COMMAND, 1, (short) 0)),
     CMD(new ItemStack(Material.COMMAND, 1, (short) 0)),
     COMMAND_BLOCK(new ItemStack(Material.COMMAND, 1, (short) 0)),
+    BREWER(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
+    BREWINGSTAND(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
+    BREWING(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
+    BREW(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
+    PACKEDICE(new ItemStack(Material.PACKED_ICE, 1, (short) 0)),
 
     // colorful(gay) bed
     WHITEBED(new ItemStack(Material.BED, 1, (short) 0)),
@@ -484,10 +489,48 @@ public enum LItemStack {
     BROWNBED(new ItemStack(Material.BED, 1, (short) 12)),
     GREENBED(new ItemStack(Material.BED, 1, (short) 13)),
     REDBED(new ItemStack(Material.BED, 1, (short) 14)),
-    BLACKBED(new ItemStack(Material.BED, 1, (short) 15));
+    BLACKBED(new ItemStack(Material.BED, 1, (short) 15)),
+
+    SHULKERSHELL(new ItemStack(Material.SHULKER_SHELL, 1, (short) 0)),
+    SHULKERBOX(new ItemStack(Material.MAGENTA_SHULKER_BOX, 1, (short) 0)),
+    SHULKER(new ItemStack(Material.MAGENTA_SHULKER_BOX, 1, (short) 0)),
+    WHITESHULKERBOX(new ItemStack(Material.WHITE_SHULKER_BOX, 1, (short) 0)),
+    WHITESHULKER(new ItemStack(Material.WHITE_SHULKER_BOX, 1, (short) 0)),
+    ORANGESHULKERBOX(new ItemStack(Material.ORANGE_SHULKER_BOX, 1, (short) 0)),
+    ORANGESHULKER(new ItemStack(Material.ORANGE_SHULKER_BOX, 1, (short) 0)),
+    MAGENTASHULKERBOX(new ItemStack(Material.MAGENTA_SHULKER_BOX, 1, (short) 0)),
+    MAGENTASHULKER(new ItemStack(Material.MAGENTA_SHULKER_BOX, 1, (short) 0)),
+    LIGHTBLUESHULKERBOX(new ItemStack(Material.LIGHT_BLUE_SHULKER_BOX, 1, (short) 0)),
+    LIGHTBLUESHULKER(new ItemStack(Material.LIGHT_BLUE_SHULKER_BOX, 1, (short) 0)),
+    YELLOWSHULKERBOX(new ItemStack(Material.YELLOW_SHULKER_BOX, 1, (short) 0)),
+    YELLOWSHULKER(new ItemStack(Material.YELLOW_SHULKER_BOX, 1, (short) 0)),
+    LIMESHULKERBOX(new ItemStack(Material.LIME_SHULKER_BOX, 1, (short) 0)),
+    LIMESHULKER(new ItemStack(Material.LIME_SHULKER_BOX, 1, (short) 0)),
+    PINKSHULKERBOX(new ItemStack(Material.PINK_SHULKER_BOX, 1, (short) 0)),
+    PINKSHULKER(new ItemStack(Material.PINK_SHULKER_BOX, 1, (short) 0)),
+    GRAYSHULKERBOX(new ItemStack(Material.GRAY_SHULKER_BOX, 1, (short) 0)),
+    GRAYSHULKER(new ItemStack(Material.GRAY_SHULKER_BOX, 1, (short) 0)),
+    LIGHTGRAYSHULKERBOX(new ItemStack(Material.SILVER_SHULKER_BOX, 1, (short) 0)),
+    LIGHTGRAYSHULKER(new ItemStack(Material.SILVER_SHULKER_BOX, 1, (short) 0)),
+    CYANSHULKERBOX(new ItemStack(Material.CYAN_SHULKER_BOX, 1, (short) 0)),
+    CYANSHULKER(new ItemStack(Material.CYAN_SHULKER_BOX, 1, (short) 0)),
+    PURPLESHULKERBOX(new ItemStack(Material.PURPLE_SHULKER_BOX, 1, (short) 0)),
+    PURPLESHULKER(new ItemStack(Material.PURPLE_SHULKER_BOX, 1, (short) 0)),
+    BLUESHULKERBOX(new ItemStack(Material.BLUE_SHULKER_BOX, 1, (short) 0)),
+    BLUESHULKER(new ItemStack(Material.BLUE_SHULKER_BOX, 1, (short) 0)),
+    BROWNSHULKERBOX(new ItemStack(Material.BROWN_SHULKER_BOX, 1, (short) 0)),
+    BROWNSHULKER(new ItemStack(Material.BROWN_SHULKER_BOX, 1, (short) 0)),
+    GREENSHULKERBOX(new ItemStack(Material.GREEN_SHULKER_BOX, 1, (short) 0)),
+    GREENSHULKER(new ItemStack(Material.GREEN_SHULKER_BOX, 1, (short) 0)),
+    REDSHULKERBOX(new ItemStack(Material.RED_SHULKER_BOX, 1, (short) 0)),
+    REDSHULKER(new ItemStack(Material.RED_SHULKER_BOX, 1, (short) 0)),
+    BLACKSHULKERBOX(new ItemStack(Material.BLACK_SHULKER_BOX, 1, (short) 0)),
+    BLACKSHULKER(new ItemStack(Material.BLACK_SHULKER_BOX, 1, (short) 0)),
+    
+    ;
 
     @Getter
-    ItemStack itemStack;
+    final ItemStack itemStack;
 
     LItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;

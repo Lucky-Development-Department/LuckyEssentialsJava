@@ -3,6 +3,7 @@ package id.luckynetwork.dev.lyrams.lej.versionsupport.v1_13_R1.enums;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Wood;
 
 @SuppressWarnings({"unused", "SpellCheckingInspection"})
 public enum LItemStack {
@@ -20,13 +21,13 @@ public enum LItemStack {
     COARSEDIRT(new ItemStack(Material.DIRT, 1)),
     PODZOL(new ItemStack(Material.DIRT, 1)),
 
-    WOOD(new ItemStack(Material.OAK_WOOD, 1)),
-    OAKWOOD(new ItemStack(Material.OAK_WOOD, 1)),
-    SPRUCEWOOD(new ItemStack(Material.SPRUCE_WOOD, 1)),
-    BIRCHWOOD(new ItemStack(Material.BIRCH_WOOD, 1)),
-    JUNGLEWOOD(new ItemStack(Material.JUNGLE_WOOD, 1)),
-    ACACIAWOOD(new ItemStack(Material.ACACIA_WOOD, 1)),
-    DARKOAKWOOD(new ItemStack(Material.DARK_OAK_WOOD, 1)),
+    PLANK(new ItemStack(Material.OAK_PLANKS, 1)),
+    OAKPLANKS(new ItemStack(Material.OAK_PLANKS, 1)),
+    SPRUCEPLANKS(new ItemStack(Material.SPRUCE_PLANKS, 1)),
+    BIRCHPLANKS(new ItemStack(Material.BIRCH_PLANKS, 1)),
+    JUNGLEPLANKS(new ItemStack(Material.JUNGLE_PLANKS, 1)),
+    ACACIAPLANKS(new ItemStack(Material.ACACIA_PLANKS, 1)),
+    DARKOAKPLANKS(new ItemStack(Material.DARK_OAK_PLANKS, 1)),
 
     SAPLING(new ItemStack(Material.OAK_SAPLING, 1)),
     OAKSAPLING(new ItemStack(Material.OAK_SAPLING, 1)),
@@ -481,6 +482,15 @@ public enum LItemStack {
     COMMANDBLOCK(new ItemStack(Material.COMMAND_BLOCK, 1)),
     CMD(new ItemStack(Material.COMMAND_BLOCK, 1)),
     COMMAND_BLOCK(new ItemStack(Material.COMMAND_BLOCK, 1)),
+    BREWER(new ItemStack(Material.BREWING_STAND, 1)),
+    BREWINGSTAND(new ItemStack(Material.BREWING_STAND, 1)),
+    BREWING(new ItemStack(Material.BREWING_STAND, 1)),
+    BREW(new ItemStack(Material.BREWING_STAND, 1)),
+    PACKEDICE(new ItemStack(Material.PACKED_ICE, 1)),
+    
+    IRONHORSEARMOR(new ItemStack(Material.IRON_HORSE_ARMOR, 1)),
+    GOLDENHORSEARMOR(new ItemStack(Material.GOLDEN_HORSE_ARMOR, 1)),
+    DIAMONDHORSEARMOR(new ItemStack(Material.DIAMOND_HORSE_ARMOR, 1)),
 
     // colorful(gay) bed
     BED(new ItemStack(Material.RED_BED, 1)),
@@ -499,10 +509,179 @@ public enum LItemStack {
     BROWNBED(new ItemStack(Material.BROWN_BED, 1)),
     GREENBED(new ItemStack(Material.GREEN_BED, 1)),
     REDBED(new ItemStack(Material.RED_BED, 1)),
-    BLACKBED(new ItemStack(Material.BLACK_BED, 1));
+    BLACKBED(new ItemStack(Material.BLACK_BED, 1)),
+
+    SHULKERSHELL(new ItemStack(Material.SHULKER_SHELL, 1)),
+    SHULKERBOX(new ItemStack(Material.SHULKER_BOX, 1)),
+    SHULKER(new ItemStack(Material.SHULKER_BOX, 1)),
+    WHITESHULKERBOX(new ItemStack(Material.WHITE_SHULKER_BOX, 1)),
+    WHITESHULKER(new ItemStack(Material.WHITE_SHULKER_BOX, 1)),
+    ORANGESHULKERBOX(new ItemStack(Material.ORANGE_SHULKER_BOX, 1)),
+    ORANGESHULKER(new ItemStack(Material.ORANGE_SHULKER_BOX, 1)),
+    MAGENTASHULKERBOX(new ItemStack(Material.MAGENTA_SHULKER_BOX, 1)),
+    MAGENTASHULKER(new ItemStack(Material.MAGENTA_SHULKER_BOX, 1)),
+    LIGHTBLUESHULKERBOX(new ItemStack(Material.LIGHT_BLUE_SHULKER_BOX, 1)),
+    LIGHTBLUESHULKER(new ItemStack(Material.LIGHT_BLUE_SHULKER_BOX, 1)),
+    YELLOWSHULKERBOX(new ItemStack(Material.YELLOW_SHULKER_BOX, 1)),
+    YELLOWSHULKER(new ItemStack(Material.YELLOW_SHULKER_BOX, 1)),
+    LIMESHULKERBOX(new ItemStack(Material.LIME_SHULKER_BOX, 1)),
+    LIMESHULKER(new ItemStack(Material.LIME_SHULKER_BOX, 1)),
+    PINKSHULKERBOX(new ItemStack(Material.PINK_SHULKER_BOX, 1)),
+    PINKSHULKER(new ItemStack(Material.PINK_SHULKER_BOX, 1)),
+    GRAYSHULKERBOX(new ItemStack(Material.GRAY_SHULKER_BOX, 1)),
+    GRAYSHULKER(new ItemStack(Material.GRAY_SHULKER_BOX, 1)),
+    LIGHTGRAYSHULKERBOX(new ItemStack(Material.LIGHT_GRAY_SHULKER_BOX, 1)),
+    LIGHTGRAYSHULKER(new ItemStack(Material.LIGHT_GRAY_SHULKER_BOX, 1)),
+    CYANSHULKERBOX(new ItemStack(Material.CYAN_SHULKER_BOX, 1)),
+    CYANSHULKER(new ItemStack(Material.CYAN_SHULKER_BOX, 1)),
+    PURPLESHULKERBOX(new ItemStack(Material.PURPLE_SHULKER_BOX, 1)),
+    PURPLESHULKER(new ItemStack(Material.PURPLE_SHULKER_BOX, 1)),
+    BLUESHULKERBOX(new ItemStack(Material.BLUE_SHULKER_BOX, 1)),
+    BLUESHULKER(new ItemStack(Material.BLUE_SHULKER_BOX, 1)),
+    BROWNSHULKERBOX(new ItemStack(Material.BROWN_SHULKER_BOX, 1)),
+    BROWNSHULKER(new ItemStack(Material.BROWN_SHULKER_BOX, 1)),
+    GREENSHULKERBOX(new ItemStack(Material.GREEN_SHULKER_BOX, 1)),
+    GREENSHULKER(new ItemStack(Material.GREEN_SHULKER_BOX, 1)),
+    REDSHULKERBOX(new ItemStack(Material.RED_SHULKER_BOX, 1)),
+    REDSHULKER(new ItemStack(Material.RED_SHULKER_BOX, 1)),
+    BLACKSHULKERBOX(new ItemStack(Material.BLACK_SHULKER_BOX, 1)),
+    BLACKSHULKER(new ItemStack(Material.BLACK_SHULKER_BOX, 1)),
+
+    BUTTON(new ItemStack(Material.OAK_BUTTON, 1)),
+    OAKBUTTON(new ItemStack(Material.OAK_BUTTON, 1)),
+    SPRUCEBUTTON(new ItemStack(Material.SPRUCE_BUTTON, 1)),
+    BIRCHBUTTON(new ItemStack(Material.BIRCH_BUTTON, 1)),
+    JUNGLEBUTTON(new ItemStack(Material.JUNGLE_BUTTON, 1)),
+    ACACIABUTTON(new ItemStack(Material.ACACIA_BUTTON, 1)),
+    DARKOAKBUTTON(new ItemStack(Material.DARK_OAK_BUTTON, 1)),
+
+
+    BLUEICE(new ItemStack(Material.BLUE_ICE, 1)),
+    CARVEDPUMPKING(new ItemStack(Material.CARVED_PUMPKIN, 1)),
+
+    BLUECORAL(new ItemStack(Material.TUBE_CORAL, 1)),
+    TUBECORAL(new ItemStack(Material.TUBE_CORAL, 1)),
+    BLUECORALBLOCK(new ItemStack(Material.TUBE_CORAL_BLOCK, 1)),
+    TUBECORALBLOCK(new ItemStack(Material.TUBE_CORAL_BLOCK, 1)),
+    BLUECORALFAN(new ItemStack(Material.TUBE_CORAL_FAN, 1)),
+    TUBECORALFAN(new ItemStack(Material.TUBE_CORAL_FAN, 1)),
+    DEADBLUECORAL(new ItemStack(Material.DEAD_TUBE_CORAL, 1)),
+    DEADTUBECORAL(new ItemStack(Material.DEAD_TUBE_CORAL, 1)),
+    DEADBLUECORALBLOCK(new ItemStack(Material.DEAD_TUBE_CORAL_BLOCK, 1)),
+    DEADTUBECORALBLOCK(new ItemStack(Material.DEAD_TUBE_CORAL_BLOCK, 1)),
+    DEADBLUECORALFAN(new ItemStack(Material.DEAD_TUBE_CORAL_FAN, 1)),
+    DEADTUBECORALFAN(new ItemStack(Material.DEAD_TUBE_CORAL_FAN, 1)),
+
+    PINKCORAL(new ItemStack(Material.BRAIN_CORAL, 1)),
+    BRAINCORAL(new ItemStack(Material.BRAIN_CORAL, 1)),
+    PINKCORALBLOCK(new ItemStack(Material.BRAIN_CORAL_BLOCK, 1)),
+    BRAINCORALBLOCK(new ItemStack(Material.BRAIN_CORAL_BLOCK, 1)),
+    PINKCORALFAN(new ItemStack(Material.BRAIN_CORAL_FAN, 1)),
+    BRAINCORALFAN(new ItemStack(Material.BRAIN_CORAL_FAN, 1)),
+    DEADPINKCORAL(new ItemStack(Material.DEAD_BRAIN_CORAL, 1)),
+    DEADBRAINCORAL(new ItemStack(Material.DEAD_BRAIN_CORAL, 1)),
+    DEADPINKCORALBLOCK(new ItemStack(Material.DEAD_BRAIN_CORAL_BLOCK, 1)),
+    DEADBRAINCORALBLOCK(new ItemStack(Material.DEAD_BRAIN_CORAL_BLOCK, 1)),
+    DEADPINKCORALFAN(new ItemStack(Material.DEAD_BRAIN_CORAL_FAN, 1)),
+    DEADBRAINCORALFAN(new ItemStack(Material.DEAD_BRAIN_CORAL_FAN, 1)),
+
+    PURPLECORAL(new ItemStack(Material.BUBBLE_CORAL, 1)),
+    BUBBLECORAL(new ItemStack(Material.BUBBLE_CORAL, 1)),
+    PURPLECORALBLOCK(new ItemStack(Material.BUBBLE_CORAL_BLOCK, 1)),
+    BUBBLECORALBLOCK(new ItemStack(Material.BUBBLE_CORAL_BLOCK, 1)),
+    PURPLECORALFAN(new ItemStack(Material.BUBBLE_CORAL_FAN, 1)),
+    BUBBLECORALFAN(new ItemStack(Material.BUBBLE_CORAL_FAN, 1)),
+    DEADPURPLECORAL(new ItemStack(Material.DEAD_BUBBLE_CORAL, 1)),
+    DEADBUBBLECORAL(new ItemStack(Material.DEAD_BUBBLE_CORAL, 1)),
+    DEADPURPLECORALBLOCK(new ItemStack(Material.DEAD_BUBBLE_CORAL_BLOCK, 1)),
+    DEADBUBBLECORALBLOCK(new ItemStack(Material.DEAD_BUBBLE_CORAL_BLOCK, 1)),
+    DEADPURPLECORALFAN(new ItemStack(Material.DEAD_BUBBLE_CORAL_FAN, 1)),
+    DEADBUBBLECORALFAN(new ItemStack(Material.DEAD_BUBBLE_CORAL_FAN, 1)),
+    
+    REDCORAL(new ItemStack(Material.FIRE_CORAL, 1)),
+    FIRECORAL(new ItemStack(Material.FIRE_CORAL, 1)),
+    REDCORALBLOCK(new ItemStack(Material.FIRE_CORAL_BLOCK, 1)),
+    FIRECORALBLOCK(new ItemStack(Material.FIRE_CORAL_BLOCK, 1)),
+    REDCORALFAN(new ItemStack(Material.FIRE_CORAL_FAN, 1)),
+    FIRECORALFAN(new ItemStack(Material.FIRE_CORAL_FAN, 1)),
+    DEADREDCORAL(new ItemStack(Material.DEAD_FIRE_CORAL, 1)),
+    DEADFIRECORAL(new ItemStack(Material.DEAD_FIRE_CORAL, 1)),
+    DEADREDCORALBLOCK(new ItemStack(Material.DEAD_FIRE_CORAL_BLOCK, 1)),
+    DEADFIRECORALBLOCK(new ItemStack(Material.DEAD_FIRE_CORAL_BLOCK, 1)),
+    DEADREDCORALFAN(new ItemStack(Material.DEAD_FIRE_CORAL_FAN, 1)),
+    DEADFIRECORALFAN(new ItemStack(Material.DEAD_FIRE_CORAL_FAN, 1)),
+    
+    YELLOWCORAL(new ItemStack(Material.HORN_CORAL, 1)),
+    HORNCORAL(new ItemStack(Material.HORN_CORAL, 1)),
+    YELLOWCORALBLOCK(new ItemStack(Material.HORN_CORAL_BLOCK, 1)),
+    HORNCORALBLOCK(new ItemStack(Material.HORN_CORAL_BLOCK, 1)),
+    YELLOWCORALFAN(new ItemStack(Material.HORN_CORAL_FAN, 1)),
+    HORNCORALFAN(new ItemStack(Material.HORN_CORAL_FAN, 1)),
+    DEADYELLOWCORAL(new ItemStack(Material.DEAD_HORN_CORAL, 1)),
+    DEADHORNCORAL(new ItemStack(Material.DEAD_HORN_CORAL, 1)),
+    DEADYELLOWCORALBLOCK(new ItemStack(Material.DEAD_HORN_CORAL_BLOCK, 1)),
+    DEADHORNCORALBLOCK(new ItemStack(Material.DEAD_HORN_CORAL_BLOCK, 1)),
+    DEADYELLOWCORALFAN(new ItemStack(Material.DEAD_HORN_CORAL_FAN, 1)),
+    DEADHORNCORALFAN(new ItemStack(Material.DEAD_HORN_CORAL_FAN, 1)),
+
+
+    DRIEDKELP(new ItemStack(Material.DRIED_KELP, 1)),
+    DRIEDKELPBLOCK(new ItemStack(Material.DRIED_KELP_BLOCK, 1)),
+
+    PRISMARINESTAIR(new ItemStack(Material.PRISMARINE_STAIRS, 1)),
+    PRISMARINESTAIRS(new ItemStack(Material.PRISMARINE_STAIRS, 1)),
+    PRISMARINESLAB(new ItemStack(Material.PRISMARINE_SLAB, 1)),
+    PRISMARINESLABS(new ItemStack(Material.PRISMARINE_SLAB, 1)),
+
+    SEAPICKLE(new ItemStack(Material.SEA_PICKLE, 1)),
+    PICKLE(new ItemStack(Material.SEA_PICKLE, 1)),
+
+    WOOD(new ItemStack(Material.OAK_WOOD, 1)),
+    OAKWOOD(new ItemStack(Material.OAK_WOOD, 1)),
+    SPRUCEWOOD(new ItemStack(Material.SPRUCE_WOOD, 1)),
+    BIRCHWOOD(new ItemStack(Material.BIRCH_WOOD, 1)),
+    JUNGLEWOOD(new ItemStack(Material.JUNGLE_WOOD, 1)),
+    ACACIAWOOD(new ItemStack(Material.ACACIA_WOOD, 1)),
+    DARKOAKWOOD(new ItemStack(Material.DARK_OAK_WOOD, 1)),
+
+    STRIPPEDLOG(new ItemStack(Material.STRIPPED_OAK_LOG, 1)),
+    STRIPPEDOAKLOG(new ItemStack(Material.STRIPPED_OAK_LOG, 1)),
+    STRIPPEDDARKOAKLOG(new ItemStack(Material.STRIPPED_DARK_OAK_LOG, 1)),
+    STRIPPEDJUNGLELOG(new ItemStack(Material.STRIPPED_JUNGLE_LOG, 1)),
+    STRIPPEDACACIALOG(new ItemStack(Material.STRIPPED_ACACIA_LOG, 1)),
+    STRIPPEDBIRCHLOG(new ItemStack(Material.STRIPPED_BIRCH_LOG, 1)),
+    STRIPPEDSPRUCELOG(new ItemStack(Material.STRIPPED_SPRUCE_LOG, 1)),
+
+    STRIPPEDWOOD(new ItemStack(Material.STRIPPED_OAK_WOOD, 1)),
+    STRIPPEDOAKWOOD(new ItemStack(Material.STRIPPED_OAK_WOOD, 1)),
+    STRIPPEDDARKOAKWOOD(new ItemStack(Material.STRIPPED_DARK_OAK_WOOD, 1)),
+    STRIPPEDJUNGLEWOOD(new ItemStack(Material.STRIPPED_JUNGLE_WOOD, 1)),
+    STRIPPEDACACIAWOOD(new ItemStack(Material.STRIPPED_ACACIA_WOOD, 1)),
+    STRIPPEDBIRCHWOOD(new ItemStack(Material.STRIPPED_BIRCH_WOOD, 1)),
+    STRIPPEDSPRUCEWOOD(new ItemStack(Material.STRIPPED_SPRUCE_WOOD, 1)),
+
+    TURTLEEGG(new ItemStack(Material.TURTLE_EGG, 1)),
+
+    ARROWS(new ItemStack(Material.ARROW, 1)),
+    SPECTALARROW(new ItemStack(Material.SPECTRAL_ARROW, 1)),
+    SPECTALARROWS(new ItemStack(Material.SPECTRAL_ARROW, 1)),
+    TIPPEDARROW(new ItemStack(Material.TIPPED_ARROW, 1)),
+
+    HEARTOFTHESEA(new ItemStack(Material.HEART_OF_THE_SEA, 1)),
+    NAUTILUSSHELL(new ItemStack(Material.NAUTILUS_SHELL, 1)),
+    PHANTOMMEMBRANE(new ItemStack(Material.PHANTOM_MEMBRANE, 1)),
+    MEMBRANE(new ItemStack(Material.PHANTOM_MEMBRANE, 1)),
+    SCUTES(new ItemStack(Material.SCUTE, 1)),
+
+    SMOOTHQUARTZ(new ItemStack(Material.SMOOTH_QUARTZ, 1)),
+    SMOOTHREDSANDSTONE(new ItemStack(Material.SMOOTH_RED_SANDSTONE, 1)),
+    SMOOTHSTONE(new ItemStack(Material.SMOOTH_STONE, 1)),
+
+    TURTLESHELL(new ItemStack(Material.TURTLE_HELMET, 1)),
+    ;
 
     @Getter
-    ItemStack itemStack;
+    final ItemStack itemStack;
 
     LItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;

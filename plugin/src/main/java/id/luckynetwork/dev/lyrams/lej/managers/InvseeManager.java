@@ -48,7 +48,7 @@ public class InvseeManager {
             this.separatorItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("blackglasspane", 1, 0);
             this.infoItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("paper", 1, 0);
             this.locationItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("compass", 1, 0);
-            this.effectsItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("brewing_stand_item", 1, 0);
+            this.effectsItem = LuckyEssentials.getInstance().getVersionSupport().getItemByName("brewingstand", 1, 0);
 
             Bukkit.getScheduler().runTaskTimer(plugin, () -> invseeMap.forEach((key, value) -> value.forEach(invseer -> this.refresh(invseer, key))), 1L, 10L);
         }

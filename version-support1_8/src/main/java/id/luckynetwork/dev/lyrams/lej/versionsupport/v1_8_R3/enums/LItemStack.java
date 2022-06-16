@@ -466,10 +466,15 @@ public enum LItemStack {
     LAPISLAZULI(new ItemStack(Material.INK_SACK, 1, (short) 4)),
     COMMANDBLOCK(new ItemStack(Material.COMMAND, 1, (short) 0)),
     CMD(new ItemStack(Material.COMMAND, 1, (short) 0)),
-    COMMAND_BLOCK(new ItemStack(Material.COMMAND, 1, (short) 0));
+    COMMAND_BLOCK(new ItemStack(Material.COMMAND, 1, (short) 0)),
+    BREWER(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
+    BREWINGSTAND(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
+    BREWING(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
+    BREW(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
+    PACKEDICE(new ItemStack(Material.PACKED_ICE, 1));
 
     @Getter
-    ItemStack itemStack;
+    final ItemStack itemStack;
 
     LItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
