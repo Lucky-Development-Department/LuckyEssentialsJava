@@ -38,6 +38,8 @@ dependencies {
     extraLibs project(":version-support1_12")
     extraLibs project(":version-support1_13")
     extraLibs project(":version-support1_16")
+    extraLibs project(":version-support1_17")
+    extraLibs project(":version-support1_18")
     configurations.compileOnly.extendsFrom(configurations.extraLibs)
 }
 
@@ -58,3 +60,5 @@ processResources {
             "name"     : pluginName
     ]
 }
+
+java.sourceCompatibility = JavaVersion.VERSION_1_8

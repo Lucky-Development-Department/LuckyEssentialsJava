@@ -14,3 +14,5 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.20'
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
 }
+
+java.sourceCompatibility = JavaVersion.VERSION_1_8

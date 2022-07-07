@@ -21,3 +21,5 @@ dependencies {
 
     implementation project(':version-support')
 }
+
+java.sourceCompatibility = JavaVersion.VERSION_1_8

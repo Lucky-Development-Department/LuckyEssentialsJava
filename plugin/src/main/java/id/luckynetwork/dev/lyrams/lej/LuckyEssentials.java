@@ -261,21 +261,19 @@ public class LuckyEssentials extends JavaPlugin {
                     break;
                 }
                 case "v1_17_R1": {
-                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.v1_16_R1");
-//                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_17_R1.v1_17_R1");
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_17_R1.v1_17_R1");
                     this.getLogger().info("Loaded version support v1_17_R1");
                     break;
                 }
                 case "v1_18_R1":
                 case "v1_18_R2": {
-                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.v1_16_R1");
-//                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_18_R2.v1_18_R2");
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_18_R2.v1_18_R2");
                     this.getLogger().info("Loaded version support v1_18_R2");
                     break;
                 }
                 case "v1_19_R1":
                 case "v1_19_R2": {
-                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_16_R1.v1_16_R1");
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_18_R2.v1_18_R2");
 //                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_18_R2.v1_18_R2");
                     this.getLogger().info("Loaded version support v1_19_R2");
                     break;
