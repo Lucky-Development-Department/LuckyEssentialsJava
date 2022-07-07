@@ -23,6 +23,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - name: Setup BuildTools
+        uses: SpraxDev/Action-SpigotMC@v4.0.0
+        with:
+          versions: 1.8.8, 1.12.2, 1.13.2, 1.16.4
       - name: Set up JDK 17
         uses: actions/setup-java@v1
         with:
@@ -30,7 +38,7 @@ jobs:
       - name: Setup BuildTools
         uses: SpraxDev/Action-SpigotMC@v4.0.0
         with:
-          versions: 1.8.8, 1.12.2, 1.13.2, 1.16.4, 1.17.1, 1.18.2
+          versions: 1.17.1, 1.18.2
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Clean artifacts with Gradle
