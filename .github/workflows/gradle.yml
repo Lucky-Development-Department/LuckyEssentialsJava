@@ -36,8 +36,6 @@ jobs:
         run: chmod +x ./gradlew
       - name: Clean artifacts with Gradle
         run: ./gradlew clean version-support:build version-support1_8:build version-support1_12:build version-support1_13:build version-support1_16:build plugin:build
-      - name: Build with Gradle
-        run: ./gradlew build
       - uses: actions/upload-artifact@v2
         with:
           name: LuckyEssentialsJava
