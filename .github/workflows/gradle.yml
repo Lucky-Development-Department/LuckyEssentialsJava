@@ -31,7 +31,7 @@ jobs:
       - name: Setup BuildTools
         uses: SpraxDev/Action-SpigotMC@v4.0.0
         with:
-          versions: 1.8.8, 1.12.2, 1.13.2, 1.16.4
+          versions: 1.8.8, 1.12.2, 1.13.2, 1.16.4, 1.17.1, 1.18.2
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Clean artifacts with Gradle
