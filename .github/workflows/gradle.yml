@@ -38,11 +38,11 @@ jobs:
       - name: Setup BuildTools
         uses: SpraxDev/Action-SpigotMC@v4.0.0
         with:
-          versions: 1.17.1, 1.18.2
+          versions: 1.17.1, 1.18.2, 1.19
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Clean and build artifacts with Gradle
-        run: ./gradlew clean version-support:build version-support1_8:build version-support1_12:build version-support1_13:build version-support1_16:build version-support1_17:build version-support1_18:build plugin:build
+        run: ./gradlew clean version-support:build version-support1_8:build version-support1_12:build version-support1_13:build version-support1_16:build version-support1_17:build version-support1_18:build version-support1_19:build plugin:build
       - uses: actions/upload-artifact@v2
         with:
           name: LuckyEssentialsJava
