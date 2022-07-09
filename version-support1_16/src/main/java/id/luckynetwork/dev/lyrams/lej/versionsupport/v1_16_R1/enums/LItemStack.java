@@ -769,6 +769,7 @@ public enum LItemStack {
     CRYINGOBSIDIAN(new ItemStack(Material.CRYING_OBSIDIAN, 1)),
     CRYINGOBBY(new ItemStack(Material.CRYING_OBSIDIAN, 1)),
 
+    BLACKSTONE(new ItemStack(Material.BLACKSTONE, 1)),
     GILDEDBLACKSTONE(new ItemStack(Material.GILDED_BLACKSTONE, 1)),
     LODE(new ItemStack(Material.LODESTONE, 1)),
 
