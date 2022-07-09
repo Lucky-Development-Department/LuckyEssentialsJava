@@ -3,15 +3,18 @@ package id.luckynetwork.dev.lyrams.lej.commands.trolls;
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
+import cloud.commandframework.annotations.Flag;
 import cloud.commandframework.annotations.ProxiedBy;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrollType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class TrollCommands extends CommandClass {
 
@@ -134,6 +137,58 @@ public class TrollCommands extends CommandClass {
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
     ) {
         this.toggleTroll(sender, targetName, toggle, TrollType.NO_BREAK);
+    }
+
+    @ProxiedBy("launch")
+    @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt launch [target]")
+    @CommandDescription("Launches the target player")
+    public void launchCommand(
+            final @NonNull CommandSender sender,
+            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
+            final @Nullable @Flag(value = "power", description = "The power of the launch") Double power,
+            final @Nullable @Flag(value = "damage", description = "Should the target take damage?") Boolean damage
+    ) {
+        if (!Utils.checkPermission(sender, "trolls.launch")) {
+            return;
+        }
+
+        TargetsCallback targets;
+        if (!ToggleType.getToggle(targetName).equals(ToggleType.UNKNOWN) && sender instanceof Player) {
+            targets = this.getTargets(sender, "self");
+        } else {
+            targets = this.getTargets(sender, targetName);
+        }
+
+        if (targets.notifyIfEmpty()) {
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
+            return;
+        }
+
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            double finalPower = power == null ? 10.0 : power;
+            boolean finalDamage = damage != null && damage;
+            targets.forEach(target -> {
+                Location location = target.getLocation();
+                if (finalDamage) {
+                    target.getWorld().createExplosion(location, 4, true);
+                    target.getWorld().strikeLightning(location);
+                    target.getWorld().strikeLightning(location);
+                    target.getWorld().strikeLightning(location);
+                } else {
+                    target.getWorld().createExplosion(location, 4, false);
+                    target.getWorld().strikeLightningEffect(location);
+                    target.getWorld().strikeLightningEffect(location);
+                    target.getWorld().strikeLightningEffect(location);
+                }
+                target.setVelocity(target.getEyeLocation().getDirection().setY(finalPower));
+            });
+
+            if (targets.size() > 1) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eLaunched §d" + targets.size() + " §eplayers!");
+            } else if (targets.size() == 1 || (!(sender instanceof Player)) || targets.doesNotContain((Player) sender)) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eLaunched §d" + target.getName() + "§!"));
+            }
+        }, this.canSkip("troll-launch", targets, sender));
     }
 
     /**
