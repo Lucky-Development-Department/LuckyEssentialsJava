@@ -805,6 +805,11 @@ public enum LItemStack {
     BASALT(new ItemStack(Material.BASALT, 1)),
     POLISHEDBASALT(new ItemStack(Material.POLISHED_BASALT, 1)),
 
+    CODBUCKET(new ItemStack(Material.COD_BUCKET, 1)),
+    SALMONBUCKET(new ItemStack(Material.SALMON_BUCKET, 1)),
+    TROPICALFISHBUCKET(new ItemStack(Material.TROPICAL_FISH_BUCKET, 1)),
+    PUFFERFISHBUCKET(new ItemStack(Material.PUFFERFISH_BUCKET, 1)),
+
     ;
 
     @Getter
