@@ -503,6 +503,7 @@ public enum LItemStack {
     DISCWAIT(new ItemStack(Material.MUSIC_DISC_WAIT)),
     DISCWARD(new ItemStack(Material.MUSIC_DISC_WARD)),
     DISCPIGSTEP(new ItemStack(Material.MUSIC_DISC_PIGSTEP)),
+    DISCOTHERSIDE(new ItemStack(Material.MUSIC_DISC_OTHERSIDE)),
 
     // colorful(gay) bed
     BED(new ItemStack(Material.RED_BED, 1)),
