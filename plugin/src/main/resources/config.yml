@@ -3,5 +3,5 @@ rightclick-invsee: true
 use-confirmation: true
 chat-lock: false
 old-invsee: false
-discouraged: false
+death-kick: false
 fly-on-join: false

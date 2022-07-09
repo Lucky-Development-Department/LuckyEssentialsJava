@@ -15,9 +15,9 @@ public class DeathListeners implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
-        if (plugin.getMainConfigManager().isDiscouraged()) {
+        if (plugin.getMainConfigManager().isDeathKick()) {
             Player player = event.getEntity();
-            if (!Utils.checkPermission(player, "discouraged.bypass", false, false, true, null)) {
+            if (!Utils.checkPermission(player, "deathkick.bypass", false, false, true, null)) {
                 player.kickPlayer(plugin.getWhitelistManager().getDenyMessage());
             }
         }

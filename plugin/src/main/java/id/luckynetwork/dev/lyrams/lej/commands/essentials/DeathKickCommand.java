@@ -10,28 +10,28 @@ import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class DiscouragedModeCommand extends CommandClass {
+public class DeathKickCommand extends CommandClass {
 
-    @CommandMethod("discouraged|discour info|i|check|c")
-    @CommandDescription("Gets the information about the discouraged mode system")
+    @CommandMethod("deathkick info|i|check|c")
+    @CommandDescription("Gets the information about the current death kick system state")
     public void checkCommand(
             final @NonNull CommandSender sender
     ) {
-        if (!Utils.checkPermission(sender, "discouraged")) {
+        if (!Utils.checkPermission(sender, "deathkick")) {
             return;
         }
 
-        sender.sendMessage("§eDiscouraged mode info:");
-        sender.sendMessage("§8└─ §eState: " + Utils.colorizeTrueFalse(plugin.getMainConfigManager().isDiscouraged(), TrueFalseType.ON_OFF));
+        sender.sendMessage("§eDeath kick mode info:");
+        sender.sendMessage("§8└─ §eState: " + Utils.colorizeTrueFalse(plugin.getMainConfigManager().isDeathKick(), TrueFalseType.ON_OFF));
     }
 
-    @CommandMethod("discouraged|discour toggle [toggle]")
-    @CommandDescription("Toggles discouraged mode")
+    @CommandMethod("deathkick toggle [toggle]")
+    @CommandDescription("Toggles death kick mode")
     public void toggleCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
     ) {
-        if (!Utils.checkPermission(sender, "discouraged")) {
+        if (!Utils.checkPermission(sender, "deathkick")) {
             return;
         }
 
@@ -43,22 +43,22 @@ public class DiscouragedModeCommand extends CommandClass {
 
         switch (toggleType) {
             case ON: {
-                plugin.getMainConfigManager().setDiscouraged(true);
+                plugin.getMainConfigManager().setDeathKick(true);
                 break;
             }
             case OFF: {
-                plugin.getMainConfigManager().setDiscouraged(false);
+                plugin.getMainConfigManager().setDeathKick(false);
                 break;
             }
             case TOGGLE: {
-                plugin.getMainConfigManager().setDiscouraged(!plugin.getMainConfigManager().isDiscouraged());
+                plugin.getMainConfigManager().setDeathKick(!plugin.getMainConfigManager().isDeathKick());
                 break;
             }
         }
 
         plugin.getMainConfigManager().save();
 
-        boolean discouraged = plugin.getMainConfigManager().isDiscouraged();
-        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled discouraged mode: " + Utils.colorizeTrueFalse(discouraged, TrueFalseType.ON_OFF) + "§e.");
+        boolean deathKick = plugin.getMainConfigManager().isDeathKick();
+        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled death kick mode: " + Utils.colorizeTrueFalse(deathKick, TrueFalseType.ON_OFF) + "§e.");
     }
 }

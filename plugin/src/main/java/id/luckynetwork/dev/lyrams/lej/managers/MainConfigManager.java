@@ -15,7 +15,7 @@ public class MainConfigManager {
     private String prefix;
     private boolean chatLocked;
     private boolean oldInvsee;
-    private boolean discouraged;
+    private boolean deathKick;
     private boolean rightClickInvsee;
     private boolean useConfirmation;
 
@@ -30,7 +30,7 @@ public class MainConfigManager {
         this.prefix = Utils.colorize(plugin.getMainConfig().getString("prefix", "§e§lLUCKYESSENTIALS §a/ "));
         this.chatLocked = plugin.getMainConfig().getBoolean("chat-lock", false);
         this.oldInvsee = plugin.getMainConfig().getBoolean("old-invsee", false);
-        this.discouraged = plugin.getMainConfig().getBoolean("discouraged", false);
+        this.deathKick = plugin.getMainConfig().getBoolean("death-kick", false);
         this.rightClickInvsee = plugin.getMainConfig().getBoolean("rightclick-invsee", true);
         this.useConfirmation = plugin.getMainConfig().getBoolean("use-confirmation", true);
     }
@@ -38,7 +38,7 @@ public class MainConfigManager {
     public void save() {
         plugin.getMainConfig().set("prefix", this.prefix);
         plugin.getMainConfig().set("chat-lock", this.chatLocked);
-        plugin.getMainConfig().set("discouraged", this.discouraged);
+        plugin.getMainConfig().set("death-kick", this.deathKick);
 
         plugin.getMainConfig().save();
     }
