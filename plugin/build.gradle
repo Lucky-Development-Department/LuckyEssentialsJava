@@ -19,6 +19,7 @@ repositories {
 
 configurations {
     extraLibs
+    commandFramework
 }
 
 dependencies {
@@ -27,11 +28,11 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:23.0.0'
     compileOnly 'org.projectlombok:lombok:1.18.24'
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
-    compileOnly 'cloud.commandframework:cloud-paper:1.7.0'
-    compileOnly 'cloud.commandframework:cloud-core:1.7.0'
-    compileOnly 'cloud.commandframework:cloud-annotations:1.7.0'
-    compileOnly 'cloud.commandframework:cloud-minecraft-extras:1.7.0'
-    compileOnly 'net.kyori:adventure-platform-bukkit:4.1.1'
+    commandFramework 'cloud.commandframework:cloud-paper:1.7.0'
+    commandFramework 'cloud.commandframework:cloud-core:1.7.0'
+    commandFramework 'cloud.commandframework:cloud-annotations:1.7.0'
+    commandFramework 'cloud.commandframework:cloud-minecraft-extras:1.7.0'
+    commandFramework 'net.kyori:adventure-platform-bukkit:4.1.1'
 
     extraLibs project(":version-support")
     extraLibs project(":version-support1_8")
@@ -42,6 +43,7 @@ dependencies {
     extraLibs project(":version-support1_18")
     extraLibs project(":version-support1_19")
     configurations.compileOnly.extendsFrom(configurations.extraLibs)
+    configurations.compileOnly.extendsFrom(configurations.commandFramework)
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -54,6 +56,15 @@ jar {
     }
 }
 
+task jarCommandFramework(type: Jar) {
+    archiveFileName = "LuckyEssentials-Libs.jar"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from {
+        configurations.commandFramework.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 processResources {
     filter ReplaceTokens, tokens: [
             "version"  : project.version.toString(),
@@ -63,3 +74,5 @@ processResources {
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
+
+assemble.dependsOn(jarCommandFramework)
