@@ -802,6 +802,9 @@ public enum LItemStack {
 
     WARPEDFUNGUSONASTICK(new ItemStack(Material.WARPED_FUNGUS_ON_A_STICK, 1)),
 
+    BASALT(new ItemStack(Material.BASALT, 1)),
+    POLISHEDBASALT(new ItemStack(Material.POLISHED_BASALT, 1)),
+
     ;
 
     @Getter
