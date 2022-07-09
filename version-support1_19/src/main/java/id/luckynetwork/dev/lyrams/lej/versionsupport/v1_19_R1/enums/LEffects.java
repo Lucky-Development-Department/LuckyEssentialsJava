@@ -8,6 +8,7 @@ public enum LEffects {
     ABS(PotionEffectType.ABSORPTION),
     BADOMEN(PotionEffectType.BAD_OMEN),
     OMEN(PotionEffectType.BAD_OMEN),
+    DARK(PotionEffectType.DARKNESS),
     HERO(PotionEffectType.HERO_OF_THE_VILLAGE),
     CONDUIT(PotionEffectType.CONDUIT_POWER),
     CONDUITPOWER(PotionEffectType.CONDUIT_POWER),

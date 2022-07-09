@@ -953,6 +953,72 @@ public enum LItemStack {
     POWDERSNOWBUCKET(new ItemStack(Material.POWDER_SNOW_BUCKET, 1)),
     SPYGLASS(new ItemStack(Material.SPYGLASS, 1)),
 
+
+    // 1.19
+    FROGLIGHT(new ItemStack(Material.PEARLESCENT_FROGLIGHT, 1)),
+    OCHREFROGLIGHT(new ItemStack(Material.OCHRE_FROGLIGHT, 1)),
+    PEARLESCENTFROGLIGHT(new ItemStack(Material.PEARLESCENT_FROGLIGHT, 1)),
+    VERDANTFROGLIGHT(new ItemStack(Material.VERDANT_FROGLIGHT, 1)),
+
+    FROGSPAWNER(new ItemStack(Material.FROGSPAWN, 1)),
+
+    MANGROVELEAF(new ItemStack(Material.MANGROVE_LEAVES, 1)),
+    MANGROVELEAVES(new ItemStack(Material.MANGROVE_LEAVES, 1)),
+
+    MANGROVEPLANK(new ItemStack(Material.MANGROVE_PLANKS, 1)),
+    MANGROVEPLANKS(new ItemStack(Material.MANGROVE_PLANKS, 1)),
+
+    MANGROVELOG(new ItemStack(Material.MANGROVE_LOG, 1)),
+    MANGROVEWOOD(new ItemStack(Material.MANGROVE_WOOD, 1)),
+    STRIPPEDMANGROVELOG(new ItemStack(Material.STRIPPED_MANGROVE_LOG, 1)),
+    STRIPPEDMANGROVEWOOD(new ItemStack(Material.STRIPPED_MANGROVE_WOOD, 1)),
+
+    MANGROVESLAB(new ItemStack(Material.MANGROVE_SLAB, 1)),
+    MANGROVESTAIR(new ItemStack(Material.MANGROVE_STAIRS, 1)),
+    MANGROVESTAIRS(new ItemStack(Material.MANGROVE_STAIRS, 1)),
+    MANGROVEFENCE(new ItemStack(Material.MANGROVE_FENCE, 1)),
+    MANGROVEFENCEGATE(new ItemStack(Material.MANGROVE_FENCE_GATE, 1)),
+    MANGROVEGATE(new ItemStack(Material.MANGROVE_FENCE_GATE, 1)),
+    MANGROVEPRESSUREPLATE(new ItemStack(Material.MANGROVE_PRESSURE_PLATE, 1)),
+    MANGROVEPLATE(new ItemStack(Material.MANGROVE_PRESSURE_PLATE, 1)),
+    MANGROVESIGN(new ItemStack(Material.MANGROVE_SIGN, 1)),
+    MANGROVEBUTTON(new ItemStack(Material.MANGROVE_BUTTON, 1)),
+    MANGROVEDOOR(new ItemStack(Material.MANGROVE_DOOR, 1)),
+    MANGROVEBOAT(new ItemStack(Material.MANGROVE_BOAT, 1)),
+    MANGROVETRAPDOOR(new ItemStack(Material.MANGROVE_TRAPDOOR, 1)),
+    MANGROVEPROPAGULE(new ItemStack(Material.MANGROVE_PROPAGULE, 1)),
+    MANGROVESAPPLING(new ItemStack(Material.MANGROVE_PROPAGULE, 1)),
+    MANGROVEROOT(new ItemStack(Material.MANGROVE_ROOTS, 1)),
+    MUDDYMANGROVEROOT(new ItemStack(Material.MUDDY_MANGROVE_ROOTS, 1)),
+
+    MUD(new ItemStack(Material.MUD, 1)),
+    MUDBRICK(new ItemStack(Material.MUD_BRICKS, 1)),
+    MUDBRICKSLAB(new ItemStack(Material.MUD_BRICK_SLAB, 1)),
+    MUDBRICKSTAIRS(new ItemStack(Material.MUD_BRICK_STAIRS, 1)),
+    MUDBRICKWALL(new ItemStack(Material.MUD_BRICK_WALL, 1)),
+    PACKEDMUD(new ItemStack(Material.PACKED_MUD, 1)),
+
+    REINFORCEDDEEPSLATE(new ItemStack(Material.REINFORCED_DEEPSLATE, 1)),
+
+    SCULK(new ItemStack(Material.SCULK, 1)),
+    SCULKCATALYST(new ItemStack(Material.SCULK_CATALYST, 1)),
+    CATALYST(new ItemStack(Material.SCULK_CATALYST, 1)),
+    SCULKSHRIEKER(new ItemStack(Material.SCULK_SHRIEKER, 1)),
+    SHRIEKER(new ItemStack(Material.SCULK_SHRIEKER, 1)),
+    SCULKVEIN(new ItemStack(Material.SCULK_VEIN, 1)),
+
+    TADPOLEBUCKET(new ItemStack(Material.TADPOLE_BUCKET, 1)),
+
+    DISCFRAGMENT(new ItemStack(Material.DISC_FRAGMENT_5, 1)),
+    DISC5(new ItemStack(Material.MUSIC_DISC_5, 1)),
+
+    ECHOSHARD(new ItemStack(Material.ECHO_SHARD, 1)),
+    RECOVERYCOMPASS(new ItemStack(Material.RECOVERY_COMPASS, 1)),
+    RECOVERCOMPASS(new ItemStack(Material.RECOVERY_COMPASS, 1)),
+
+    GOATHORN(new ItemStack(Material.GOAT_HORN, 1)),
+    HORN(new ItemStack(Material.GOAT_HORN, 1)),
+
     ;
 
     @Getter
