@@ -41,14 +41,14 @@ public class ExplodeCommand extends CommandClass {
 
         if (!targets.isEmpty()) {
             locations.addAll(targets.stream().map(Player::getLocation).collect(Collectors.toList()));
-            if (silent == null || !silent) {
-                targets.forEach(target -> target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been exploded!"));
-            }
         }
 
         TargetsCallback finalTargets = targets;
         plugin.getConfirmationManager().requestConfirmation(() -> {
             locations.forEach(location -> location.getWorld().createExplosion(location, power, damage));
+            if (silent == null || !silent) {
+                finalTargets.forEach(target -> target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been exploded!"));
+            }
 
             boolean others = !finalTargets.isEmpty() && finalTargets.size() > 1;
             if (others) {
