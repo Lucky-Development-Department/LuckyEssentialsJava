@@ -471,7 +471,22 @@ public enum LItemStack {
     BREWINGSTAND(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
     BREWING(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
     BREW(new ItemStack(Material.BREWING_STAND_ITEM, 1, (short) 0)),
-    PACKEDICE(new ItemStack(Material.PACKED_ICE, 1));
+    PACKEDICE(new ItemStack(Material.PACKED_ICE, 1, (short) 0)),
+
+    DISC11(new ItemStack(Material.GOLD_RECORD)),
+    DISC13(new ItemStack(Material.GREEN_RECORD)),
+    DISCBLOCKS(new ItemStack(Material.RECORD_3)),
+    DISCCAT(new ItemStack(Material.RECORD_4)),
+    DISCCHIRP(new ItemStack(Material.RECORD_5)),
+    DISCFAR(new ItemStack(Material.RECORD_6)),
+    DISCMALL(new ItemStack(Material.RECORD_7)),
+    DISCMELLOHI(new ItemStack(Material.RECORD_8)),
+    DISCSTALL(new ItemStack(Material.RECORD_9)),
+    DISCSTRAD(new ItemStack(Material.RECORD_10)),
+    DISCWAIT(new ItemStack(Material.RECORD_11)),
+    DISCWARD(new ItemStack(Material.RECORD_12)),
+
+    ;
 
     @Getter
     final ItemStack itemStack;

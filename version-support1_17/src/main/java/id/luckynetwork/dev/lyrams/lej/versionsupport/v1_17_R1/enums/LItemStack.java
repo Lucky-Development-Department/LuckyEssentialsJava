@@ -490,6 +490,20 @@ public enum LItemStack {
     GOLDENHORSEARMOR(new ItemStack(Material.GOLDEN_HORSE_ARMOR, 1)),
     DIAMONDHORSEARMOR(new ItemStack(Material.DIAMOND_HORSE_ARMOR, 1)),
 
+    DISC11(new ItemStack(Material.MUSIC_DISC_11)),
+    DISC13(new ItemStack(Material.MUSIC_DISC_13)),
+    DISCBLOCKS(new ItemStack(Material.MUSIC_DISC_BLOCKS)),
+    DISCCAT(new ItemStack(Material.MUSIC_DISC_CAT)),
+    DISCCHIRP(new ItemStack(Material.MUSIC_DISC_CHIRP)),
+    DISCFAR(new ItemStack(Material.MUSIC_DISC_FAR)),
+    DISCMALL(new ItemStack(Material.MUSIC_DISC_MALL)),
+    DISCMELLOHI(new ItemStack(Material.MUSIC_DISC_MELLOHI)),
+    DISCSTALL(new ItemStack(Material.MUSIC_DISC_STAL)),
+    DISCSTRAD(new ItemStack(Material.MUSIC_DISC_STRAD)),
+    DISCWAIT(new ItemStack(Material.MUSIC_DISC_WAIT)),
+    DISCWARD(new ItemStack(Material.MUSIC_DISC_WARD)),
+    DISCPIGSTEP(new ItemStack(Material.MUSIC_DISC_PIGSTEP)),
+
     // colorful(gay) bed
     BED(new ItemStack(Material.RED_BED, 1)),
     WHITEBED(new ItemStack(Material.WHITE_BED, 1)),
