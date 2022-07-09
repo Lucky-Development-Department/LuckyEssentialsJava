@@ -188,7 +188,7 @@ public class TrollCommands extends CommandClass {
             } else if (targets.size() == 1 || (!(sender instanceof Player)) || targets.doesNotContain((Player) sender)) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eLaunched §d" + target.getName() + "§!"));
             }
-        }, this.canSkip("troll-launch", targets, sender));
+        }, this.canSkip("troll-Launch", targets, sender));
     }
 
     /**
@@ -225,32 +225,34 @@ public class TrollCommands extends CommandClass {
             return;
         }
 
-        targets.forEach(target -> {
-            switch (toggleType) {
-                case ON: {
-                    Utils.applyMetadata(target, trollType.getMetadataKey(), true);
-                    break;
-                }
-                case OFF: {
-                    Utils.removeMetadata(target, trollType.getMetadataKey());
-                    break;
-                }
-                case TOGGLE: {
-                    if (target.hasMetadata(trollType.getMetadataKey())) {
-                        Utils.removeMetadata(target, trollType.getMetadataKey());
-                    } else {
+        plugin.getConfirmationManager().requestConfirmation(() -> {
+            targets.forEach(target -> {
+                switch (toggleType) {
+                    case ON: {
                         Utils.applyMetadata(target, trollType.getMetadataKey(), true);
+                        break;
                     }
-                    break;
+                    case OFF: {
+                        Utils.removeMetadata(target, trollType.getMetadataKey());
+                        break;
+                    }
+                    case TOGGLE: {
+                        if (target.hasMetadata(trollType.getMetadataKey())) {
+                            Utils.removeMetadata(target, trollType.getMetadataKey());
+                        } else {
+                            Utils.applyMetadata(target, trollType.getMetadataKey(), true);
+                        }
+                        break;
+                    }
                 }
-            }
-        });
+            });
 
-        if (targets.size() > 1) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled §6" + trollType.getDisplay() + " §efor §d" + targets.size() + " §eplayers.");
-        } else if (targets.size() == 1 || (!(sender instanceof Player) || targets.doesNotContain((Player) sender))) {
-            targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled §6" + trollType.getDisplay() + " §efor §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata(trollType.getMetadataKey()), TrueFalseType.ON_OFF)));
-        }
+            if (targets.size() > 1) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled §6" + trollType.getDisplay() + " §efor §d" + targets.size() + " §eplayers.");
+            } else if (targets.size() == 1 || (!(sender instanceof Player) || targets.doesNotContain((Player) sender))) {
+                targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled §6" + trollType.getDisplay() + " §efor §d" + target.getName() + "§e: " + Utils.colorizeTrueFalse(target.hasMetadata(trollType.getMetadataKey()), TrueFalseType.ON_OFF)));
+            }
+        }, this.canSkip("troll-" + trollType.getDisplay(), targets, sender));
     }
 
 }
