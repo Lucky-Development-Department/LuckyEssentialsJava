@@ -802,10 +802,146 @@ public enum LItemStack {
 
     WARPEDFUNGUSONASTICK(new ItemStack(Material.WARPED_FUNGUS_ON_A_STICK, 1)),
 
+    BASALT(new ItemStack(Material.BASALT, 1)),
+    POLISHEDBASALT(new ItemStack(Material.POLISHED_BASALT, 1)),
+
+    CODBUCKET(new ItemStack(Material.COD_BUCKET, 1)),
+    SALMONBUCKET(new ItemStack(Material.SALMON_BUCKET, 1)),
+    TROPICALFISHBUCKET(new ItemStack(Material.TROPICAL_FISH_BUCKET, 1)),
+    PUFFERFISHBUCKET(new ItemStack(Material.PUFFERFISH_BUCKET, 1)),
+
+
+    // 1.17
+    AMETHYST(new ItemStack(Material.AMETHYST_SHARD, 1)),
+    AMETHYSTSHARD(new ItemStack(Material.AMETHYST_SHARD, 1)),
+    AMETHYSTBLOCK(new ItemStack(Material.AMETHYST_BLOCK, 1)),
+    AMETHYSTCLUSTER(new ItemStack(Material.AMETHYST_CLUSTER, 1)),
+    BUDDINGAMETHYST(new ItemStack(Material.BUDDING_AMETHYST, 1)),
+    AMETHYSTBUD(new ItemStack(Material.BUDDING_AMETHYST, 1)),
+    SMALLAMETHYSTBUD(new ItemStack(Material.SMALL_AMETHYST_BUD, 1)),
+    MEDIUMAMETHYSTBUD(new ItemStack(Material.MEDIUM_AMETHYST_BUD, 1)),
+    LARGEAMETHYSTBUD(new ItemStack(Material.LARGE_AMETHYST_BUD, 1)),
+
+    AZALEALEAF(new ItemStack(Material.AZALEA_LEAVES)),
+    FLOWERINGAZALEALEAF(new ItemStack(Material.FLOWERING_AZALEA_LEAVES)),
+    FLOWERAZALEALEAF(new ItemStack(Material.FLOWERING_AZALEA_LEAVES)),
+
+    COPPER(new ItemStack(Material.COPPER_INGOT, 1)),
+    COPPERINGOT(new ItemStack(Material.COPPER_INGOT, 1)),
+    COPPERBLOCK(new ItemStack(Material.COPPER_BLOCK, 1)),
+    RAWCOPPER(new ItemStack(Material.RAW_COPPER, 1)),
+    RAWCOPPERBLOCK(new ItemStack(Material.RAW_COPPER_BLOCK, 1)),
+
+    RAWIRON(new ItemStack(Material.RAW_IRON, 1)),
+    RAWIRONBLOCK(new ItemStack(Material.RAW_IRON_BLOCK, 1)),
+
+    RAWGOLD(new ItemStack(Material.RAW_GOLD, 1)),
+    RAWGOLDBLOCK(new ItemStack(Material.RAW_GOLD_BLOCK, 1)),
+
+    CALCITE(new ItemStack(Material.CALCITE, 1)),
+    CANDLES(new ItemStack(Material.CANDLE, 1)),
+
+    GLOWBERRY(new ItemStack(Material.GLOW_BERRIES, 1)),
+    GLOWBERRIES(new ItemStack(Material.GLOW_BERRIES, 1)),
+
+    DEEPSLATE(new ItemStack(Material.DEEPSLATE, 1)),
+    DEEPSLATETILE(new ItemStack(Material.DEEPSLATE_TILES, 1)),
+    CRACKEDDEEPSLATETILE(new ItemStack(Material.CRACKED_DEEPSLATE_TILES, 1)),
+    COBBLEDEEPSLATE(new ItemStack(Material.COBBLED_DEEPSLATE, 1)),
+    COBBLEDDEEPSLATE(new ItemStack(Material.COBBLED_DEEPSLATE, 1)),
+    POLISHEDDEEPSLATE(new ItemStack(Material.POLISHED_DEEPSLATE, 1)),
+    CHISLEDDEEPSLATE(new ItemStack(Material.CHISELED_DEEPSLATE, 1)),
+    DEEPSLATEBRICK(new ItemStack(Material.DEEPSLATE_BRICKS, 1)),
+    DEEPSLATEBRICKS(new ItemStack(Material.DEEPSLATE_BRICKS, 1)),
+
+    DEEPSLATESLAB(new ItemStack(Material.DEEPSLATE_TILE_SLAB, 1)),
+    BRICKDEEPSLATESLAB(new ItemStack(Material.DEEPSLATE_BRICK_SLAB, 1)),
+    COBBLEDDEEPSLATESLAB(new ItemStack(Material.COBBLED_DEEPSLATE_SLAB, 1)),
+    POLISHEDDEEPSLATESLAB(new ItemStack(Material.POLISHED_DEEPSLATE_SLAB, 1)),
+
+    DEEPSLATESTAIRS(new ItemStack(Material.DEEPSLATE_TILE_STAIRS, 1)),
+    BRICKDEEPSLATESTAIRS(new ItemStack(Material.DEEPSLATE_BRICK_STAIRS, 1)),
+    COBBLEDDEEPSLATESTAIRS(new ItemStack(Material.COBBLED_DEEPSLATE_STAIRS, 1)),
+    POLISHEDDEEPSLATESTAIRS(new ItemStack(Material.POLISHED_DEEPSLATE_STAIRS, 1)),
+
+    DEEPSLATESTAIR(new ItemStack(Material.DEEPSLATE_TILE_STAIRS, 1)),
+    BRICKDEEPSLATESTAIR(new ItemStack(Material.DEEPSLATE_BRICK_STAIRS, 1)),
+    COBBLEDDEEPSLATESTAIR(new ItemStack(Material.COBBLED_DEEPSLATE_STAIRS, 1)),
+    POLISHEDDEEPSLATESTAIR(new ItemStack(Material.POLISHED_DEEPSLATE_STAIRS, 1)),
+
+    DEEPSLATEWALL(new ItemStack(Material.DEEPSLATE_TILE_WALL, 1)),
+    BRICKDEEPSLATEWALL(new ItemStack(Material.DEEPSLATE_BRICK_WALL, 1)),
+    COBBLEDDEEPSLATEWALL(new ItemStack(Material.COBBLED_DEEPSLATE_WALL, 1)),
+    POLISHEDDEEPSLATEWALL(new ItemStack(Material.POLISHED_DEEPSLATE_WALL, 1)),
+
+    INFESTEDDEEPSLATE(new ItemStack(Material.INFESTED_DEEPSLATE, 1)),
+
+    DEEPSLATECOAL(new ItemStack(Material.DEEPSLATE_COAL_ORE, 1)),
+    DEEPCOAL(new ItemStack(Material.DEEPSLATE_COAL_ORE, 1)),
+    DEEPSLATEIRONORE(new ItemStack(Material.DEEPSLATE_IRON_ORE, 1)),
+    DEEPIRONORE(new ItemStack(Material.DEEPSLATE_IRON_ORE, 1)),
+    DEEPSLATEGOLDORE(new ItemStack(Material.DEEPSLATE_GOLD_ORE, 1)),
+    DEEPGOLDORE(new ItemStack(Material.DEEPSLATE_GOLD_ORE, 1)),
+    DEEPSLATECOPPERORE(new ItemStack(Material.DEEPSLATE_COPPER_ORE, 1)),
+    DEEPCOPPERORE(new ItemStack(Material.DEEPSLATE_COPPER_ORE, 1)),
+    DEEPSLATEDIAMONDORE(new ItemStack(Material.DEEPSLATE_DIAMOND_ORE, 1)),
+    DEEPDIAMONDORE(new ItemStack(Material.DEEPSLATE_DIAMOND_ORE, 1)),
+    DEEPSLATEREDSTONEORE(new ItemStack(Material.DEEPSLATE_REDSTONE_ORE, 1)),
+    DEEPREDSTONEORE(new ItemStack(Material.DEEPSLATE_REDSTONE_ORE, 1)),
+    DEEPSLATEEMERALDORE(new ItemStack(Material.DEEPSLATE_EMERALD_ORE, 1)),
+    DEEPEMERALDORE(new ItemStack(Material.DEEPSLATE_EMERALD_ORE, 1)),
+    DEEPSLATELAPISORE(new ItemStack(Material.DEEPSLATE_LAPIS_ORE, 1)),
+    DEEPLAPISORE(new ItemStack(Material.DEEPSLATE_LAPIS_ORE, 1)),
+
+    DRIPLEAF(new ItemStack(Material.SMALL_DRIPLEAF, 1)),
+    SMALLDRIPLEAF(new ItemStack(Material.SMALL_DRIPLEAF, 1)),
+    BIGDRIPLEAF(new ItemStack(Material.BIG_DRIPLEAF, 1)),
+
+    DRIPSTONE(new ItemStack(Material.POINTED_DRIPSTONE, 1)),
+    DRIPSTONEBLOCK(new ItemStack(Material.DRIPSTONE_BLOCK, 1)),
+
+    GLOWITEMFRAME(new ItemStack(Material.GLOW_ITEM_FRAME, 1)),
+    GLOWINGITEMFRAME(new ItemStack(Material.GLOW_ITEM_FRAME, 1)),
+
+    GLOWLICHEN(new ItemStack(Material.GLOW_LICHEN, 1)),
+    LICHEN(new ItemStack(Material.GLOW_LICHEN, 1)),
+
+    HANGINGROOTS(new ItemStack(Material.HANGING_ROOTS, 1)),
+    HANGINGROOT(new ItemStack(Material.HANGING_ROOTS, 1)),
+
+    MOSSBLOCK(new ItemStack(Material.MOSS_BLOCK, 1)),
+    MOSSCARPET(new ItemStack(Material.MOSS_CARPET, 1)),
+
+    POWDERSNOW(new ItemStack(Material.POWDER_SNOW, 1)),
+    POWDEREDSNOW(new ItemStack(Material.POWDER_SNOW, 1)),
+
+    ROOTDIRT(new ItemStack(Material.ROOTED_DIRT, 1)),
+    ROOTEDDIRT(new ItemStack(Material.ROOTED_DIRT, 1)),
+
+    SMOOTHBASALT(new ItemStack(Material.SMOOTH_BASALT, 1)),
+
+    SCULKSENSOR(new ItemStack(Material.SCULK_SENSOR, 1)),
+
+    BLOSSOM(new ItemStack(Material.SPORE_BLOSSOM, 1)),
+    SPOREBLOSSOM(new ItemStack(Material.SPORE_BLOSSOM, 1)),
+
+    TINTEDGLASS(new ItemStack(Material.TINTED_GLASS, 1)),
+    TINTGLASS(new ItemStack(Material.TINTED_GLASS, 1)),
+
+    TUFF(new ItemStack(Material.TUFF, 1)),
+
+    AXOLOTLBUCKET(new ItemStack(Material.AXOLOTL_BUCKET, 1)),
+
+    BUNDLE(new ItemStack(Material.BUNDLE, 1)),
+    GLOWINKSACK(new ItemStack(Material.GLOW_INK_SAC, 1)),
+    GLOWINKSAC(new ItemStack(Material.GLOW_INK_SAC, 1)),
+    POWDERSNOWBUCKET(new ItemStack(Material.POWDER_SNOW_BUCKET, 1)),
+    SPYGLASS(new ItemStack(Material.SPYGLASS, 1)),
+
     ;
 
     @Getter
-    ItemStack itemStack;
+    final ItemStack itemStack;
 
     LItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
