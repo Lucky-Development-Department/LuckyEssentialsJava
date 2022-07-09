@@ -40,6 +40,7 @@ dependencies {
     extraLibs project(":version-support1_16")
     extraLibs project(":version-support1_17")
     extraLibs project(":version-support1_18")
+    extraLibs project(":version-support1_19")
     configurations.compileOnly.extendsFrom(configurations.extraLibs)
 }
 
