@@ -149,8 +149,8 @@ public class TrollCommands extends CommandClass {
     public void explodeCommand(
             final @NonNull CommandSender sender,
             final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "power", description = "The explosion power", defaultValue = "4") Float power,
-            final @NonNull @Argument(value = "damage", description = "Should the explosion damage blocks", defaultValue = "true") Boolean damage,
+            final @Nullable @Flag(value = "power", description = "The explosion power") Float power,
+            final @Nullable @Flag(value = "damage", description = "Should the explosion damage blocks") Boolean damage,
             final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
     ) {
         if (!Utils.checkPermission(sender, "trolls.explode")) {
@@ -169,9 +169,11 @@ public class TrollCommands extends CommandClass {
             locations.addAll(targets.stream().map(Player::getLocation).collect(Collectors.toList()));
         }
 
+        float finalPower = power == null ? 4.0F : power;
+        boolean finalDamage = damage == null || damage;
         TargetsCallback finalTargets = targets;
         plugin.getConfirmationManager().requestConfirmation(() -> {
-            locations.forEach(location -> location.getWorld().createExplosion(location, power, damage));
+            locations.forEach(location -> location.getWorld().createExplosion(location, finalPower, finalDamage));
             if (silent == null || !silent) {
                 finalTargets.forEach(target -> target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYou have been exploded!"));
             }
