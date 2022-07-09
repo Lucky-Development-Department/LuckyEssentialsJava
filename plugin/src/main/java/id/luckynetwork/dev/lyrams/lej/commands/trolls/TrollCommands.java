@@ -144,7 +144,7 @@ public class TrollCommands extends CommandClass {
     }
 
     @ProxiedBy("explode")
-    @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt explode [target] [power] [damage]")
+    @CommandMethod("luckytrolls|luckytroll|trolls|troll|lt explode [target]")
     @CommandDescription("Spawns an explosion on where you're looking at or at other player")
     public void explodeCommand(
             final @NonNull CommandSender sender,
