@@ -12,6 +12,7 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -24,18 +25,28 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: 8
-      - name: Setup BuildTools
+          distribution: 'temurin'
+          java-version: '8'
+          cache: 'gradle'
+      - name: Cache Maven Dependencies
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/settings.gradle') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Setup BuildTools (1.8.8 - 1.16.4)
         uses: SpraxDev/Action-SpigotMC@v4.0.0
         with:
           versions: 1.8.8, 1.12.2, 1.13.2, 1.16.4
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: 17
-      - name: Setup BuildTools
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Setup BuildTools (1.17.1 - 1.19)
         uses: SpraxDev/Action-SpigotMC@v4.0.0
         with:
           versions: 1.17.1, 1.18.2, 1.19
