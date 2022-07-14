@@ -647,7 +647,7 @@ public abstract class CommandClass {
             return new CanSkipCallback(sender, true, null);
         }
 
-        if (targetsCallback.size() == 1) {
+        if (targetsCallback.size() <= 4) {
             Player target = targetsCallback.getTargets().stream().findFirst().orElse(null);
             if (target != null && target.equals(sender)) {
                 return new CanSkipCallback(sender, true, null);
@@ -673,7 +673,7 @@ public abstract class CommandClass {
                 }
 
                 if (playerSender) {
-                    if (((Player) sender).getWorld() == target.getWorld() && ((Player) sender).getLocation().distanceSquared(target.getLocation()) >= 50) {
+                    if (((Player) sender).getWorld() == target.getWorld() && ((Player) sender).getLocation().distanceSquared(target.getLocation()) >= 100) {
                         return new CanSkipCallback(sender, false, Arrays.asList(
                                 plugin.getMainConfigManager().getPrefix() + "§eAre you sure you want to execute §d" + action + " §eon §b" + targetsCallback.size() + " §eplayers?",
                                 plugin.getMainConfigManager().getPrefix() + "§eSome players are located really far away from you."
