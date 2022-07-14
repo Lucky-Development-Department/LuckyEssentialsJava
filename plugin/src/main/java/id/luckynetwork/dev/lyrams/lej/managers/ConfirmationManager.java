@@ -2,6 +2,8 @@ package id.luckynetwork.dev.lyrams.lej.managers;
 
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.callbacks.CanSkipCallback;
+import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -16,7 +18,7 @@ import java.util.Map;
 public class ConfirmationManager {
 
     private final LuckyEssentials plugin;
-    private final Map<Player, Callable> confirmationMap = new HashMap<>();
+    private final Map<Player, ConfirmationData> confirmationMap = new HashMap<>();
 
     /**
      * Requests a confirmation before executing something
@@ -38,7 +40,7 @@ public class ConfirmationManager {
         }
 
         player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§ePlease type §d/less confirm §eto confirm your action.");
-        this.confirmationMap.put(player, callable);
+        this.confirmationMap.put(player, new ConfirmationData(callable));
     }
 
     /**
@@ -80,8 +82,15 @@ public class ConfirmationManager {
             return;
         }
 
+        ConfirmationData confirmationData = this.confirmationMap.get(player);
+        if (confirmationData.getTime() + 5000L < System.currentTimeMillis()) {
+            player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou have waited too long to confirm your action!");
+            this.confirmationMap.remove(player);
+            return;
+        }
+
         player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§aAction confirmed.");
-        this.confirmationMap.get(player).call();
+        confirmationData.getCallable().call();
         this.confirmationMap.remove(player);
     }
 
@@ -105,5 +114,12 @@ public class ConfirmationManager {
 
     public interface Callable {
         void call();
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    private static class ConfirmationData {
+        private final long time = System.currentTimeMillis();
+        private final Callable callable;
     }
 }
