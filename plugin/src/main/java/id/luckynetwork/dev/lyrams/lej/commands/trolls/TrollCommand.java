@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class TrollCommand extends CommandClass {
 
-    @CommandMethod("luckytrolls|luckytroll|troll|lt check [target]")
+    @CommandMethod("luckytrolls|luckytroll|troll|trolls|lt check [target]")
     @CommandDescription("Checks active trolls on target")
     public void checkCommand(
             final @NonNull CommandSender sender,
@@ -55,8 +55,7 @@ public class TrollCommand extends CommandClass {
         });
     }
 
-    @ProxiedBy("trolls")
-    @CommandMethod("luckytrolls|luckytroll|troll|lt list")
+    @CommandMethod("luckytrolls|luckytroll|troll|trolls|lt list")
     @CommandDescription("Lists all available trolls")
     public void listCommand(
             final @NonNull CommandSender sender
