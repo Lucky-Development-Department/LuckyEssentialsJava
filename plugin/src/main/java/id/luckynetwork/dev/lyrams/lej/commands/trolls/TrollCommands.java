@@ -1,10 +1,6 @@
 package id.luckynetwork.dev.lyrams.lej.commands.trolls;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
-import cloud.commandframework.annotations.ProxiedBy;
+import cloud.commandframework.annotations.*;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrollType;
@@ -217,13 +213,12 @@ public class TrollCommands extends CommandClass {
             boolean finalDamage = damage != null && damage;
             targets.forEach(target -> {
                 Location location = target.getLocation();
+                target.getWorld().createExplosion(location.getX(), location.getY(), location.getZ(), (float) finalPower, finalDamage, finalDamage);
                 if (finalDamage) {
-                    target.getWorld().createExplosion(location, 4, true);
                     target.getWorld().strikeLightning(location);
                     target.getWorld().strikeLightning(location);
                     target.getWorld().strikeLightning(location);
                 } else {
-                    target.getWorld().createExplosion(location, 4, false);
                     target.getWorld().strikeLightningEffect(location);
                     target.getWorld().strikeLightningEffect(location);
                     target.getWorld().strikeLightningEffect(location);
