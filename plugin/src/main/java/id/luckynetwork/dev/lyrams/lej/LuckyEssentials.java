@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import id.luckynetwork.dev.lyrams.lej.commands.main.LuckyEssentialsCommand;
 import id.luckynetwork.dev.lyrams.lej.config.ConfigFile;
-import id.luckynetwork.dev.lyrams.lej.dependency.DependencyHelper;
 import id.luckynetwork.dev.lyrams.lej.listeners.*;
 import id.luckynetwork.dev.lyrams.lej.listeners.trolls.TrollListeners;
 import id.luckynetwork.dev.lyrams.lej.managers.ConfirmationManager;
@@ -23,7 +22,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -144,15 +142,6 @@ public class LuckyEssentials extends JavaPlugin {
                     e.printStackTrace();
                 }
             }
-        }
-
-        DependencyHelper helper = new DependencyHelper(LuckyEssentials.class.getClassLoader());
-        File dir = new File("plugins/LuckyEssentials/libs");
-        try {
-            helper.download(dependencyMap, dir.toPath());
-            helper.loadDir(dir.toPath(), false);
-        } catch (IOException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
