@@ -1,12 +1,11 @@
 package id.luckynetwork.dev.lyrams.lej.commands.api;
 
-import cloud.commandframework.annotations.suggestions.Suggestions;
-import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.callbacks.CanSkipCallback;
 import id.luckynetwork.dev.lyrams.lej.callbacks.IsDoubleCallback;
 import id.luckynetwork.dev.lyrams.lej.callbacks.IsIntegerCallback;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
+import id.luckynetwork.lyrams.lyralibs.bukkit.command.LyraCommand;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -23,9 +22,25 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public abstract class CommandClass {
+public abstract class CommandClass extends LyraCommand {
 
     protected LuckyEssentials plugin = LuckyEssentials.getInstance();
+
+    public CommandClass(String command, String permission, List<String> aliases) {
+        super(command, permission, aliases);
+    }
+
+    public CommandClass(String command, List<String> aliases) {
+        super(command, aliases);
+    }
+
+    public CommandClass(String command, String permission) {
+        super(command, permission);
+    }
+
+    public CommandClass(String command) {
+        super(command);
+    }
 
     /**
      * Gets a set of target player(s) from the input arg.
@@ -690,15 +705,13 @@ public abstract class CommandClass {
         return new CanSkipCallback(sender, true, null);
     }
 
-    @Suggestions("players")
-    public List<String> players(CommandContext<CommandSender> context, String current) {
+    public List<String> players(String current) {
         return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName)
                 .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
-    @Suggestions("toggles")
-    public List<String> toggles(CommandContext<CommandSender> context, String current) {
+    public List<String> toggles(String current) {
         return Stream.of("on", "off", "toggle")
                 .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
                 .collect(Collectors.toList());
