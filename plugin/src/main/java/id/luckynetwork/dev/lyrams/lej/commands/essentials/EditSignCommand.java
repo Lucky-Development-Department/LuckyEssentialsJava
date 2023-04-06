@@ -1,30 +1,21 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.specifier.Greedy;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.util.List;
 
 public class EditSignCommand extends CommandClass {
 
-    @CommandMethod("editsign|sign set <line> <text>")
-    @CommandDescription("Sets the text of a line in a sign")
-    public void setCommand(
-            final @NonNull Player sender,
-            final @NonNull @Argument(value = "line", description = "The line") Integer line,
-            final @Nullable @Argument(value = "text", description = "The text") @Greedy String text
-    ) {
-        if (!Utils.checkPermission(sender, "editsign")) {
-            return;
-        }
+    public EditSignCommand() {
+        super("editsign");
+    }
 
+    public void setCommand(Player sender, Integer line, String text) {
         Sign sign = this.getSign(sender);
         if (sign == null) {
             return;
@@ -40,16 +31,7 @@ public class EditSignCommand extends CommandClass {
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eLine §d" + line + " §eupdated.");
     }
 
-    @CommandMethod("editsign|sign clear [line]")
-    @CommandDescription("Clears the text of a line or all lines in a sign")
-    public void clearCommand(
-            final @NonNull Player sender,
-            final @NonNull @Argument(value = "line", description = "The line", defaultValue = "-1") Integer line
-    ) {
-        if (!Utils.checkPermission(sender, "editsign")) {
-            return;
-        }
-
+    public void clearCommand(Player sender, Integer line) {
         Sign sign = this.getSign(sender);
         if (sign == null) {
             return;
@@ -73,7 +55,6 @@ public class EditSignCommand extends CommandClass {
         }
     }
 
-    @Nullable
     private Sign getSign(Player player) {
         Block targetBlock = player.getTargetBlock(null, 7);
         if (!(targetBlock instanceof Sign)) {
@@ -82,5 +63,56 @@ public class EditSignCommand extends CommandClass {
         }
 
         return (Sign) targetBlock;
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "editsign")) {
+            return;
+        }
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cOnly players can use this command!");
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        Player player = (Player) sender;
+        Sign sign = this.getSign(player);
+        if (sign == null) {
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("set")) {
+            if (args.length < 3) {
+                this.sendDefaultMessage(sender);
+                return;
+            }
+
+            this.setCommand(player, Integer.parseInt(args[1]), args[2]);
+        } else if (args[0].equalsIgnoreCase("clear")) {
+            if (args.length < 2) {
+                this.sendDefaultMessage(sender);
+                return;
+            }
+
+            this.clearCommand(player, Integer.parseInt(args[1]));
+        }
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eEditSign command:");
+        sender.sendMessage("§8└─ §e/editsign set <line> <text> §8- §7Sets the text of a line in a sign");
+        sender.sendMessage("§8└─ §e/editsign clear [line] §8- §7Clears the text of a line or all lines in a sign");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        return null;
     }
 }

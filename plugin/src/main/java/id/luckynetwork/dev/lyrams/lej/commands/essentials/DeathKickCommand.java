@@ -1,40 +1,25 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
-import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.List;
 
 public class DeathKickCommand extends CommandClass {
 
-    @CommandMethod("deathkick info|i|check|c")
-    @CommandDescription("Gets the information about the current death kick system state")
-    public void checkCommand(
-            final @NonNull CommandSender sender
-    ) {
-        if (!Utils.checkPermission(sender, "deathkick")) {
-            return;
-        }
+    public DeathKickCommand() {
+        super("deathkick");
+    }
 
+    public void checkCommand(CommandSender sender) {
         sender.sendMessage("§eDeath kick mode info:");
         sender.sendMessage("§8└─ §eState: " + Utils.colorizeTrueFalse(plugin.getMainConfigManager().isDeathKick(), TrueFalseType.ON_OFF));
     }
 
-    @CommandMethod("deathkick toggle [toggle]")
-    @CommandDescription("Toggles death kick mode")
-    public void toggleCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
-    ) {
-        if (!Utils.checkPermission(sender, "deathkick")) {
-            return;
-        }
-
+    public void toggleCommand(CommandSender sender, String toggle) {
         ToggleType toggleType = ToggleType.getToggle(toggle);
         if (toggleType.equals(ToggleType.UNKNOWN)) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown toggle type §l" + toggle + "§c!");
@@ -60,5 +45,47 @@ public class DeathKickCommand extends CommandClass {
 
         boolean deathKick = plugin.getMainConfigManager().isDeathKick();
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled death kick mode: " + Utils.colorizeTrueFalse(deathKick, TrueFalseType.ON_OFF) + "§e.");
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "deathkick")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        switch (args[0].toLowerCase()) {
+            case "info":
+            case "i":
+            case "check":
+            case "c": {
+                this.checkCommand(sender);
+                break;
+            }
+            case "toggle": {
+                String toggle = args.length > 1 ? args[1] : "toggle";
+                this.toggleCommand(sender, toggle);
+                break;
+            }
+            default: {
+                this.sendDefaultMessage(sender);
+            }
+        }
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eDeath-kick command:");
+        sender.sendMessage("§8└─ §e/deathkick info §8- §7Check the deathkick mode");
+        sender.sendMessage("§8└─ §e/deathkick toggle [<toggle/on/off>] §8- §7Toggle the deathkick mode");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        return null;
     }
 }

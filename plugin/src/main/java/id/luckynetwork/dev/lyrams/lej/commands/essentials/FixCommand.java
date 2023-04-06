@@ -1,38 +1,24 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
-import cloud.commandframework.annotations.suggestions.Suggestions;
-import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.InventoryScope;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FixCommand extends CommandClass {
 
-    @CommandMethod("fix|repair [target] [type]")
-    @CommandDescription("Repair items")
-    public void fixCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "type", description = "hand/all/armor", defaultValue = "hand", suggestions = "inventoryScopes") String type,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "fix")) {
-            return;
-        }
+    public FixCommand() {
+        super("fix", Collections.singletonList("repair"));
+    }
 
+    public void fixCommand(CommandSender sender, String targetName, String type, Boolean silent) {
         TargetsCallback targets;
         InventoryScope inventoryScope;
         if (!InventoryScope.getType(targetName).equals(InventoryScope.UNKNOWN) && sender instanceof Player) {
@@ -70,14 +56,7 @@ public class FixCommand extends CommandClass {
 
                             content.setDurability((short) 0);
                         }
-                        for (ItemStack content : target.getInventory().getArmorContents()) {
-                            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
-                                continue;
-                            }
-
-                            content.setDurability((short) 0);
-                        }
-                        target.updateInventory();
+                        fixArmorContents(target);
 
                         if (silent == null || !silent) {
                             target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour items have been repaired.");
@@ -99,14 +78,7 @@ public class FixCommand extends CommandClass {
                         break;
                     }
                     case ARMOR: {
-                        for (ItemStack content : target.getInventory().getArmorContents()) {
-                            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
-                                continue;
-                            }
-
-                            content.setDurability((short) 0);
-                        }
-                        target.updateInventory();
+                        fixArmorContents(target);
 
                         if (silent == null || !silent) {
                             target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eYour armor has been repaired.");
@@ -115,28 +87,12 @@ public class FixCommand extends CommandClass {
                     }
                     case SPECIFIC: {
                         for (ItemStack content : target.getInventory().getContents()) {
-                            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
-                                continue;
-                            }
-
-                            if (content.getType() != inventoryScope.getItemStack().getType()) {
-                                continue;
-                            }
-
-                            content.setDurability((short) 0);
+                            this.validateInventoryContent(inventoryScope, content);
                         }
-
                         for (ItemStack content : target.getInventory().getArmorContents()) {
-                            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
-                                continue;
-                            }
-
-                            if (content.getType() != inventoryScope.getItemStack().getType()) {
-                                continue;
-                            }
-
-                            content.setDurability((short) 0);
+                            this.validateInventoryContent(inventoryScope, content);
                         }
+
                         target.updateInventory();
 
                         if (silent == null || !silent) {
@@ -159,11 +115,86 @@ public class FixCommand extends CommandClass {
         }, this.canSkip("repair", targets, sender));
     }
 
-    @Suggestions("inventoryScopes")
-    public List<String> inventoryScopes(CommandContext<CommandSender> context, String current) {
-        return Stream.of("all", "hand", "armor")
-                .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
-                .collect(Collectors.toList());
+    private void validateInventoryContent(InventoryScope inventoryScope, ItemStack content) {
+        if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
+            return;
+        }
+
+        if (content.getType() != inventoryScope.getItemStack().getType()) {
+            return;
+        }
+
+        content.setDurability((short) 0);
     }
 
+    private void fixArmorContents(Player target) {
+        for (ItemStack content : target.getInventory().getArmorContents()) {
+            if (content == null || content.getType().isBlock() || content.getDurability() == 0 || content.getType().getMaxDurability() < 1) {
+                continue;
+            }
+
+            content.setDurability((short) 0);
+        }
+        target.updateInventory();
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "fix")) {
+            return;
+        }
+
+        String targetName = "self";
+        String type = "hand";
+        boolean silent = false;
+
+        if (args.length == 0) {
+            this.fixCommand(sender, targetName, type, silent);
+            return;
+        }
+
+        // /fix [target/scope] [scope] -s [silent]
+        if (args.length >= 1) {
+            targetName = args[0];
+        }
+
+        if (args.length >= 2) {
+            type = args[1];
+        }
+
+        if (args[args.length - 1].equalsIgnoreCase("-s")) {
+            silent = true;
+        }
+
+        this.fixCommand(sender, targetName, type, silent);
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eFix command:");
+        sender.sendMessage("§8└─ §e/fix [<scope>] §8- §7Fix your item in hand");
+        sender.sendMessage("§8└─ §e/fix <target> [<scope>] §8- §7Fix the target's inventory");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "fix")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            List<String> suggestions = Stream.of("all", "hand", "armor")
+                    .filter(it -> it.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+            suggestions.addAll(this.players(args[0]));
+
+            return suggestions;
+        } else if (args.length == 2) {
+            return Stream.of("all", "hand", "armor")
+                    .filter(it -> it.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        return null;
+    }
 }

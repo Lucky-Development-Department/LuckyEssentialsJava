@@ -1,11 +1,5 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.ProxiedBy;
-import cloud.commandframework.annotations.suggestions.Suggestions;
-import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Material;
@@ -13,27 +7,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class EnchantCommand extends CommandClass {
 
-    @ProxiedBy("ench")
-    @CommandMethod("enchant <enchantmentOrTarget> [enchantment]")
-    @CommandDescription("Enchants your item in hand")
-    public void enchantCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "enchantmentOrTarget", description = "The enchantment or other player", defaultValue = "self", suggestions = "enchantments") String enchantmentOrTarget,
-            final @Nullable @Argument(value = "enchantment", description = "The enchantment for the other player") String enchantment
-    ) {
-        if (!Utils.checkPermission(sender, "enchant")) {
-            return;
-        }
+    public EnchantCommand(String command) {
+        super("enchant", Collections.singletonList("ench"));
+    }
 
+    public void enchantCommand(CommandSender sender, String enchantmentOrTarget, String enchantment) {
         if (sender instanceof Player && enchantment == null) {
             ItemStack itemInHand = plugin.getVersionSupport().getItemInHand((Player) sender);
             this.parseEnchants(sender, enchantmentOrTarget).forEach(itemInHand::addUnsafeEnchantment);
@@ -56,21 +42,50 @@ public class EnchantCommand extends CommandClass {
                 return;
             }
 
-            plugin.getConfirmationManager().requestConfirmation(() ->
-                    targets.forEach(target -> {
-                        ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(target);
-                        if (itemInHand != null && itemInHand.getType() != Material.AIR) {
-                            enchants.keySet().forEach(key -> itemInHand.addUnsafeEnchantment(key, enchants.get(key)));
-                            target.updateInventory();
-                        }
-                    }), this.canSkip("enchant", targets, sender));
+            plugin.getConfirmationManager().requestConfirmation(() -> targets.forEach(target -> {
+                ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(target);
+                if (itemInHand != null && itemInHand.getType() != Material.AIR) {
+                    enchants.keySet().forEach(key -> itemInHand.addUnsafeEnchantment(key, enchants.get(key)));
+                    target.updateInventory();
+                }
+            }), this.canSkip("enchant", targets, sender));
         }
     }
 
-    @Suggestions("enchantments")
-    public List<String> enchantments(CommandContext<CommandSender> context, String current) {
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "enchant")) {
+            return;
+        }
+
+        String enchantmentOrTarget = "self";
+        String enchantment = null;
+
+        if (args.length > 0) {
+            enchantmentOrTarget = args[0];
+        }
+
+        if (args.length > 1) {
+            enchantment = args[1];
+        }
+
+        this.enchantCommand(sender, enchantmentOrTarget, enchantment);
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eEnchant command:");
+        sender.sendMessage("§8└─ §e/enchant <enchantmentOrTarget> [enchantment] §8- §7Enchants your item in hand");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "enchant")) {
+            return null;
+        }
+
         return plugin.getVersionSupport().getEnchantments().stream()
-                .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
+                .filter(it -> it.toLowerCase().startsWith(args[0].toLowerCase()))
                 .collect(Collectors.toList());
     }
 }

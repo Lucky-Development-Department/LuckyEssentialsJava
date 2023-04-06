@@ -1,29 +1,20 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.util.Collections;
+import java.util.List;
 
 public class FeedCommand extends CommandClass {
 
-    @CommandMethod("feed|eat [target]")
-    @CommandDescription("Feeds you or other player")
-    public void feedCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "feed")) {
-            return;
-        }
+    public FeedCommand(String command) {
+        super("feed", Collections.singletonList("eat"));
+    }
 
+    public void feedCommand(CommandSender sender, String targetName, Boolean silent) {
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
@@ -56,4 +47,42 @@ public class FeedCommand extends CommandClass {
         }, this.canSkip("feed", targets, sender));
     }
 
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "feed")) {
+            return;
+        }
+
+        String targetName = "self";
+        if (args.length == 0) {
+            this.feedCommand(sender, targetName, false);
+            return;
+        }
+
+        targetName = args[0];
+        boolean silent = args[args.length - 1].equalsIgnoreCase("-s");
+
+        this.feedCommand(sender, targetName, silent);
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eFeed command:");
+        sender.sendMessage("§8└─ §e/feed §8- §7Feed yourself");
+        sender.sendMessage("§8└─ §e/feed <player> §8- §7Feed a player");
+        sender.sendMessage("§8└─ §e/feed <player> <silent> §8- §7Feed a player silently");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "feed")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            return this.players(args[0]);
+        }
+
+        return null;
+    }
 }

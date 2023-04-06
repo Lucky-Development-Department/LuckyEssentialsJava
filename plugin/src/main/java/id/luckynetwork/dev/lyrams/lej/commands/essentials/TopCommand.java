@@ -1,31 +1,23 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TopCommand extends CommandClass {
 
-    @CommandMethod("top [target]")
-    @CommandDescription("Teleports you or other player to the highest block on their location")
-    public void topCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "top")) {
-            return;
-        }
+    public TopCommand() {
+        super("top");
+    }
 
+    public void topCommand(CommandSender sender, String targetName, Boolean silent) {
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
@@ -60,7 +52,54 @@ public class TopCommand extends CommandClass {
             } else if ((!(sender instanceof Player)) || (targets.doesNotContain((Player) sender) && !targetName.equals("self"))) {
                 targets.stream().findFirst().ifPresent(target -> sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eTeleported §d" + target.getName() + "§e."));
             }
-        },this.canSkip("teleport player to highest block", targets, sender));
+        }, this.canSkip("teleport player to highest block", targets, sender));
     }
 
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "top")) {
+            return;
+        }
+
+        String targetName = "self";
+        boolean silent = false;
+        if (args.length > 0) {
+            targetName = args[0];
+        }
+
+        if (args[args.length - 1].equalsIgnoreCase("-s")) {
+            silent = true;
+        }
+
+        this.topCommand(sender, targetName, silent);
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eTop command:");
+        sender.sendMessage("§8└─ §e/top §8- §7Teleport to the highest block");
+        sender.sendMessage("§8└─ §e/top <player> §8- §7Teleport a player to the highest block");
+        sender.sendMessage("§8└─ §e/top <player> -s §8- §7Teleport a player to the highest block silently");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "top")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            List<String> suggestions =
+                    Stream.of("-s")
+                            .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                            .collect(Collectors.toList());
+            suggestions.addAll(this.players(args[0]));
+
+            return suggestions;
+        }
+
+        return Stream.of("-s")
+                .filter(s -> s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+                .collect(Collectors.toList());
+    }
 }

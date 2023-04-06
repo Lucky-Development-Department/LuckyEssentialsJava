@@ -1,32 +1,23 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FlyCommand extends CommandClass {
 
-    @CommandMethod("fly [target] [toggle]")
-    @CommandDescription("Toggles flight for you or other player")
-    public void flyCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "fly")) {
-            return;
-        }
+    public FlyCommand(String command) {
+        super("fly");
+    }
 
+    public void flyCommand(CommandSender sender, String targetName, String toggle, Boolean silent) {
         TargetsCallback targets;
         ToggleType toggleType;
         if (!ToggleType.getToggle(targetName).equals(ToggleType.UNKNOWN) && sender instanceof Player) {
@@ -88,4 +79,63 @@ public class FlyCommand extends CommandClass {
         }, this.canSkip("toggle flight", targets, sender));
     }
 
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "fly")) {
+            return;
+        }
+
+        String targetName = "self";
+        String toggle = "toggle";
+        Boolean silent = null;
+        if (args.length == 0) {
+            this.flyCommand(sender, targetName, toggle, false);
+            return;
+        }
+
+        if (args.length == 1) {
+            targetName = args[0];
+        }
+
+        if (args.length == 2) {
+            targetName = args[0];
+            toggle = args[1];
+        }
+
+        if (args[args.length - 1].equalsIgnoreCase("-s")) {
+            silent = true;
+        }
+
+        this.flyCommand(sender, targetName, toggle, silent);
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eFly command:");
+        sender.sendMessage("§8└─ §e/fly §8- §7Toggle your flight mode");
+        sender.sendMessage("§8└─ §e/fly [<player/on/off/toggle>] [<on/off/toggle>] §8- §7Toggle the flight mode of a player");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "fly")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            return this.players(args[0]);
+        } else if (args.length == 2) {
+            return Stream.of("on", "off", "toggle")
+                    .filter(it -> it.toLowerCase().startsWith(args[1]))
+                    .collect(Collectors.toList());
+        } else if (args.length == 3) {
+            return Stream.of("-s")
+                    .filter(it -> it.toLowerCase().startsWith(args[2]))
+                    .collect(Collectors.toList());
+        }
+
+        return Stream.of("-s")
+                .filter(s -> s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+                .collect(Collectors.toList());
+    }
 }

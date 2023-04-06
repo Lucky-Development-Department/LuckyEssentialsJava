@@ -1,21 +1,19 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.List;
 
 public class InvseeCommand extends CommandClass {
 
-    @CommandMethod("invsee <target>")
-    @CommandDescription("Peeks into other player's inventory")
-    public void invseeCommand(
-            final @NonNull Player player,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
-    ) {
+    public InvseeCommand() {
+        super("invsee");
+    }
+
+    public void invseeCommand(Player player, String targetName) {
         if (!Utils.checkPermission(player, "invsee")) {
             return;
         }
@@ -33,4 +31,40 @@ public class InvseeCommand extends CommandClass {
         targets.stream().findFirst().ifPresent(target -> plugin.getInvseeManager().invsee(player, target));
     }
 
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "invsee")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        if (sender instanceof Player) {
+            this.invseeCommand((Player) sender, args[0]);
+        } else {
+            sender.sendMessage("§cThis command can only be executed by players!");
+        }
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eInvsee command:");
+        sender.sendMessage("§8└─ §e/invsee <player> §8- §7Open a player's inventory");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "invsee")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            return this.players(args[0]);
+        }
+
+        return null;
+    }
 }

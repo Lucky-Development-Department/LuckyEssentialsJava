@@ -1,9 +1,5 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
 import id.luckynetwork.dev.lyrams.lej.callbacks.IsIntegerCallback;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
@@ -11,28 +7,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EffectCommand extends CommandClass {
 
-    @CommandMethod("effect <target> <effect> [amplifier] [duration]")
-    @CommandDescription("Applies a potion effect for you or other player")
-    public void effectCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "effect", description = "The potion effect name or 'clear'", defaultValue = "health") String effectName,
-            final @NonNull @Argument(value = "amplifier", description = "The effect amplifier", defaultValue = "-1") Integer amplifier,
-            final @NonNull @Argument(value = "duration", description = "The effect duration in seconds", defaultValue = "-1") Integer duration,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "effect")) {
-            return;
-        }
+    public EffectCommand() {
+        super("effect");
+    }
 
+    public void effectCommand(CommandSender sender, String targetName, String effectName, Integer amplifier, Integer duration, Boolean silent) {
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
@@ -69,27 +57,26 @@ public class EffectCommand extends CommandClass {
         }
 
         plugin.getConfirmationManager().requestConfirmation(() -> {
-            targets.forEach(target ->
-                    potionEffectList.forEach(it -> {
-                        int finalDuration = duration == -1 ? it.getDuration() : (duration * 20);
-                        int finalAmplifier = amplifier == -1 ? it.getAmplifier() : amplifier;
+            targets.forEach(target -> potionEffectList.forEach(it -> {
+                int finalDuration = duration == -1 ? it.getDuration() : (duration * 20);
+                int finalAmplifier = amplifier == -1 ? it.getAmplifier() : amplifier;
 
-                        // remove the effect
-                        boolean isRemove = finalDuration == 0;
-                        if (target.hasPotionEffect(it.getType()) || isRemove) {
-                            target.removePotionEffect(it.getType());
-                            if (isRemove) {
-                                return;
-                            }
-                        }
+                // remove the effect
+                boolean isRemove = finalDuration == 0;
+                if (target.hasPotionEffect(it.getType()) || isRemove) {
+                    target.removePotionEffect(it.getType());
+                    if (isRemove) {
+                        return;
+                    }
+                }
 
-                        PotionEffect potionEffect = new PotionEffect(it.getType(), finalDuration, finalAmplifier);
-                        target.addPotionEffect(potionEffect);
-                        if (silent == null || !silent) {
-                            String durationSeconds = String.valueOf(duration == -1 ? (it.getDuration() / 20) : duration);
-                            target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds§e!");
-                        }
-                    }));
+                PotionEffect potionEffect = new PotionEffect(it.getType(), finalDuration, finalAmplifier);
+                target.addPotionEffect(potionEffect);
+                if (silent == null || !silent) {
+                    String durationSeconds = String.valueOf(duration == -1 ? (it.getDuration() / 20) : duration);
+                    target.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eApplied §6" + potionEffect.getType().getName() + ":" + finalAmplifier + " §efor §b" + durationSeconds + " seconds§e!");
+                }
+            }));
 
             if (potionEffectList.size() == 1) {
                 PotionEffect potionEffect = potionEffectList.get(0);
@@ -229,4 +216,100 @@ public class EffectCommand extends CommandClass {
 
         return potionEffectList;
     }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "effect")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            sendDefaultMessage(sender);
+            return;
+        }
+
+        String targetName = args[0];
+        String effectName = "health";
+        int amplifier = -1;
+        int duration = -1;
+        boolean silent = false;
+
+        if (args.length >= 2) {
+            effectName = args[1];
+        }
+
+        if (args.length >= 3) {
+            IsIntegerCallback isIntegerCallback = Utils.isInteger(args[2]);
+            if (isIntegerCallback.isInteger()) {
+                amplifier = isIntegerCallback.getValue();
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid amplifier: §l" + args[2] + "§c!");
+                return;
+            }
+        }
+
+        if (args.length >= 4) {
+            IsIntegerCallback isIntegerCallback = Utils.isInteger(args[3]);
+            if (isIntegerCallback.isInteger()) {
+                duration = isIntegerCallback.getValue();
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid duration: §l" + args[3] + "§c!");
+                return;
+            }
+        }
+
+        if (args.length >= 5 && args[4].equalsIgnoreCase("-s")) {
+            silent = true;
+        }
+
+        this.effectCommand(sender, targetName, effectName, amplifier, duration, silent);
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eEffect command:");
+        sender.sendMessage("§8└─ §e/effect <player> <effect> [amplifier] [duration] [-s] §8- §7Gives a player a potion effect");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "effect")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            return this.players(args[0]);
+        } else if (args.length == 2) {
+            List<String> suggestions = new ArrayList<>();
+            for (PotionEffectType effectType : PotionEffectType.values()) {
+                if (effectType == null) {
+                    continue;
+                }
+
+                String name = effectType.getName();
+                if (name == null) {
+                    continue;
+                }
+
+                if (name.toLowerCase().startsWith(args[1].toLowerCase())) {
+                    suggestions.add(name);
+                }
+            }
+
+            return suggestions;
+        } else if (args.length == 3) {
+            return Stream.of("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+                    .filter(s -> s.toLowerCase().startsWith(args[2].toLowerCase()))
+                    .collect(Collectors.toList());
+        } else if (args.length == 4) {
+            return Stream.of("5", "20", "60", "120")
+                    .filter(s -> s.toLowerCase().startsWith(args[3].toLowerCase()))
+                    .collect(Collectors.toList());
+        } else if (args.length == 5) {
+            return Collections.singletonList("-s");
+        }
+
+        return null;
+    }
+
 }

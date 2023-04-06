@@ -1,44 +1,27 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ChatLockCommand extends CommandClass {
 
-    @CommandMethod("chatlock|lockchat info|i|check|c")
-    @CommandDescription("Gets the information about the chat lock system")
-    public void checkCommand(
-            final @NonNull CommandSender sender
-    ) {
-        if (!Utils.checkPermission(sender, "chatlock")) {
-            return;
-        }
+    public ChatLockCommand() {
+        super("chatlock", Arrays.asList("lockchat", "cl"));
+    }
 
+    public void checkCommand(CommandSender sender) {
         sender.sendMessage("§eChat lock info:");
         sender.sendMessage("§8└─ §eState: " + Utils.colorizeTrueFalse(plugin.getMainConfigManager().isChatLocked(), TrueFalseType.ON_OFF));
     }
 
-    @CommandMethod("chatlock|lockchat toggle [toggle]")
-    @CommandDescription("Toggles chatlock")
-    public void toggleCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "chatlock")) {
-            return;
-        }
-
+    public void toggleCommand(CommandSender sender, String toggle, Boolean silent) {
         ToggleType toggleType = ToggleType.getToggle(toggle);
         if (toggleType.equals(ToggleType.UNKNOWN)) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown toggle type §l" + toggle + "§c!");
@@ -71,5 +54,50 @@ public class ChatLockCommand extends CommandClass {
             });
         }
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled chat-lock: " + Utils.colorizeTrueFalse(chatLocked, TrueFalseType.ON_OFF) + "§e.");
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "chatlock")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        switch (args[0].toLowerCase()) {
+            case "info":
+            case "i":
+            case "check":
+            case "c": {
+                this.checkCommand(sender);
+                break;
+            }
+            case "toggle": {
+                String toggle = args.length > 1 ? args[1] : "toggle";
+                boolean silent = args[args.length - 1].equalsIgnoreCase("-s");
+
+                this.toggleCommand(sender, toggle, silent);
+                break;
+            }
+            default: {
+                this.sendDefaultMessage(sender);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eChatLock command:");
+        sender.sendMessage("§8└─ §e/chatlock info §8- §7Check the chat-lock state");
+        sender.sendMessage("§8└─ §e/chatlock toggle [<toggle/on/off>] §8- §7Toggle the chat-lock state");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        return null;
     }
 }

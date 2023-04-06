@@ -1,37 +1,23 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
-import cloud.commandframework.annotations.suggestions.Suggestions;
-import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.InventoryScope;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ClearCommand extends CommandClass {
 
-    @CommandMethod("clearinventory|clear|ci [target] [type]")
-    @CommandDescription("Clear items")
-    public void clearCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "type", description = "hand/all/armor", defaultValue = "all", suggestions = "inventoryScopes") String type,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "clear")) {
-            return;
-        }
+    public ClearCommand() {
+        super("clear", Arrays.asList("clearinventory", "ci"));
+    }
 
+    public void clearCommand(CommandSender sender, String targetName, String type, Boolean silent) {
         TargetsCallback targets;
         InventoryScope inventoryScope;
         if (!InventoryScope.getType(targetName).equals(InventoryScope.UNKNOWN) && sender instanceof Player) {
@@ -113,11 +99,58 @@ public class ClearCommand extends CommandClass {
         }, this.canSkip("clear player inventory", targets, sender));
     }
 
-    @Suggestions("inventoryScopes")
-    public List<String> inventoryScopes(CommandContext<CommandSender> context, String current) {
-        return Stream.of("all", "hand", "armor")
-                .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
-                .collect(Collectors.toList());
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "clear")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            if (sender instanceof Player) {
+                this.clearCommand(sender, "self", "all", null);
+            } else {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou must specify a target!");
+            }
+            return;
+        }
+
+        String targetName = args[0];
+        String type = "all";
+        boolean silent = args[args.length - 1].equalsIgnoreCase("-s");
+
+        if (args.length >= 2) {
+            type = args[1];
+        }
+
+        this.clearCommand(sender, targetName, type, silent);
     }
 
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eClear command:");
+        sender.sendMessage("§8└─ §e/clear [<all/hand/armor>] §8- §7Clear your inventory");
+        sender.sendMessage("§8└─ §e/clear <player> [<all/hand/armor>] [<silent>] §8- §7Clear a player's inventory");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "clear")) {
+            return null;
+        }
+
+        switch (args.length) {
+            case 1:
+                return this.players(args[0]);
+            case 2:
+                return Stream.of("all", "hand", "armor")
+                        .filter(it -> it.toLowerCase().startsWith(args[1].toLowerCase()))
+                        .collect(Collectors.toList());
+            case 3:
+                return Stream.of("true", "false")
+                        .filter(it -> it.toLowerCase().startsWith(args[2].toLowerCase()))
+                        .collect(Collectors.toList());
+        }
+
+        return null;
+    }
 }

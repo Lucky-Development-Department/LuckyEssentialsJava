@@ -711,12 +711,6 @@ public abstract class CommandClass extends LyraCommand {
                 .collect(Collectors.toList());
     }
 
-    public List<String> toggles(String current) {
-        return Stream.of("on", "off", "toggle")
-                .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-
     @Data
     protected static class TargetsCallback {
         private boolean notified = false;
