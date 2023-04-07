@@ -1,11 +1,5 @@
 package id.luckynetwork.dev.lyrams.lej.commands.pluginmanager;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.specifier.Greedy;
-import cloud.commandframework.annotations.suggestions.Suggestions;
-import cloud.commandframework.context.CommandContext;
 import com.google.common.base.Joiner;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
@@ -14,29 +8,26 @@ import id.luckynetwork.dev.lyrams.lej.utils.pluginmanager.PluginManagerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PluginManagerCommand extends CommandClass {
 
-    @CommandMethod("luckyessentials pluginmanager|pm list")
-    @CommandDescription("Lists all loaded plugin")
-    public void listCommand(
-            final @NonNull CommandSender sender
-    ) {
+    public PluginManagerCommand() {
+        super("pluginmanager", Arrays.asList("lpm"));
+    }
+
+    public void listCommand(CommandSender sender) {
         if (!Utils.checkPermission(sender, "pluginmanager.list")) {
             return;
         }
 
-        List<PluginManagerUtils.PluginInfo> pluginInfos = Arrays.stream(Bukkit.getPluginManager().getPlugins())
-                .map(PluginManagerUtils::getPluginInfo)
-                .sorted(Comparator.comparing(PluginManagerUtils.PluginInfo::getRawName))
-                .collect(Collectors.toCollection(ArrayList::new));
+        List<PluginManagerUtils.PluginInfo> pluginInfos = Arrays.stream(Bukkit.getPluginManager().getPlugins()).map(PluginManagerUtils::getPluginInfo).sorted(Comparator.comparing(PluginManagerUtils.PluginInfo::getRawName)).collect(Collectors.toCollection(ArrayList::new));
 
         final int[] size = {pluginInfos.size()};
         sender.sendMessage("§ePlugins §d(" + size[0] + ")§e: ");
@@ -54,12 +45,7 @@ public class PluginManagerCommand extends CommandClass {
         });
     }
 
-    @CommandMethod("luckyessentials pluginmanager|pm info <pluginName>")
-    @CommandDescription("Gets the info of a plugin")
-    public void infoCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
-    ) {
+    public void infoCommand(CommandSender sender, String pluginName) {
         if (!Utils.checkPermission(sender, "pluginmanager.info")) {
             return;
         }
@@ -79,12 +65,7 @@ public class PluginManagerCommand extends CommandClass {
         sender.sendMessage("§8└─ §eSoft Depends: §a" + Joiner.on(", ").join(pluginByName.getDescription().getSoftDepend()));
     }
 
-    @CommandMethod("luckyessentials pluginmanager|pm load <pluginName>")
-    @CommandDescription("Loads a plugin")
-    public void loadCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
-    ) {
+    public void loadCommand(CommandSender sender, String pluginName) {
         if (!Utils.checkPermission(sender, "pluginmanager.load")) {
             return;
         }
@@ -103,12 +84,7 @@ public class PluginManagerCommand extends CommandClass {
         }
     }
 
-    @CommandMethod("luckyessentials pluginmanager|pm unload <pluginName>")
-    @CommandDescription("Unloads a plugin")
-    public void unLoadCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
-    ) {
+    public void unLoadCommand(CommandSender sender, String pluginName) {
         if (!Utils.checkPermission(sender, "pluginmanager.unload")) {
             return;
         }
@@ -127,12 +103,7 @@ public class PluginManagerCommand extends CommandClass {
         }
     }
 
-    @CommandMethod("luckyessentials pluginmanager|pm reload <pluginName>")
-    @CommandDescription("Reloads a plugin")
-    public void reloadCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
-    ) {
+    public void reloadCommand(CommandSender sender, String pluginName) {
         if (!Utils.checkPermission(sender, "pluginmanager.reload")) {
             return;
         }
@@ -151,12 +122,7 @@ public class PluginManagerCommand extends CommandClass {
         }
     }
 
-    @CommandMethod("luckyessentials pluginmanager|pm enable <pluginName>")
-    @CommandDescription("Enables a plugin")
-    public void enableCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
-    ) {
+    public void enableCommand(CommandSender sender, String pluginName) {
         if (!Utils.checkPermission(sender, "pluginmanager.enable")) {
             return;
         }
@@ -179,12 +145,7 @@ public class PluginManagerCommand extends CommandClass {
         }
     }
 
-    @CommandMethod("luckyessentials pluginmanager|pm disable <pluginName>")
-    @CommandDescription("Disables a plugin")
-    public void disableCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
-    ) {
+    public void disableCommand(CommandSender sender, String pluginName) {
         if (!Utils.checkPermission(sender, "pluginmanager.disable")) {
             return;
         }
@@ -207,12 +168,8 @@ public class PluginManagerCommand extends CommandClass {
         }
     }
 
-    @CommandMethod("luckyessentials pluginmanager|pm restart <pluginName>")
-    @CommandDescription("Restarts a plugin")
-    public void restartCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
-    ) {
+
+    public void restartCommand(CommandSender sender, String pluginName) {
         if (!Utils.checkPermission(sender, "pluginmanager.restart")) {
             return;
         }
@@ -231,12 +188,7 @@ public class PluginManagerCommand extends CommandClass {
         }
     }
 
-    @CommandMethod("luckyessentials pluginmanager|pm usage|uses|help <pluginName>")
-    @CommandDescription("Gets the command usages of a plugin")
-    public void usageCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "pluginName", description = "The plugin name", suggestions = "plugins") @Greedy String pluginName
-    ) {
+    public void usageCommand(CommandSender sender, String pluginName) {
         if (!Utils.checkPermission(sender, "pluginmanager.usage")) {
             return;
         }
@@ -251,12 +203,7 @@ public class PluginManagerCommand extends CommandClass {
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eCommands: §a" + usages);
     }
 
-    @CommandMethod("luckyessentials pluginmanager|pm lookup <command>")
-    @CommandDescription("Looks up for the plugin of the command")
-    public void lookupCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "command", description = "The command") @Greedy String command
-    ) {
+    public void lookupCommand(CommandSender sender, String command) {
         if (!Utils.checkPermission(sender, "pluginmanager.lookup")) {
             return;
         }
@@ -270,11 +217,144 @@ public class PluginManagerCommand extends CommandClass {
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§d" + command + " §eis registered to: §a" + Joiner.on(", ").join(pluginByCommands));
     }
 
-    @Suggestions("plugins")
-    public List<String> plugins(CommandContext<CommandSender> context, String current) {
-        return Arrays.stream(Bukkit.getPluginManager().getPlugins())
-                .map(Plugin::getName)
-                .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
-                .collect(Collectors.toList());
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "pluginmanager")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        String subCommand = args[0];
+        switch (subCommand.toLowerCase()) {
+            case "enable": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String pluginName = args[1];
+                this.enableCommand(sender, pluginName);
+                break;
+            }
+            case "disable": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String pluginName = args[1];
+                this.disableCommand(sender, pluginName);
+                break;
+            }
+            case "restart": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String pluginName = args[1];
+                this.restartCommand(sender, pluginName);
+                break;
+            }
+            case "usage":
+            case "uses":
+            case "help": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String pluginName = args[1];
+                this.usageCommand(sender, pluginName);
+                break;
+            }
+            case "lookup": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String pluginName = args[1];
+                this.lookupCommand(sender, pluginName);
+                break;
+            }
+            case "load": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String pluginName = args[1];
+                this.loadCommand(sender, pluginName);
+                break;
+            }
+            case "unload": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String pluginName = args[1];
+                this.unLoadCommand(sender, pluginName);
+                break;
+            }
+            case "reload": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String pluginName = args[1];
+                this.reloadCommand(sender, pluginName);
+                break;
+            }
+            case "info": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String pluginName = args[1];
+                this.infoCommand(sender, pluginName);
+                break;
+            }
+            case "list": {
+                this.listCommand(sender);
+                break;
+            }
+            default:
+                this.sendDefaultMessage(sender);
+                break;
+        }
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§ePluginManager command:");
+        sender.sendMessage("§8└─ §e/pluginmanager §8- §7Shows this message");
+        sender.sendMessage("§8└─ §e/pluginmanager enable <pluginName> §8- §7Enables a plugin");
+        sender.sendMessage("§8└─ §e/pluginmanager disable <pluginName> §8- §7Disables a plugin");
+        sender.sendMessage("§8└─ §e/pluginmanager restart <pluginName> §8- §7Restarts a plugin");
+        sender.sendMessage("§8└─ §e/pluginmanager usage <pluginName> §8- §7Gets the command usages of a plugin");
+        sender.sendMessage("§8└─ §e/pluginmanager lookup <command> §8- §7Looks up for the plugin of the command");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "pluginmanager")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            return Stream.of("enable", "disable", "restart", "usage", "uses", "help", "lookup").filter(it -> it.toLowerCase().startsWith(args[0].toLowerCase())).collect(Collectors.toList());
+        } else if (args.length == 2) {
+            return Stream.of(Bukkit.getPluginManager().getPlugins()).map(Plugin::getName).filter(it -> it.toLowerCase().startsWith(args[1].toLowerCase())).collect(Collectors.toList());
+        }
+
+        return null;
     }
 }

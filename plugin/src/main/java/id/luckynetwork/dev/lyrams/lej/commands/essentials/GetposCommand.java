@@ -1,8 +1,5 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -12,20 +9,16 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.List;
 
 public class GetposCommand extends CommandClass {
 
-    @CommandMethod("getpos [target]")
-    @CommandDescription("Gets the location of target")
-    public void getposCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
-    ) {
-        if (!Utils.checkPermission(sender, "getpos")) {
-            return;
-        }
+    public GetposCommand() {
+        super("getpos");
+    }
 
+    public void getposCommand(CommandSender sender, String targetName) {
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
@@ -53,9 +46,7 @@ public class GetposCommand extends CommandClass {
                 }
 
                 sender.sendMessage("");
-                ComponentBuilder textBuilder = new ComponentBuilder("        §7(( Click to teleport ))")
-                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click to teleport to " + target.getName()).create()))
-                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
+                ComponentBuilder textBuilder = new ComponentBuilder("        §7(( Click to teleport ))").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click to teleport to " + target.getName()).create())).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
                 BaseComponent[] text = textBuilder.create();
                 ((Player) sender).spigot().sendMessage(text);
                 sender.sendMessage("");
@@ -63,5 +54,29 @@ public class GetposCommand extends CommandClass {
                 sender.sendMessage("§8└─ §ePitch: §a" + location.getPitch());
             }
         });
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "getpos")) {
+            return;
+        }
+
+        String targetName = "self";
+        if (args.length == 1) {
+            targetName = args[0];
+        }
+
+        this.getposCommand(sender, targetName);
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        return null;
     }
 }

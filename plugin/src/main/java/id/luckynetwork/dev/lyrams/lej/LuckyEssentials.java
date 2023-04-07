@@ -1,10 +1,6 @@
 package id.luckynetwork.dev.lyrams.lej;
 
 import com.google.common.base.Joiner;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import id.luckynetwork.dev.lyrams.lej.commands.main.LuckyEssentialsCommand;
 import id.luckynetwork.dev.lyrams.lej.config.ConfigFile;
 import id.luckynetwork.dev.lyrams.lej.listeners.*;
@@ -22,13 +18,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 public class LuckyEssentials extends JavaPlugin {
@@ -54,7 +45,6 @@ public class LuckyEssentials extends JavaPlugin {
         long millis = System.currentTimeMillis();
 
         instance = this;
-        this.loadDependencies();
         this.loadVersionSupport();
 
         this.loadConfigs();
@@ -93,56 +83,6 @@ public class LuckyEssentials extends JavaPlugin {
         this.mainConfig = new ConfigFile(this, "config.yml");
         this.slotsConfig = new ConfigFile(this, "slots.yml");
         this.whitelistConfig = new ConfigFile(this, "whitelist.yml");
-    }
-
-    /**
-     * downloads and/or loads dependencies
-     */
-    private void loadDependencies() {
-        this.getLogger().info("Loading and injecting dependencies...");
-        Map<String, String> dependencyMap = new HashMap<>();
-
-        InputStream stream = null;
-        InputStreamReader reader = null;
-        try {
-            stream = LuckyEssentials.class.getClassLoader().getResourceAsStream("dependencies.json");
-
-            assert stream != null;
-            reader = new InputStreamReader(stream);
-
-            JsonParser parser = new JsonParser();
-            JsonArray dependencies = parser.parse(reader).getAsJsonArray();
-            if (dependencies.size() == 0) {
-                return;
-            }
-
-            for (JsonElement element : dependencies) {
-                JsonObject dependency = element.getAsJsonObject();
-                if (!dependency.get("name").getAsString().contains("adventure-api")) {
-                    dependencyMap.put(
-                            dependency.get("name").getAsString(),
-                            dependency.get("url").getAsString()
-                    );
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     /**
@@ -195,7 +135,9 @@ public class LuckyEssentials extends JavaPlugin {
                     break;
                 }
                 case "v1_19_R1":
-                case "v1_19_R2": {
+                case "v1_19_R2":
+                case "v1_19_R3":
+                case "v1_19_R4": {
                     support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_19_R1.v1_19_R1");
                     this.getLogger().info("Loaded version support v1_19_R1");
                     break;

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class EnchantCommand extends CommandClass {
 
-    public EnchantCommand(String command) {
+    public EnchantCommand() {
         super("enchant", Collections.singletonList("ench"));
     }
 

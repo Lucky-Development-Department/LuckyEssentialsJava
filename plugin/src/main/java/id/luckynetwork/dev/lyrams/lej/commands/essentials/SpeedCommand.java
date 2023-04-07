@@ -1,18 +1,10 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
-import cloud.commandframework.annotations.suggestions.Suggestions;
-import cloud.commandframework.context.CommandContext;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.SpeedType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,19 +12,11 @@ import java.util.stream.Stream;
 
 public class SpeedCommand extends CommandClass {
 
-    @CommandMethod("speed <target> <typeOrSpeed> [speed]")
-    @CommandDescription("Sets walking or flying speed")
-    public void speedCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The the target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "typeOrSpeed", description = "walking/flying", defaultValue = "walking", suggestions = "speedTypes") String typeOrSpeed,
-            final @Nullable @Argument(value = "speed", description = "The speed") Float speed,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "speed")) {
-            return;
-        }
+    public SpeedCommand() {
+        super("speed");
+    }
 
+    public void speedCommand(CommandSender sender, String targetName, String typeOrSpeed, Float speed, Boolean silent) {
         TargetsCallback targets = this.getTargets(sender, targetName);
         if (targets.notifyIfEmpty()) {
             sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
@@ -86,12 +70,65 @@ public class SpeedCommand extends CommandClass {
         }, this.canSkip("set player speed", targets, sender));
     }
 
-    @Suggestions("speedTypes")
-    public List<String> speedTypes(CommandContext<CommandSender> context, String current) {
-        return Stream.of("walking", "flying")
-                .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
-                .collect(Collectors.toList());
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "speed")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        String targetName = "self";
+        String typeOrSpeed = "walking";
+        Float speed = null;
+        boolean silent = String.join(" ", args).contains("-s");
+
+        if (args.length >= 1) {
+            typeOrSpeed = args[0];
+        }
+
+        if (args.length >= 2) {
+            try {
+                speed = Float.parseFloat(args[1]);
+            } catch (NumberFormatException ex) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid speed!");
+                return;
+            }
+        }
+
+        if (args.length >= 3) {
+            try {
+                speed = Float.parseFloat(args[2]);
+            } catch (NumberFormatException ex) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid speed!");
+                return;
+            }
+        }
+
+        this.speedCommand(sender, targetName, typeOrSpeed, speed, silent);
     }
 
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eSpeed command:");
+        sender.sendMessage("§8└─ §e/speed <target> <typeOrSpeed> [speed] §8- §7Sets walking or flying speed");
+    }
 
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "speed")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            return this.players(args[0]);
+        } else if (args.length == 2) {
+            return Stream.of("walking", "flying").filter(it -> it.toLowerCase().startsWith(args[1])).collect(Collectors.toList());
+        }
+
+        return null;
+    }
 }

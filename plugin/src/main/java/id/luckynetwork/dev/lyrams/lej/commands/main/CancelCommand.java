@@ -6,15 +6,15 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class ConfirmCommand extends CommandClass {
+public class CancelCommand extends CommandClass {
 
-    public ConfirmCommand() {
-        super("confirm");
+    public CancelCommand() {
+        super("cancel");
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        plugin.getConfirmationManager().confirm((Player) sender);
+        plugin.getConfirmationManager().deleteConfirmation((Player) sender);
     }
 
     @Override

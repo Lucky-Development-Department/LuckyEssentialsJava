@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FeedCommand extends CommandClass {
 
-    public FeedCommand(String command) {
+    public FeedCommand() {
         super("feed", Collections.singletonList("eat"));
     }
 
@@ -70,7 +70,7 @@ public class FeedCommand extends CommandClass {
         sender.sendMessage("§eFeed command:");
         sender.sendMessage("§8└─ §e/feed §8- §7Feed yourself");
         sender.sendMessage("§8└─ §e/feed <player> §8- §7Feed a player");
-        sender.sendMessage("§8└─ §e/feed <player> <silent> §8- §7Feed a player silently");
+        sender.sendMessage("§8└─ §e/feed <player> -s §8- §7Feed a player silently");
     }
 
     @Override

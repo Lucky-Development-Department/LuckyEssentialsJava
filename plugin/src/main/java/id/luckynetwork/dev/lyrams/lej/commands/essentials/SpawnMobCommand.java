@@ -1,8 +1,5 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.callbacks.IsIntegerCallback;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
@@ -10,8 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,18 +14,11 @@ import java.util.stream.Collectors;
 
 public class SpawnMobCommand extends CommandClass {
 
-    @CommandMethod("spawnmob <targetOrMob> [mobOrAmount] [amount]")
-    @CommandDescription("Summons an entity you're looking at or at other player's location")
-    public void spawnMobCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "targetOrMob", description = "The mob or the target player", suggestions = "players") String targetOrMob,
-            final @Nullable @Argument(value = "mobOrAmount", description = "The mob or the amount of mobs to spawn") String mobOrAmount,
-            final @Nullable @Argument(value = "amount", description = "The amount of mobs to spawn") Integer amount
-    ) {
-        if (!Utils.checkPermission(sender, "spawnmob")) {
-            return;
-        }
+    public SpawnMobCommand() {
+        super("spawnmob");
+    }
 
+    public void spawnMobCommand(CommandSender sender, String targetOrMob, String mobOrAmount, Integer amount) {
         int spawnAmount = 1;
         EntityType entityType = null;
         List<Location> locations = new ArrayList<>();
@@ -112,4 +100,36 @@ public class SpawnMobCommand extends CommandClass {
         }
     }
 
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "spawnmob")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        String targetOrMob = args[0];
+        String mobOrAmount = args.length > 1 ? args[1] : null;
+        int amount = args.length > 2 ? Integer.parseInt(args[2]) : 1;
+
+        this.spawnMobCommand(sender, targetOrMob, mobOrAmount, amount);
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eSpawnmob command:");
+        sender.sendMessage("§8└─ §e/spawnmob <mob> §8- §7Summons an entity you're looking at");
+        sender.sendMessage("§8└─ §e/spawnmob <mob> <amount> §8- §7Summons an entity you're looking at with a set amount");
+        sender.sendMessage("§8└─ §e/spawnmob <target> <mob> §8- §7Summons an entity at other player's location");
+        sender.sendMessage("§8└─ §e/spawnmob <target> <mob> <amount> §8- §7Summons an entity at other player's location with a set amount");
+    }
+
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        return null;
+    }
 }

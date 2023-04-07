@@ -1,31 +1,23 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.Flag;
 import id.luckynetwork.dev.lyrams.lej.callbacks.IsIntegerCallback;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ExpCommand extends CommandClass {
 
-    @CommandMethod("exp|xp add <target> <amount>")
-    @CommandDescription("Adds exp or level for target")
-    public void addCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "amount", description = "The amount") String amount,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "exp")) {
-            return;
-        }
+    public ExpCommand() {
+        super("exp", Collections.singletonList("xp"));
+    }
 
+    public void addCommand(CommandSender sender, String targetName, String amount, Boolean silent) {
         boolean isLevel = false;
         int finalAmount = 0;
 
@@ -94,18 +86,7 @@ public class ExpCommand extends CommandClass {
         }
     }
 
-    @CommandMethod("exp|xp remove <target> <amount>")
-    @CommandDescription("Removes exp or level for target")
-    public void removeCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "amount", description = "The amount") String amount,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "exp")) {
-            return;
-        }
-
+    public void removeCommand(CommandSender sender, String targetName, String amount, Boolean silent) {
         boolean isLevel = false;
         int finalAmount = 0;
 
@@ -176,18 +157,7 @@ public class ExpCommand extends CommandClass {
         }, this.canSkip("change player exp", targets, sender));
     }
 
-    @CommandMethod("exp|xp set <target> <amount>")
-    @CommandDescription("Sets exp or level for target")
-    public void setCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName,
-            final @NonNull @Argument(value = "amount", description = "The amount") String amount,
-            final @Nullable @Flag(value = "silent", aliases = "s", description = "Should the target not be notified?") Boolean silent
-    ) {
-        if (!Utils.checkPermission(sender, "exp")) {
-            return;
-        }
-
+    public void setCommand(CommandSender sender, String targetName, String amount, Boolean silent) {
         boolean isLevel = false;
         int finalAmount = 0;
 
@@ -256,12 +226,7 @@ public class ExpCommand extends CommandClass {
         }
     }
 
-    @CommandMethod("exp|xp check <target>")
-    @CommandDescription("Checks exp and level of target")
-    public void checkCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
-    ) {
+    public void checkCommand(CommandSender sender, String targetName) {
         if (!Utils.checkPermission(sender, "exp")) {
             return;
         }
@@ -286,4 +251,105 @@ public class ExpCommand extends CommandClass {
 
     }
 
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "exp")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        String arg = args[0];
+        switch (arg) {
+            case "add": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String targetName = args[1];
+                String amount = args[2];
+                boolean silent = args.length == 4 && args[3].equalsIgnoreCase("-s");
+
+                this.addCommand(sender, targetName, amount, silent);
+                break;
+            }
+
+            case "remove": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String targetName = args[1];
+                String amount = args[2];
+                boolean silent = args.length == 4 && args[3].equalsIgnoreCase("-s");
+
+                this.removeCommand(sender, targetName, amount, silent);
+                break;
+            }
+
+            case "set": {
+                if (args.length < 2) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String targetName = args[1];
+                String amount = args[2];
+                boolean silent = args.length == 4 && args[3].equalsIgnoreCase("-s");
+
+                this.setCommand(sender, targetName, amount, silent);
+                break;
+            }
+
+            case "check": {
+                if (args.length < 1) {
+                    this.sendDefaultMessage(sender);
+                    return;
+                }
+
+                String targetName = args[1];
+                this.checkCommand(sender, targetName);
+                break;
+            }
+
+            default: {
+                this.sendDefaultMessage(sender);
+            }
+        }
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eExp command:");
+        sender.sendMessage("§8└─ §e/exp add <player> <amount> [-s] §8- §7Adds experience to a player");
+        sender.sendMessage("§8└─ §e/exp remove <player> <amount> [-s] §8- §7Removes experience from a player");
+        sender.sendMessage("§8└─ §e/exp set <player> <amount> [-s] §8- §7Sets experience of a player");
+        sender.sendMessage("§8└─ §e/exp check <player> §8- §7Checks experience of a player");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "exp")) {
+            return null;
+        }
+
+        if (args.length == 0) {
+            return Stream.of("add", "remove", "set", "check")
+                    .filter(it -> it.toLowerCase().startsWith(args[0]))
+                    .collect(Collectors.toList());
+        } else if (args.length == 0) {
+            return this.players(args[0]);
+        } else if (args.length == 0 && !args[0].equalsIgnoreCase("check")) {
+            return Stream.of("-s")
+                    .filter(it -> it.toLowerCase().startsWith(args[0]))
+                    .collect(Collectors.toList());
+        }
+
+        return null;
+    }
 }

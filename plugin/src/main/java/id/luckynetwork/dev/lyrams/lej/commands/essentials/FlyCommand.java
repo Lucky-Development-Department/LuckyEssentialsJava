@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public class FlyCommand extends CommandClass {
 
-    public FlyCommand(String command) {
+    public FlyCommand() {
         super("fly");
     }
 

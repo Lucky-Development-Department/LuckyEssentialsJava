@@ -1,27 +1,21 @@
 package id.luckynetwork.dev.lyrams.lej.commands.trolls;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.ProxiedBy;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.TrollType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class TrollCommand extends CommandClass {
 
-    @CommandMethod("luckytrolls|luckytroll|troll|trolls|lt check [target]")
-    @CommandDescription("Checks active trolls on target")
-    public void checkCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
-    ) {
+    public TrollCommand() {
+        super("luckytroll", Arrays.asList("luckytrolls", "trolls", "troll", "lt"));
+    }
+
+    public void checkCommand(CommandSender sender, String targetName) {
         if (!Utils.checkPermission(sender, "trolls.check")) {
             return;
         }
@@ -55,11 +49,7 @@ public class TrollCommand extends CommandClass {
         });
     }
 
-    @CommandMethod("luckytrolls|luckytroll|troll|trolls|lt list")
-    @CommandDescription("Lists all available trolls")
-    public void listCommand(
-            final @NonNull CommandSender sender
-    ) {
+    public void listCommand(CommandSender sender) {
         if (!Utils.checkPermission(sender, "trolls")) {
             return;
         }
@@ -80,4 +70,47 @@ public class TrollCommand extends CommandClass {
         });
     }
 
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "trolls")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        String subCommand = args[0];
+        switch (subCommand.toLowerCase()) {
+            case "check": {
+                String targetName = "self";
+                if (args.length >= 2) {
+                    targetName = args[1];
+                }
+
+                this.checkCommand(sender, targetName);
+                break;
+            }
+            case "list": {
+                this.listCommand(sender);
+                break;
+            }
+            default: {
+                this.sendDefaultMessage(sender);
+                break;
+            }
+        }
+
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        return null;
+    }
 }

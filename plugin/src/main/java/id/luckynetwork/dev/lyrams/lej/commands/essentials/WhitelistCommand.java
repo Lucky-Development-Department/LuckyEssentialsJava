@@ -1,8 +1,5 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
@@ -14,17 +11,19 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WhitelistCommand extends CommandClass {
 
-    @CommandMethod("whitelist|ewl|wl info|i")
-    @CommandDescription("Gets the information about the current LuckyEssentials whitelist system configuration")
-    public void infoCommand(
-            final @NonNull CommandSender sender
-    ) {
+    public WhitelistCommand() {
+        super("whitelist", Arrays.asList("ewl", "wl"));
+    }
+
+    public void infoCommand(CommandSender sender) {
         if (!Utils.checkPermission(sender, "whitelist")) {
             return;
         }
@@ -32,10 +31,7 @@ public class WhitelistCommand extends CommandClass {
         sender.sendMessage("§eWhitelist system info:");
         sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF));
 
-        ComponentBuilder textBuilder = new ComponentBuilder("")
-                .append("§8├─ §eWhitelisted Players: §a" + plugin.getWhitelistManager().getWhitelistedList().size())
-                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click to run /whitelist list").create()))
-                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list"));
+        ComponentBuilder textBuilder = new ComponentBuilder("").append("§8├─ §eWhitelisted Players: §a" + plugin.getWhitelistManager().getWhitelistedList().size()).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click to run /whitelist list").create())).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list"));
         BaseComponent[] text = textBuilder.create();
         if (sender instanceof Player) {
             ((Player) sender).spigot().sendMessage(text);
@@ -46,12 +42,7 @@ public class WhitelistCommand extends CommandClass {
         sender.sendMessage("§8└─ §eCheck Mode: §a" + plugin.getWhitelistManager().getCheckMode().toString());
     }
 
-    @CommandMethod("whitelist|ewl|wl list [page]")
-    @CommandDescription("Lists all whitelisted players")
-    public void listCommand(
-            final @NonNull CommandSender sender,
-            @NonNull @Argument(value = "page", description = "The page", defaultValue = "1") Integer page
-    ) {
+    public void listCommand(CommandSender sender, Integer page) {
         if (!Utils.checkPermission(sender, "whitelist")) {
             return;
         }
@@ -80,13 +71,9 @@ public class WhitelistCommand extends CommandClass {
             boolean lastPage = (page == maxPage);
             ComponentBuilder textBuilder = new ComponentBuilder("§6§m-----------------------§8 ");
             if (lastPage) {
-                textBuilder.append("§8[§e←§8]")
-                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click for previous page").create()))
-                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list " + (page - 1)));
+                textBuilder.append("§8[§e←§8]").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click for previous page").create())).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list " + (page - 1)));
             } else {
-                textBuilder.append("§8[§e→§8]")
-                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click for next page").create()))
-                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list " + (page + 1)));
+                textBuilder.append("§8[§e→§8]").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click for next page").create())).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list " + (page + 1)));
             }
             textBuilder.append(" §6§m-----------------------");
 
@@ -108,12 +95,7 @@ public class WhitelistCommand extends CommandClass {
         }
     }
 
-    @CommandMethod("whitelist|ewl|wl add <target>")
-    @CommandDescription("Adds a player to the LuckyEssentials whitelist system")
-    public void addCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
-    ) {
+    public void addCommand(CommandSender sender, String targetName) {
         if (!Utils.checkPermission(sender, "whitelist")) {
             return;
         }
@@ -125,10 +107,7 @@ public class WhitelistCommand extends CommandClass {
         }
 
         targets.forEach(target -> {
-            WhitelistData data = WhitelistData.newBuilder()
-                    .uuid(target.getUniqueId().toString())
-                    .name(target.getName())
-                    .build();
+            WhitelistData data = WhitelistData.newBuilder().uuid(target.getUniqueId().toString()).name(target.getName()).build();
 
             if (plugin.getWhitelistManager().getWhitelistedList().contains(data)) {
                 sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§c§l" + data.getName() + " §cis already whitelisted.");
@@ -141,12 +120,7 @@ public class WhitelistCommand extends CommandClass {
         plugin.getWhitelistManager().save();
     }
 
-    @CommandMethod("whitelist|ewl|wl remove <target>")
-    @CommandDescription("Removes a player to the LuckyEssentials whitelist system")
-    public void removeCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
-    ) {
+    public void removeCommand(CommandSender sender, String targetName) {
         if (!Utils.checkPermission(sender, "whitelist")) {
             return;
         }
@@ -158,10 +132,7 @@ public class WhitelistCommand extends CommandClass {
         }
 
         targets.forEach(target -> {
-            WhitelistData data = WhitelistData.newBuilder()
-                    .uuid(target.getUniqueId().toString())
-                    .name(target.getName())
-                    .build();
+            WhitelistData data = WhitelistData.newBuilder().uuid(target.getUniqueId().toString()).name(target.getName()).build();
 
             if (plugin.getWhitelistManager().getWhitelistedList().contains(data)) {
                 plugin.getWhitelistManager().getWhitelistedList().remove(data);
@@ -179,12 +150,7 @@ public class WhitelistCommand extends CommandClass {
         plugin.getWhitelistManager().save();
     }
 
-    @CommandMethod("whitelist|ewl|wl check <target>")
-    @CommandDescription("Checks if a player is whitelisted in the LuckyEssentials whitelist system")
-    public void checkCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "target", description = "The target player", defaultValue = "self", suggestions = "players") String targetName
-    ) {
+    public void checkCommand(CommandSender sender, String targetName) {
         if (!Utils.checkPermission(sender, "whitelist")) {
             return;
         }
@@ -220,12 +186,7 @@ public class WhitelistCommand extends CommandClass {
         });
     }
 
-    @CommandMethod("whitelist|ewl|wl toggle [toggle]")
-    @CommandDescription("Toggles on or off the LuckyEssentials whitelist system")
-    public void toggleCommand(
-            final @NonNull CommandSender sender,
-            final @NonNull @Argument(value = "toggle", description = "on/off/toggle", defaultValue = "toggle", suggestions = "toggles") String toggle
-    ) {
+    public void toggleCommand(CommandSender sender, String toggle) {
         if (!Utils.checkPermission(sender, "whitelist")) {
             return;
         }
@@ -255,11 +216,7 @@ public class WhitelistCommand extends CommandClass {
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
     }
 
-    @CommandMethod("whitelist|ewl|wl on")
-    @CommandDescription("Toggles on the LuckyEssentials whitelist system")
-    public void onCommand(
-            final @NonNull CommandSender sender
-    ) {
+    public void onCommand(CommandSender sender) {
         if (!Utils.checkPermission(sender, "whitelist")) {
             return;
         }
@@ -269,11 +226,7 @@ public class WhitelistCommand extends CommandClass {
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
     }
 
-    @CommandMethod("whitelist|ewl|wl off")
-    @CommandDescription("Toggles off the LuckyEssentials whitelist system")
-    public void offCommand(
-            final @NonNull CommandSender sender
-    ) {
+    public void offCommand(CommandSender sender) {
         if (!Utils.checkPermission(sender, "whitelist")) {
             return;
         }
@@ -283,16 +236,137 @@ public class WhitelistCommand extends CommandClass {
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eToggled whitelist system " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF) + "§e.");
     }
 
-    @CommandMethod("whitelist|ewl|wl reload")
-    @CommandDescription("Reloads the LuckyEssentials whitelist system")
-    public void reloadCommand(
-            final @NonNull CommandSender sender
-    ) {
+    public void reloadCommand(CommandSender sender) {
         if (!Utils.checkPermission(sender, "whitelist")) {
             return;
         }
 
         plugin.getWhitelistManager().reload();
         sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eReloaded the whitelist system!");
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        String arg = args[0];
+        switch (arg.toLowerCase()) {
+            case "info": {
+                this.infoCommand(sender);
+                break;
+            }
+
+            case "list": {
+                int page = 1;
+                if (args.length == 2) {
+                    try {
+                        page = Integer.parseInt(args[1]);
+                    } catch (NumberFormatException e) {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid page number!");
+                        return;
+                    }
+                }
+
+                this.listCommand(sender, page);
+            }
+
+            case "add": {
+                if (args.length == 1) {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cPlease specify a player!");
+                    return;
+                }
+
+                this.addCommand(sender, args[1]);
+                break;
+            }
+
+            case "remove": {
+                if (args.length == 1) {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cPlease specify a player!");
+                    return;
+                }
+
+                this.removeCommand(sender, args[1]);
+                break;
+            }
+
+            case "check": {
+                if (args.length == 1) {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cPlease specify a player!");
+                    return;
+                }
+
+                this.checkCommand(sender, args[1]);
+                break;
+            }
+
+            case "toggle": {
+                if (args.length == 1) {
+                    this.toggleCommand(sender, "toggle");
+                    return;
+                }
+
+                this.toggleCommand(sender, args[1]);
+                break;
+            }
+
+            case "on": {
+                this.onCommand(sender);
+                break;
+            }
+
+            case "off": {
+                this.offCommand(sender);
+                break;
+            }
+
+            case "reload": {
+                this.reloadCommand(sender);
+                break;
+            }
+
+            default: {
+                this.sendDefaultMessage(sender);
+                break;
+            }
+        }
+
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eWhitelist command:");
+        sender.sendMessage("§8└─ §e/whitelist §8- §7Shows this help message");
+        sender.sendMessage("§8└─ §e/whitelist info §8- §7Shows information about the whitelist system");
+        sender.sendMessage("§8└─ §e/whitelist list <page> §8- §7Shows a list of whitelisted players on a specific page");
+        sender.sendMessage("§8└─ §e/whitelist add <player> §8- §7Adds a player to the whitelist");
+        sender.sendMessage("§8└─ §e/whitelist remove <player> §8- §7Removes a player from the whitelist");
+        sender.sendMessage("§8└─ §e/whitelist check <player> §8- §7Checks if a player is whitelisted");
+        sender.sendMessage("§8└─ §e/whitelist toggle <on/off> §8- §7Toggles the whitelist system");
+        sender.sendMessage("§8└─ §e/whitelist on §8- §7Enables the whitelist system");
+        sender.sendMessage("§8└─ §e/whitelist off §8- §7Disables the whitelist system");
+        sender.sendMessage("§8└─ §e/whitelist reload §8- §7Reloads the whitelist system");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "whitelist")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            return Stream.of("info", "list", "add", "remove", "check", "toggle", "on", "off", "reload")
+                    .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        return null;
     }
 }

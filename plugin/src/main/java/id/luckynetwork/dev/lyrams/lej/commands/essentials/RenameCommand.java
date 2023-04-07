@@ -1,29 +1,25 @@
 package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.specifier.Greedy;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.List;
 
 public class RenameCommand extends CommandClass {
 
-    @CommandMethod("rename <name>")
-    @CommandDescription("Renames the item that you are currently holding")
-    public void renameCommand(
-            final @NonNull Player player,
-            final @NonNull @Argument(value = "name", description = "The new name for the held item") @Greedy String name
-    ) {
-        if (!Utils.checkPermission(player, "rename")) {
-            return;
-        }
+    public RenameCommand() {
+        super("rename");
+    }
 
+    public void renameCommand(
+            Player player,
+            String name
+    ) {
         ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(player);
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
             player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou are not holding anything!");
@@ -37,5 +33,32 @@ public class RenameCommand extends CommandClass {
 
         player.updateInventory();
         player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eItem successfully renamed.");
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!Utils.checkPermission(sender, "rename")) {
+            return;
+        }
+
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
+        String name = String.join(" ", args);
+
+        this.renameCommand((Player) sender, name);
+    }
+
+    @Override
+    public void sendDefaultMessage(CommandSender sender) {
+        sender.sendMessage("§eRename command:");
+        sender.sendMessage("§8└─ §e/rename <name> §8- §7Renames the currently held item");
+    }
+
+    @Override
+    public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        return null;
     }
 }
