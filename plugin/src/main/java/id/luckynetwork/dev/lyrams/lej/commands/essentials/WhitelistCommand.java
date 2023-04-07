@@ -275,6 +275,7 @@ public class WhitelistCommand extends CommandClass {
                 }
 
                 this.listCommand(sender, page);
+                break;
             }
 
             case "add": {
