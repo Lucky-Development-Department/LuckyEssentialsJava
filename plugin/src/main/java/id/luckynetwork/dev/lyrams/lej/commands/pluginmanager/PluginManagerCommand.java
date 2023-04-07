@@ -341,6 +341,12 @@ public class PluginManagerCommand extends CommandClass {
         sender.sendMessage("§8└─ §e/pluginmanager restart <pluginName> §8- §7Restarts a plugin");
         sender.sendMessage("§8└─ §e/pluginmanager usage <pluginName> §8- §7Gets the command usages of a plugin");
         sender.sendMessage("§8└─ §e/pluginmanager lookup <command> §8- §7Looks up for the plugin of the command");
+        sender.sendMessage("§8└─ §e/pluginmanager load <pluginName> §8- §7Loads a plugin");
+        sender.sendMessage("§8└─ §e/pluginmanager unload <pluginName> §8- §7Unloads a plugin");
+        sender.sendMessage("§8└─ §e/pluginmanager reload <pluginName> §8- §7Reloads a plugin");
+        sender.sendMessage("§8└─ §e/pluginmanager info <pluginName> §8- §7Gets information about a plugin");
+        sender.sendMessage("§8└─ §e/pluginmanager list §8- §7List all plugins");
+
     }
 
     @Override
