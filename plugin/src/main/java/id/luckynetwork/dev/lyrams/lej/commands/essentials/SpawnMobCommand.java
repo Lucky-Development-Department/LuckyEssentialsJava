@@ -121,8 +121,8 @@ public class SpawnMobCommand extends CommandClass {
     @Override
     public void sendDefaultMessage(CommandSender sender) {
         sender.sendMessage("§eSpawnmob command:");
-        sender.sendMessage("§8└─ §e/spawnmob <mob> §8- §7Summons an entity you're looking at");
-        sender.sendMessage("§8└─ §e/spawnmob <mob> <amount> §8- §7Summons an entity you're looking at with a set amount");
+        sender.sendMessage("§8└─ §e/spawnmob <mob> §8- §7Summons an entity at your location");
+        sender.sendMessage("§8└─ §e/spawnmob <mob> <amount> §8- §7Summons an entity at your location with a set amount");
         sender.sendMessage("§8└─ §e/spawnmob <target> <mob> §8- §7Summons an entity at other player's location");
         sender.sendMessage("§8└─ §e/spawnmob <target> <mob> <amount> §8- §7Summons an entity at other player's location with a set amount");
     }
