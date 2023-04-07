@@ -206,7 +206,9 @@ public class LuckyEssentials extends JavaPlugin {
                     break;
                 }
                 case "v1_19_R1":
-                case "v1_19_R2": {
+                case "v1_19_R2":
+                case "v1_19_R3":
+                case "v1_19_R4": {
                     support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_19_R1.v1_19_R1");
                     this.getLogger().info("Loaded version support v1_19_R1");
                     break;
