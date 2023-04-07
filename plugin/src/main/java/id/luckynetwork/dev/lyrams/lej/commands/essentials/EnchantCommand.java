@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EnchantCommand extends CommandClass {
@@ -36,7 +36,7 @@ public class EnchantCommand extends CommandClass {
                 return;
             }
 
-            HashMap<Enchantment, Integer> enchants = this.parseEnchants(sender, enchantment);
+            Map<Enchantment, Integer> enchants = this.parseEnchants(sender, enchantment);
             if (enchants.isEmpty()) {
                 sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo valid enchants found!");
                 return;
@@ -45,7 +45,13 @@ public class EnchantCommand extends CommandClass {
             plugin.getConfirmationManager().requestConfirmation(() -> targets.forEach(target -> {
                 ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(target);
                 if (itemInHand != null && itemInHand.getType() != Material.AIR) {
-                    enchants.keySet().forEach(key -> itemInHand.addUnsafeEnchantment(key, enchants.get(key)));
+                    enchants.forEach((enchant, level) -> {
+                        if (level == 0) {
+                            itemInHand.removeEnchantment(enchant);
+                        } else {
+                            itemInHand.addUnsafeEnchantment(enchant, level);
+                        }
+                    });
                     target.updateInventory();
                 }
             }), this.canSkip("enchant", targets, sender));
@@ -84,8 +90,19 @@ public class EnchantCommand extends CommandClass {
             return null;
         }
 
-        return plugin.getVersionSupport().getEnchantments().stream()
-                .filter(it -> it.toLowerCase().startsWith(args[0].toLowerCase()))
-                .collect(Collectors.toList());
+        if (args.length == 1) {
+            List<String> suggestions = plugin.getVersionSupport().getEnchantments();
+            suggestions.addAll(this.players(args[0]));
+
+            return suggestions.stream()
+                    .filter(it -> it.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+        } else if (args.length == 2) {
+            return plugin.getVersionSupport().getEnchantments().stream()
+                    .filter(it -> it.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        return null;
     }
 }

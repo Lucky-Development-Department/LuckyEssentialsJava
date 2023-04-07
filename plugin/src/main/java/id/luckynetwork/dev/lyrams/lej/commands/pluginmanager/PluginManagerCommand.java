@@ -346,7 +346,6 @@ public class PluginManagerCommand extends CommandClass {
         sender.sendMessage("§8└─ §e/pluginmanager reload <pluginName> §8- §7Reloads a plugin");
         sender.sendMessage("§8└─ §e/pluginmanager info <pluginName> §8- §7Gets information about a plugin");
         sender.sendMessage("§8└─ §e/pluginmanager list §8- §7List all plugins");
-
     }
 
     @Override
