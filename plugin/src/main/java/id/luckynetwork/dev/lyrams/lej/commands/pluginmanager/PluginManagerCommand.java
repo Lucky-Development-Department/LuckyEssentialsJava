@@ -312,6 +312,7 @@ public class PluginManagerCommand extends CommandClass {
                 this.reloadCommand(sender, pluginName);
                 break;
             }
+            case "i":
             case "info": {
                 if (args.length < 2) {
                     this.sendDefaultMessage(sender);
@@ -355,7 +356,7 @@ public class PluginManagerCommand extends CommandClass {
         }
 
         if (args.length == 1) {
-            return Stream.of("enable", "disable", "restart", "usage", "uses", "help", "lookup").filter(it -> it.toLowerCase().startsWith(args[0].toLowerCase())).collect(Collectors.toList());
+            return Stream.of("enable", "disable", "restart", "usage", "lookup", "load", "unload", "reload", "info", "list").filter(it -> it.toLowerCase().startsWith(args[0].toLowerCase())).collect(Collectors.toList());
         } else if (args.length == 2) {
             return Stream.of(Bukkit.getPluginManager().getPlugins()).map(Plugin::getName).filter(it -> it.toLowerCase().startsWith(args[1].toLowerCase())).collect(Collectors.toList());
         }

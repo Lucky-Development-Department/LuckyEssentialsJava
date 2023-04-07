@@ -258,6 +258,7 @@ public class WhitelistCommand extends CommandClass {
 
         String arg = args[0];
         switch (arg.toLowerCase()) {
+            case "i":
             case "info": {
                 this.infoCommand(sender);
                 break;
