@@ -64,6 +64,11 @@ public class EnchantCommand extends CommandClass {
             return;
         }
 
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return;
+        }
+
         String enchantmentOrTarget = "self";
         String enchantment = null;
 

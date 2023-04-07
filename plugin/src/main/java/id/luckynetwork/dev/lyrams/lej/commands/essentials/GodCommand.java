@@ -19,7 +19,6 @@ public class GodCommand extends CommandClass {
     }
 
     public void godCommand(CommandSender sender, String targetName, String toggle, Boolean silent) {
-
         TargetsCallback targets;
         ToggleType toggleType;
         if (!ToggleType.getToggle(targetName).equals(ToggleType.UNKNOWN) && sender instanceof Player) {
@@ -88,6 +87,11 @@ public class GodCommand extends CommandClass {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!Utils.checkPermission(sender, "god")) {
+            return;
+        }
+
+        if (args.length == 0 && !(sender instanceof Player)) {
+            sender.sendMessage("§cPlease specify a player!");
             return;
         }
 

@@ -144,6 +144,11 @@ public class FixCommand extends CommandClass {
             return;
         }
 
+        if (args.length == 0 && !(sender instanceof Player)) {
+            sender.sendMessage("§cPlease specify a player!");
+            return;
+        }
+
         String targetName = "self";
         String type = "hand";
         boolean silent = false;

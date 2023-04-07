@@ -41,7 +41,12 @@ public class TeleportPositionCommand extends CommandClass {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!Utils.checkPermission(sender, "teleport.position") || !(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("§cOnly players can execute this command!");
+            return;
+        }
+
+        if (!Utils.checkPermission(sender, "teleport.position")) {
             return;
         }
 

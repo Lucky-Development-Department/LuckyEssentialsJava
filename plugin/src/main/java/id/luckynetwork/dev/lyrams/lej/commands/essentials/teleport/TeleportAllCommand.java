@@ -51,12 +51,12 @@ public class TeleportAllCommand extends CommandClass {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!Utils.checkPermission(sender, "teleport.all") || !(sender instanceof Player)) {
+        if (!Utils.checkPermission(sender, "teleport.all")) {
             return;
         }
 
-        if (args.length == 0) {
-            this.sendDefaultMessage(sender);
+        if (args.length == 0 && !(sender instanceof Player)) {
+            sender.sendMessage("§cPlease specify a player!");
             return;
         }
 

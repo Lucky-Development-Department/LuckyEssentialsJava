@@ -105,12 +105,13 @@ public class ClearCommand extends CommandClass {
             return;
         }
 
+        if (args.length == 0 && !(sender instanceof Player)) {
+            sender.sendMessage("§cPlease specify a player!");
+            return;
+        }
+
         if (args.length == 0) {
-            if (sender instanceof Player) {
-                this.clearCommand(sender, "self", "all", null);
-            } else {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou must specify a target!");
-            }
+            this.clearCommand(sender, "self", "all", null);
             return;
         }
 

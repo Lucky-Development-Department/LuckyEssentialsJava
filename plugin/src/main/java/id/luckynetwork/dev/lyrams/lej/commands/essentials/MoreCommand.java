@@ -40,6 +40,11 @@ public class MoreCommand extends CommandClass {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("§cThis command can only be executed by players!");
+            return;
+        }
+
         if (!Utils.checkPermission(sender, "more")) {
             return;
         }

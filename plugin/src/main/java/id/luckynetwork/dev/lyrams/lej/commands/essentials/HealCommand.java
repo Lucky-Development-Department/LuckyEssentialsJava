@@ -55,6 +55,11 @@ public class HealCommand extends CommandClass {
             return;
         }
 
+        if (args.length == 0 && !(sender instanceof Player)) {
+            sender.sendMessage("§cPlease specify a player!");
+            return;
+        }
+
         String targetName = "self";
         if (args.length == 0) {
             this.healCommand(sender, targetName, false);

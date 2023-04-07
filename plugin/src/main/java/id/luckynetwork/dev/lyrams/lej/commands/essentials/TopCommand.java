@@ -61,6 +61,11 @@ public class TopCommand extends CommandClass {
             return;
         }
 
+        if (!(sender instanceof Player) && args.length == 0) {
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou must specify a player!");
+            return;
+        }
+
         String targetName = "self";
         boolean silent = false;
         if (args.length > 0) {

@@ -263,9 +263,9 @@ public class ExpCommand extends CommandClass {
         }
 
         String arg = args[0];
-        switch (arg) {
+        switch (arg.toLowerCase()) {
             case "add": {
-                if (args.length < 2) {
+                if (args.length < 3) {
                     this.sendDefaultMessage(sender);
                     return;
                 }
@@ -279,7 +279,7 @@ public class ExpCommand extends CommandClass {
             }
 
             case "remove": {
-                if (args.length < 2) {
+                if (args.length < 3) {
                     this.sendDefaultMessage(sender);
                     return;
                 }
@@ -293,7 +293,7 @@ public class ExpCommand extends CommandClass {
             }
 
             case "set": {
-                if (args.length < 2) {
+                if (args.length < 3) {
                     this.sendDefaultMessage(sender);
                     return;
                 }
@@ -307,7 +307,7 @@ public class ExpCommand extends CommandClass {
             }
 
             case "check": {
-                if (args.length < 1) {
+                if (args.length < 2) {
                     this.sendDefaultMessage(sender);
                     return;
                 }

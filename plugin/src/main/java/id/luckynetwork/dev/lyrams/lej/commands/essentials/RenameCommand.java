@@ -16,10 +16,7 @@ public class RenameCommand extends CommandClass {
         super("rename");
     }
 
-    public void renameCommand(
-            Player player,
-            String name
-    ) {
+    public void renameCommand(Player player, String name) {
         ItemStack itemInHand = plugin.getVersionSupport().getItemInHand(player);
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
             player.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cYou are not holding anything!");
@@ -37,6 +34,11 @@ public class RenameCommand extends CommandClass {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("§cThis command can only be executed by players!");
+            return;
+        }
+
         if (!Utils.checkPermission(sender, "rename")) {
             return;
         }
@@ -47,7 +49,6 @@ public class RenameCommand extends CommandClass {
         }
 
         String name = String.join(" ", args);
-
         this.renameCommand((Player) sender, name);
     }
 

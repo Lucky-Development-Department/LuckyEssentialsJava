@@ -31,6 +31,11 @@ public class TeleportWorldCommand extends CommandClass {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("§cOnly players can execute this command!");
+            return;
+        }
+
         if (!Utils.checkPermission(sender, "teleport.world")) {
             return;
         }
@@ -41,7 +46,6 @@ public class TeleportWorldCommand extends CommandClass {
         }
 
         String worldName = args[0];
-
         this.teleportWorldCommand((Player) sender, worldName);
     }
 
