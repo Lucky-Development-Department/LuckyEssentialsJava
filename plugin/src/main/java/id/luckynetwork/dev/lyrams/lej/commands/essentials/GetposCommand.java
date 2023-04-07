@@ -77,6 +77,6 @@ public class GetposCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        return null;
+        return this.players(args[0]);
     }
 }
