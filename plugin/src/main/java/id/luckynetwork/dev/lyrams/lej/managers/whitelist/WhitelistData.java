@@ -1,10 +1,11 @@
 package id.luckynetwork.dev.lyrams.lej.managers.whitelist;
 
-import lombok.Builder;
-import lombok.Data;
+import id.luckynetwork.dev.lyrams.lej.enums.settings.WhitelistCheckMode;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
-@Data
-@Builder(builderMethodName = "newBuilder")
-public class WhitelistData {
-    private final String uuid, name;
+public abstract class WhitelistData {
+
+    public abstract boolean check(OfflinePlayer player, WhitelistCheckMode checkMode);
+
 }

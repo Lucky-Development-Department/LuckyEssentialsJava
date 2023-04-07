@@ -3,6 +3,8 @@ package id.luckynetwork.dev.lyrams.lej.commands.essentials;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.enums.ToggleType;
 import id.luckynetwork.dev.lyrams.lej.enums.TrueFalseType;
+import id.luckynetwork.dev.lyrams.lej.managers.whitelist.NameUUIDWhitelistData;
+import id.luckynetwork.dev.lyrams.lej.managers.whitelist.PermissionWhitelistData;
 import id.luckynetwork.dev.lyrams.lej.managers.whitelist.WhitelistData;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -31,7 +33,7 @@ public class WhitelistCommand extends CommandClass {
         sender.sendMessage("§eWhitelist system info:");
         sender.sendMessage("§8├─ §eState: " + Utils.colorizeTrueFalse(plugin.getWhitelistManager().isEnabled(), TrueFalseType.ON_OFF));
 
-        ComponentBuilder textBuilder = new ComponentBuilder("").append("§8├─ §eWhitelisted Players: §a" + plugin.getWhitelistManager().getWhitelistedList().size()).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click to run /whitelist list").create())).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list"));
+        ComponentBuilder textBuilder = new ComponentBuilder("").append("§8├─ §eWhitelisted Players: §a" + plugin.getWhitelistManager().getWhitelistDataList().size()).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Click to run /whitelist list").create())).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/whitelist list"));
         BaseComponent[] text = textBuilder.create();
         if (sender instanceof Player) {
             ((Player) sender).spigot().sendMessage(text);
@@ -47,25 +49,23 @@ public class WhitelistCommand extends CommandClass {
             return;
         }
 
-        List<WhitelistData> whitelistedPlayers = plugin.getWhitelistManager().getWhitelistedList();
-        if (whitelistedPlayers.size() > 5) {
-            int maxPage = (int) Math.ceil(whitelistedPlayers.size() / 5.0);
+        List<WhitelistData> whitelisted = plugin.getWhitelistManager().getWhitelistDataList();
+        if (whitelisted.size() > 5) {
+            int maxPage = (int) Math.ceil(whitelisted.size() / 5.0);
             page = Math.min(Math.max(page, 1), maxPage);
 
             int from = page > 1 ? 5 * page - 5 : 0;
             int to = page > 0 ? 5 * page : 5;
-            if (to > whitelistedPlayers.size()) {
-                to -= (to - whitelistedPlayers.size());
+            if (to > whitelisted.size()) {
+                to -= (to - whitelisted.size());
             }
 
             sender.sendMessage("§6§m------------§a Whitelisted Players §e(§7" + page + "§e/§7" + maxPage + "§e) §6§m------------");
 
-            List<WhitelistData> pagedWhitelistedPlayers = whitelistedPlayers.subList(from, to);
+            List<WhitelistData> pagedWhitelistedPlayers = whitelisted.subList(from, to);
             int i = from;
             for (WhitelistData data : pagedWhitelistedPlayers) {
-                sender.sendMessage("§7Player §a#" + ++i);
-                sender.sendMessage("§8├─ §eUUID: §a" + data.getUuid());
-                sender.sendMessage("§8└─ §eName: §a" + data.getName());
+                i = iterateWhitelisted(sender, i, data);
             }
 
             boolean lastPage = (page == maxPage);
@@ -86,13 +86,25 @@ public class WhitelistCommand extends CommandClass {
         } else {
             sender.sendMessage("§6§m------------§a Whitelisted Players §6§m------------");
             int i = 0;
-            for (WhitelistData data : plugin.getWhitelistManager().getWhitelistedList()) {
-                sender.sendMessage("§7Player §a#" + ++i);
-                sender.sendMessage("§8├─ §eUUID: §a" + data.getUuid());
-                sender.sendMessage("§8└─ §eName: §a" + data.getName());
+            for (WhitelistData data : plugin.getWhitelistManager().getWhitelistDataList()) {
+                i = iterateWhitelisted(sender, i, data);
             }
             sender.sendMessage("§6§m---------------------------------------------");
         }
+    }
+
+    private int iterateWhitelisted(CommandSender sender, int i, WhitelistData data) {
+        if (data instanceof NameUUIDWhitelistData) {
+            NameUUIDWhitelistData whitelistData = (NameUUIDWhitelistData) data;
+            sender.sendMessage("§7Player §a#" + ++i);
+            sender.sendMessage("§8├─ §eUUID: §a" + whitelistData.getUuid());
+            sender.sendMessage("§8└─ §eName: §a" + whitelistData.getName());
+        } else if (data instanceof PermissionWhitelistData) {
+            PermissionWhitelistData whitelistData = (PermissionWhitelistData) data;
+            sender.sendMessage("§7Permission §a#" + ++i);
+            sender.sendMessage("§8└─ §ePermission: §a" + whitelistData.getPermission());
+        }
+        return i;
     }
 
     public void addCommand(CommandSender sender, String targetName) {
@@ -100,22 +112,33 @@ public class WhitelistCommand extends CommandClass {
             return;
         }
 
-        OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
-        if (targets.isEmpty()) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
-            return;
-        }
-
-        targets.forEach(target -> {
-            WhitelistData data = WhitelistData.newBuilder().uuid(target.getUniqueId().toString()).name(target.getName()).build();
-
-            if (plugin.getWhitelistManager().getWhitelistedList().contains(data)) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§c§l" + data.getName() + " §cis already whitelisted.");
-            } else {
-                plugin.getWhitelistManager().getWhitelistedList().add(data);
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eAdded §d" + data.getName() + " §eto the whitelist.");
+        if (!targetName.contains(".")) {
+            OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
+            if (targets.isEmpty()) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
+                return;
             }
-        });
+
+            targets.forEach(target -> {
+                NameUUIDWhitelistData data = NameUUIDWhitelistData.newBuilder().uuid(target.getUniqueId().toString()).name(target.getName()).build();
+
+                if (plugin.getWhitelistManager().getWhitelistDataList().contains(data)) {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§c§l" + data.getName() + " §cis already whitelisted.");
+                } else {
+                    plugin.getWhitelistManager().getWhitelistDataList().add(data);
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eAdded §d" + data.getName() + " §eto the whitelist.");
+                }
+            });
+        } else {
+            PermissionWhitelistData data = PermissionWhitelistData.newBuilder().permission(targetName).build();
+
+            if (plugin.getWhitelistManager().getWhitelistDataList().contains(data)) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§c§l" + data.getPermission() + " §cis already a whitelisted permission.");
+            } else {
+                plugin.getWhitelistManager().getWhitelistDataList().add(data);
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eAdded §d" + data.getPermission() + " §eto the whitelisted permission.");
+            }
+        }
 
         plugin.getWhitelistManager().save();
     }
@@ -125,27 +148,51 @@ public class WhitelistCommand extends CommandClass {
             return;
         }
 
-        OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
-        if (targets.isEmpty()) {
-            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
-            return;
-        }
+        if (!targetName.contains(".")) {
+            OfflineTargetsCallback targets = this.getTargetsOffline(sender, targetName);
+            if (targets.isEmpty()) {
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cNo targets found!");
+                return;
+            }
 
-        targets.forEach(target -> {
-            WhitelistData data = WhitelistData.newBuilder().uuid(target.getUniqueId().toString()).name(target.getName()).build();
+            targets.forEach(target -> {
+                NameUUIDWhitelistData data = NameUUIDWhitelistData.newBuilder().uuid(target.getUniqueId().toString()).name(target.getName()).build();
 
-            if (plugin.getWhitelistManager().getWhitelistedList().contains(data)) {
-                plugin.getWhitelistManager().getWhitelistedList().remove(data);
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
-            } else {
-                boolean removed = plugin.getWhitelistManager().getWhitelistedList().removeIf(it -> it.getName().equals(target.getName()) || it.getUuid().equals(target.getUniqueId().toString()));
-                if (removed) {
+                if (plugin.getWhitelistManager().getWhitelistDataList().contains(data)) {
+                    plugin.getWhitelistManager().getWhitelistDataList().remove(data);
                     sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
                 } else {
-                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§c§l" + data.getName() + " §cis already not whitelisted.");
+                    boolean removed = plugin.getWhitelistManager().getWhitelistDataList().removeIf(it -> {
+                        if (!(it instanceof NameUUIDWhitelistData)) {
+                            return false;
+                        }
+
+                        NameUUIDWhitelistData whitelistData = (NameUUIDWhitelistData) it;
+                        return whitelistData.getName().equals(target.getName()) || whitelistData.getUuid().equals(target.getUniqueId().toString());
+                    });
+
+                    if (removed) {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + data.getName() + " §efrom the whitelist.");
+                    } else {
+                        sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§c§l" + data.getName() + " §cis already not whitelisted.");
+                    }
+                }
+            });
+        } else {
+            PermissionWhitelistData data = PermissionWhitelistData.newBuilder().permission(targetName).build();
+
+            if (plugin.getWhitelistManager().getWhitelistDataList().contains(data)) {
+                plugin.getWhitelistManager().getWhitelistDataList().remove(data);
+                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + data.getPermission() + " §efrom the whitelisted permission.");
+            } else {
+                boolean removed = plugin.getWhitelistManager().getWhitelistDataList().removeIf(it -> (it instanceof PermissionWhitelistData) && ((PermissionWhitelistData) it).getPermission().equals(targetName));
+                if (removed) {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§eRemoved §d" + data.getPermission() + " §efrom the whitelisted permission.");
+                } else {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§c§l" + data.getPermission() + " §cis already not a whitelisted permission.");
                 }
             }
-        });
+        }
 
         plugin.getWhitelistManager().save();
     }
@@ -162,21 +209,7 @@ public class WhitelistCommand extends CommandClass {
         }
 
         targets.forEach(target -> {
-            boolean whitelsited = false;
-            switch (plugin.getWhitelistManager().getCheckMode()) {
-                case UUID: {
-                    whitelsited = plugin.getWhitelistManager().getWhitelistedList().stream().map(WhitelistData::getUuid).anyMatch(it -> it.equals(target.getUniqueId().toString()));
-                    break;
-                }
-                case NAME: {
-                    whitelsited = plugin.getWhitelistManager().getWhitelistedList().stream().map(WhitelistData::getName).anyMatch(it -> it.equals(target.getName()));
-                    break;
-                }
-                case BOTH: {
-                    whitelsited = plugin.getWhitelistManager().getWhitelistedList().stream().anyMatch(it -> it.getUuid().equals(target.getUniqueId().toString()) && it.getName().equals(target.getName()));
-                    break;
-                }
-            }
+            boolean whitelsited = plugin.getWhitelistManager().canJoin(target);
 
             if (whitelsited) {
                 sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§d" + target.getName() + " §eis §awhitelisted.");
