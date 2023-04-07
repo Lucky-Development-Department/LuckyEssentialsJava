@@ -10,6 +10,7 @@ public class ConfirmCommand extends CommandClass {
 
     public ConfirmCommand() {
         super("confirm");
+        this.registerCommandInfo("confirm", "Confirms the confirmation");
     }
 
     @Override

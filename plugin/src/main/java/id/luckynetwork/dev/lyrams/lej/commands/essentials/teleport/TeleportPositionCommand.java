@@ -15,6 +15,7 @@ public class TeleportPositionCommand extends CommandClass {
 
     public TeleportPositionCommand() {
         super("tppos");
+        this.registerCommandInfo("tppos", "Teleports a player to a specific position");
     }
 
     public void teleportPositionCommand(Player sender, Location location, String worldName, Float yaw, Float pitch) {

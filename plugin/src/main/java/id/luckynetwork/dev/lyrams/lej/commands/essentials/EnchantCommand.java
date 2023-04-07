@@ -17,6 +17,7 @@ public class EnchantCommand extends CommandClass {
 
     public EnchantCommand() {
         super("enchant", Collections.singletonList("ench"));
+        this.registerCommandInfo("enchant", "Enchants an item");
     }
 
     public void enchantCommand(CommandSender sender, String enchantmentOrTarget, String enchantment) {

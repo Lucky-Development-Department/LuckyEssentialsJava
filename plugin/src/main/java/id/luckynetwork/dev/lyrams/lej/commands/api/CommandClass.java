@@ -6,6 +6,7 @@ import id.luckynetwork.dev.lyrams.lej.callbacks.IsDoubleCallback;
 import id.luckynetwork.dev.lyrams.lej.callbacks.IsIntegerCallback;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import id.luckynetwork.lyrams.lyralibs.bukkit.command.LyraCommand;
+import id.luckynetwork.lyrams.lyralibs.core.command.data.CommandInfo;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -24,7 +25,8 @@ import java.util.stream.StreamSupport;
 
 public abstract class CommandClass extends LyraCommand {
 
-    protected LuckyEssentials plugin = LuckyEssentials.getInstance();
+    protected static final List<CommandInfo> commands = new ArrayList<>();
+    protected final LuckyEssentials plugin = LuckyEssentials.getInstance();
 
     public CommandClass(String command, String permission, List<String> aliases) {
         super(command, permission, aliases);
@@ -40,6 +42,16 @@ public abstract class CommandClass extends LyraCommand {
 
     public CommandClass(String command) {
         super(command);
+    }
+
+    protected void registerCommandInfo(String command, String description) {
+        CommandInfo commandInfo = CommandInfo.newBuilder()
+                .command(command)
+                .description(description)
+                .build();
+
+        commands.add(commandInfo);
+        commands.sort(Comparator.comparing(CommandInfo::getCommand));
     }
 
     /**

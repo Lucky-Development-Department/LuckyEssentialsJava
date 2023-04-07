@@ -15,6 +15,7 @@ public class TopCommand extends CommandClass {
 
     public TopCommand() {
         super("top");
+        this.registerCommandInfo("top", "Teleport to the highest block");
     }
 
     public void topCommand(CommandSender sender, String targetName, Boolean silent) {

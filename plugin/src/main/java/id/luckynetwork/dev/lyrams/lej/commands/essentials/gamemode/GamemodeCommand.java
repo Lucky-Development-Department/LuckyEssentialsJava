@@ -15,6 +15,7 @@ public class GamemodeCommand extends CommandClass {
 
     public GamemodeCommand() {
         super("gamemode", Collections.singletonList("gm"));
+        this.registerCommandInfo("gamemode", "Sets a player's gamemode");
     }
 
     public void gamemodeCommand(CommandSender sender, String mode, String targetName) {

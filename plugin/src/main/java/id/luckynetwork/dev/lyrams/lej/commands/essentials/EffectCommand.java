@@ -18,6 +18,7 @@ public class EffectCommand extends CommandClass {
 
     public EffectCommand() {
         super("effect");
+        this.registerCommandInfo("effect", "Gives a player a potion effect");
     }
 
     public void effectCommand(CommandSender sender, String targetName, String effectName, Integer amplifier, Integer duration, Boolean silent) {

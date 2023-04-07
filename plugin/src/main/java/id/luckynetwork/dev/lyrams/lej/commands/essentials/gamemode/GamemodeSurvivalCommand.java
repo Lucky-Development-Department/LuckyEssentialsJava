@@ -12,6 +12,7 @@ public class GamemodeSurvivalCommand extends CommandClass {
 
     public GamemodeSurvivalCommand() {
         super("gms");
+        this.registerCommandInfo("gms", "Sets a player's gamemode to survival");
     }
 
     public void gmSurvivalCommand(CommandSender sender, String targetName) {

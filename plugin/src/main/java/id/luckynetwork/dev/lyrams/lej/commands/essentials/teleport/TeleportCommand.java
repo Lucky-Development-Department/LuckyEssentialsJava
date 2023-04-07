@@ -13,6 +13,7 @@ public class TeleportCommand extends CommandClass {
 
     public TeleportCommand() {
         super("teleport", Collections.singletonList("tp"));
+        this.registerCommandInfo("teleport", "Teleports a player to another player");
     }
 
     public void teleportCommand(CommandSender sender, String player, String target, Boolean silent) {

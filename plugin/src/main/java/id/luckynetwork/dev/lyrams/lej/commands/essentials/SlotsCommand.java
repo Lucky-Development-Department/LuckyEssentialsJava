@@ -15,6 +15,7 @@ public class SlotsCommand extends CommandClass {
 
     public SlotsCommand() {
         super("slots", Collections.singletonList("maxplayers"));
+        this.registerCommandInfo("slots", "Manage the slots system");
     }
 
     public void infoCommand(CommandSender sender) {

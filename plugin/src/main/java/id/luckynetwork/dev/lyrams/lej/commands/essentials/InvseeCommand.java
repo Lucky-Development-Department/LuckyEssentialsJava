@@ -11,6 +11,7 @@ public class InvseeCommand extends CommandClass {
 
     public InvseeCommand() {
         super("invsee");
+        this.registerCommandInfo("invsee", "Open a player's inventory");
     }
 
     public void invseeCommand(Player player, String targetName) {

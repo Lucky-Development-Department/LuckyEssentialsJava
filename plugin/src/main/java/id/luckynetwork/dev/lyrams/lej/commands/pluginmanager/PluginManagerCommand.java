@@ -20,6 +20,7 @@ public class PluginManagerCommand extends CommandClass {
 
     public PluginManagerCommand() {
         super("pluginmanager", Arrays.asList("lpm"));
+        this.registerCommandInfo("pluginmanager", "PluginManager command");
     }
 
     public void listCommand(CommandSender sender) {

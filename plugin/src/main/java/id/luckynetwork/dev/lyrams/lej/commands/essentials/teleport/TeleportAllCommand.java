@@ -13,6 +13,7 @@ public class TeleportAllCommand extends CommandClass {
 
     public TeleportAllCommand() {
         super("tpall");
+        this.registerCommandInfo("tpall", "Teleports all players to a player");
     }
 
     public void teleportAllCommand(CommandSender sender, String target, Boolean silent) {

@@ -12,6 +12,7 @@ public class DeathKickCommand extends CommandClass {
 
     public DeathKickCommand() {
         super("deathkick");
+        this.registerCommandInfo("deathkick", "Manages the death-kick mode");
     }
 
     public void checkCommand(CommandSender sender) {

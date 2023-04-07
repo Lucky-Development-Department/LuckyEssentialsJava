@@ -13,6 +13,7 @@ public class EditSignCommand extends CommandClass {
 
     public EditSignCommand() {
         super("editsign");
+        this.registerCommandInfo("editsign", "Edits a sign");
     }
 
     public void setCommand(Player sender, Integer line, String text) {

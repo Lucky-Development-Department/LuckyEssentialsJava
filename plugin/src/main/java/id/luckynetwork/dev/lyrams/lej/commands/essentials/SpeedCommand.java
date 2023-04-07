@@ -14,6 +14,7 @@ public class SpeedCommand extends CommandClass {
 
     public SpeedCommand() {
         super("speed");
+        this.registerCommandInfo("speed", "Sets a player's speed");
     }
 
     public void speedCommand(CommandSender sender, String targetName, String typeOrSpeed, Float speed, Boolean silent) {

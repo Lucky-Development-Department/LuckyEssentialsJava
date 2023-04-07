@@ -12,6 +12,7 @@ public class TeleportHereCommand extends CommandClass {
 
     public TeleportHereCommand() {
         super("tphere", Collections.singletonList("s"));
+        this.registerCommandInfo("tphere", "Teleports a player to you");
     }
 
     public void teleportHereCommand(Player sender, String targetName, Boolean silent) {

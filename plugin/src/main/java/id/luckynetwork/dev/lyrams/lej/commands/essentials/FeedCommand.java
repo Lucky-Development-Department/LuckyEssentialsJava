@@ -12,6 +12,7 @@ public class FeedCommand extends CommandClass {
 
     public FeedCommand() {
         super("feed", Collections.singletonList("eat"));
+        this.registerCommandInfo("feed", "Feeds a player");
     }
 
     public void feedCommand(CommandSender sender, String targetName, Boolean silent) {

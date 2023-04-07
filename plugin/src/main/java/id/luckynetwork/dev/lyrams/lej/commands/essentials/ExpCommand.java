@@ -15,6 +15,7 @@ public class ExpCommand extends CommandClass {
 
     public ExpCommand() {
         super("exp", Collections.singletonList("xp"));
+        this.registerCommandInfo("exp", "Gives experience to a player");
     }
 
     public void addCommand(CommandSender sender, String targetName, String amount, Boolean silent) {

@@ -15,6 +15,7 @@ public class ClearCommand extends CommandClass {
 
     public ClearCommand() {
         super("clear", Arrays.asList("clearinventory", "ci"));
+        this.registerCommandInfo("clear", "Clears the inventory");
     }
 
     public void clearCommand(CommandSender sender, String targetName, String type, Boolean silent) {

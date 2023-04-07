@@ -14,6 +14,7 @@ public class ChatLockCommand extends CommandClass {
 
     public ChatLockCommand() {
         super("chatlock", Arrays.asList("lockchat", "cl"));
+        this.registerCommandInfo("chatlock", "Manages the chat-lock mode");
     }
 
     public void checkCommand(CommandSender sender) {

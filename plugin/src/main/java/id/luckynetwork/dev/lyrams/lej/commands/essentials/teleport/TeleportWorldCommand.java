@@ -15,6 +15,7 @@ public class TeleportWorldCommand extends CommandClass {
 
     public TeleportWorldCommand() {
         super("tpworld", Collections.singletonList("tpw"));
+        this.registerCommandInfo("tpw", "Teleports a player to a specific world");
     }
 
     public void teleportWorldCommand(Player sender, String worldName) {

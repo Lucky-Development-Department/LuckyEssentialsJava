@@ -15,6 +15,7 @@ public class SmiteCommand extends CommandClass {
 
     public SmiteCommand() {
         super("smite");
+        this.registerCommandInfo("smite", "Smite a player");
     }
 
     public void smiteCommand(CommandSender sender, String targetName, Boolean damage, Boolean silent) {

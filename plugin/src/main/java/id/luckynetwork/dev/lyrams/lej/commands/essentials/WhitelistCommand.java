@@ -23,6 +23,7 @@ public class WhitelistCommand extends CommandClass {
 
     public WhitelistCommand() {
         super("whitelist", Arrays.asList("ewl", "wl"));
+        this.registerCommandInfo("whitelist", "Manage the whitelist system");
     }
 
     public void infoCommand(CommandSender sender) {

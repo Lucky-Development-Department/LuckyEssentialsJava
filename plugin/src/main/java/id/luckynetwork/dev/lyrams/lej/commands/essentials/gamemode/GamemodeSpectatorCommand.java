@@ -12,6 +12,7 @@ public class GamemodeSpectatorCommand extends CommandClass {
 
     public GamemodeSpectatorCommand() {
         super("gmsp");
+        this.registerCommandInfo("gmsp", "Sets a player's gamemode to spectator");
     }
 
     public void gmSpectatorCommand(CommandSender sender, String targetName) {

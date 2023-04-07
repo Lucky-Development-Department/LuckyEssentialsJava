@@ -16,6 +16,7 @@ public class GodCommand extends CommandClass {
 
     public GodCommand() {
         super("god");
+        this.registerCommandInfo("god", "Toggles god-mode state of a player");
     }
 
     public void godCommand(CommandSender sender, String targetName, String toggle, Boolean silent) {

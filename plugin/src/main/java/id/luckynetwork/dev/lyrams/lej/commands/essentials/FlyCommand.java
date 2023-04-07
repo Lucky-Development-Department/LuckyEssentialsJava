@@ -15,6 +15,7 @@ public class FlyCommand extends CommandClass {
 
     public FlyCommand() {
         super("fly");
+        this.registerCommandInfo("fly", "Toggles flight mode");
     }
 
     public void flyCommand(CommandSender sender, String targetName, String toggle, Boolean silent) {

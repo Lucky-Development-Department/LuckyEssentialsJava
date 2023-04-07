@@ -13,6 +13,7 @@ public class TrollCommand extends CommandClass {
 
     public TrollCommand() {
         super("luckytroll", Arrays.asList("luckytrolls", "trolls", "troll", "lt"));
+        this.registerCommandInfo("luckytroll", "Manage trolls");
     }
 
     public void checkCommand(CommandSender sender, String targetName) {

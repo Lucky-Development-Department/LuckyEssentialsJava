@@ -15,6 +15,7 @@ public class IGiveCommand extends CommandClass {
 
     public IGiveCommand() {
         super("i");
+        this.registerCommandInfo("i", "Gives an item to yourself");
     }
 
     public void iCommand(Player sender, String itemName, Integer amount, String options) {

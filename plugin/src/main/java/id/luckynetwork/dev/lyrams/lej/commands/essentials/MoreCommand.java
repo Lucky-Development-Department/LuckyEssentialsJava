@@ -13,6 +13,7 @@ public class MoreCommand extends CommandClass {
 
     public MoreCommand() {
         super("more");
+        this.registerCommandInfo("more", "Set the currently held item amount to its max stack size");
     }
 
     public void moreCommand(Player player, Integer amount) {

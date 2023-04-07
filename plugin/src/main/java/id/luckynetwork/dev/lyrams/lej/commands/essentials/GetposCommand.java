@@ -16,6 +16,7 @@ public class GetposCommand extends CommandClass {
 
     public GetposCommand() {
         super("getpos");
+        this.registerCommandInfo("getpos", "Gets the position of a player");
     }
 
     public void getposCommand(CommandSender sender, String targetName) {

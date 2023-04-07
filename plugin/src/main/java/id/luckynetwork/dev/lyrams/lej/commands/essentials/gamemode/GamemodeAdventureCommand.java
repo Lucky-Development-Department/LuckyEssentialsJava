@@ -12,6 +12,7 @@ public class GamemodeAdventureCommand extends CommandClass {
 
     public GamemodeAdventureCommand() {
         super("gma");
+        this.registerCommandInfo("gma", "Sets a player's gamemode to adventure");
     }
 
     public void gmAdventureCommand(CommandSender sender, String targetName) {

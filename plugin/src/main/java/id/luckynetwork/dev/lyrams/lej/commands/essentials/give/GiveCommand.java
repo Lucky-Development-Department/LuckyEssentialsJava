@@ -15,6 +15,7 @@ public class GiveCommand extends CommandClass {
 
     public GiveCommand() {
         super("give");
+        this.registerCommandInfo("give", "Gives an item to a player");
     }
 
     public void giveCommand(CommandSender sender, String targetName, String itemName, Integer amount, String options) {

@@ -11,6 +11,7 @@ public class HealCommand extends CommandClass {
 
     public HealCommand() {
         super("heal");
+        this.registerCommandInfo("heal", "Heals a player");
     }
 
     public void healCommand(CommandSender sender, String targetName, Boolean silent) {

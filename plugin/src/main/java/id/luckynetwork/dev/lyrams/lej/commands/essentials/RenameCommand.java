@@ -14,6 +14,7 @@ public class RenameCommand extends CommandClass {
 
     public RenameCommand() {
         super("rename");
+        this.registerCommandInfo("rename", "Renames the currently held item");
     }
 
     public void renameCommand(Player player, String name) {

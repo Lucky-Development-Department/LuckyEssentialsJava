@@ -12,6 +12,7 @@ public class KickAllCommand extends CommandClass {
 
     public KickAllCommand() {
         super("kickall");
+        this.registerCommandInfo("kickall", "Kick all players");
     }
 
     public void kickAllCommand(CommandSender sender, String reason) {

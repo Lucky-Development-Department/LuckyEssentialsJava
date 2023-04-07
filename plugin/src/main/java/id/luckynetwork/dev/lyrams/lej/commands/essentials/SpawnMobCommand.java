@@ -16,6 +16,7 @@ public class SpawnMobCommand extends CommandClass {
 
     public SpawnMobCommand() {
         super("spawnmob");
+        this.registerCommandInfo("spawnmob", "Spawn a mob");
     }
 
     public void spawnMobCommand(CommandSender sender, String targetOrMob, String mobOrAmount, Integer amount) {

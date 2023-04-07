@@ -12,6 +12,7 @@ public class GamemodeCreativeCommand extends CommandClass {
 
     public GamemodeCreativeCommand() {
         super("gmc");
+        this.registerCommandInfo("gmc", "Sets a player's gamemode to creative");
     }
 
     public void gmCreativeCommand(CommandSender sender, String targetName) {

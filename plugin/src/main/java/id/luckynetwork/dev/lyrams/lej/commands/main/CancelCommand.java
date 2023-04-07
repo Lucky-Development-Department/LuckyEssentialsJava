@@ -10,6 +10,7 @@ public class CancelCommand extends CommandClass {
 
     public CancelCommand() {
         super("cancel");
+        this.registerCommandInfo("cancel", "Cancels the confirmation");
     }
 
     @Override

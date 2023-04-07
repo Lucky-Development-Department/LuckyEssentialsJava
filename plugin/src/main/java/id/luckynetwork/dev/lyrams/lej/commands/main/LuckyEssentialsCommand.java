@@ -4,6 +4,7 @@ import com.google.common.reflect.ClassPath;
 import id.luckynetwork.dev.lyrams.lej.LuckyEssentials;
 import id.luckynetwork.dev.lyrams.lej.commands.api.CommandClass;
 import id.luckynetwork.dev.lyrams.lej.utils.Utils;
+import id.luckynetwork.lyrams.lyralibs.core.command.data.CommandInfo;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
@@ -19,6 +20,7 @@ public class LuckyEssentialsCommand extends CommandClass {
     public LuckyEssentialsCommand(LuckyEssentials plugin) {
         super("luckyessentials", Arrays.asList("less", "lej"));
         this.plugin = plugin;
+        this.registerCommandInfo("luckyessentials", "Shows the plugin description");
 
         this.initCommands();
     }
@@ -53,10 +55,33 @@ public class LuckyEssentialsCommand extends CommandClass {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (args.length != 0 && args[0].equalsIgnoreCase("help")) {
-            // todo
-        } else {
+        if (args.length == 0) {
             sender.sendMessage(Utils.getPluginDescription());
+            return;
+        }
+
+        String subCommand = args[0];
+        switch (subCommand.toLowerCase()) {
+            case "reload": {
+                plugin.reloadConfig();
+                sender.sendMessage("§aLuckyEssentials config has been reloaded!");
+                break;
+            }
+            case "help":
+            case "?":
+            case "h": {
+                sender.sendMessage(Utils.getPluginDescription());
+                sender.sendMessage(" ");
+                sender.sendMessage("§e§lLuckyEssentials Commands:");
+                for (CommandInfo commandInfo : commands) {
+                    sender.sendMessage("§7- §e/" + commandInfo.getCommand() + " §7- §f" + commandInfo.getDescription());
+                }
+                break;
+            }
+            default: {
+                sender.sendMessage(Utils.getPluginDescription());
+                break;
+            }
         }
     }
 

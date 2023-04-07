@@ -16,6 +16,7 @@ public class FixCommand extends CommandClass {
 
     public FixCommand() {
         super("fix", Collections.singletonList("repair"));
+        this.registerCommandInfo("fix", "Repairs your items");
     }
 
     public void fixCommand(CommandSender sender, String targetName, String type, Boolean silent) {
