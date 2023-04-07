@@ -91,11 +91,16 @@ public class SpeedCommand extends CommandClass {
         }
 
         if (args.length >= 2) {
-            try {
-                speed = Float.parseFloat(args[1]);
-            } catch (NumberFormatException ex) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid speed!");
-                return;
+            SpeedType speedType = SpeedType.getType(sender, typeOrSpeed);
+            if (speedType != null) {
+                typeOrSpeed = args[1];
+            } else {
+                try {
+                    speed = Float.parseFloat(args[1]);
+                } catch (NumberFormatException ex) {
+                    sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cInvalid speed!");
+                    return;
+                }
             }
         }
 
