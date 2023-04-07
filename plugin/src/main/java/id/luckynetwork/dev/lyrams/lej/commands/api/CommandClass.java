@@ -706,7 +706,10 @@ public abstract class CommandClass extends LyraCommand {
     }
 
     public List<String> players(String current) {
-        return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName)
+        List<String> playerNames = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+        playerNames.addAll(Arrays.asList("*", "@r", "@s", "self"));
+
+        return playerNames.stream()
                 .filter(it -> it.toLowerCase().startsWith(current.toLowerCase()))
                 .collect(Collectors.toList());
     }
