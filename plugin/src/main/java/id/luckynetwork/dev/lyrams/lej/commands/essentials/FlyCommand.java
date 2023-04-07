@@ -93,12 +93,9 @@ public class FlyCommand extends CommandClass {
             return;
         }
 
-        if (args.length == 1) {
-            targetName = args[0];
-        }
+        targetName = args[0];
 
-        if (args.length == 2) {
-            targetName = args[0];
+        if (args.length >= 2) {
             toggle = args[1];
         }
 
