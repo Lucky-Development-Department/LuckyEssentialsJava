@@ -62,6 +62,11 @@ public class LuckyEssentialsCommand extends CommandClass {
 
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+        if (args.length == 0) {
+            this.sendDefaultMessage(sender);
+            return true;
+        }
+
         String subCommand = args[0];
         switch (subCommand.toLowerCase()) {
             case "reload": {
@@ -72,11 +77,11 @@ public class LuckyEssentialsCommand extends CommandClass {
             case "help":
             case "?":
             case "h": {
-                sendHelpMessage(sender, args);
+                this.sendHelpMessage(sender, args);
                 break;
             }
             default: {
-                sender.sendMessage(Utils.getPluginDescription());
+                this.sendDefaultMessage(sender);
                 break;
             }
         }
