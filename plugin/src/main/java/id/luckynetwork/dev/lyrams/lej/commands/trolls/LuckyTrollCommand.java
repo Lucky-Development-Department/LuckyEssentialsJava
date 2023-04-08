@@ -8,10 +8,11 @@ import org.bukkit.command.CommandSender;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class TrollCommand extends CommandClass {
+public class LuckyTrollCommand extends CommandClass {
 
-    public TrollCommand() {
+    public LuckyTrollCommand() {
         super("luckytroll", Arrays.asList("luckytrolls", "trolls", "troll", "lt"));
         this.registerCommandInfo("luckytroll", "Manage trolls");
     }
@@ -107,11 +108,26 @@ public class TrollCommand extends CommandClass {
 
     @Override
     public void sendDefaultMessage(CommandSender sender) {
-
+        sender.sendMessage("§eAvailable sub-commands:");
+        sender.sendMessage("§8├─ §e/luckytroll check [player] §7- §fCheck active trolls for a player");
+        sender.sendMessage("§8└─ §e/luckytroll list §7- §fList all available trolls");
     }
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        return null;
+        if (!Utils.checkPermission(sender, "trolls")) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            return Stream.of("check", "list")
+                    .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("check")) {
+                return this.players(args[0]);
+            }
+        }
+        return Collections.emptyList();
     }
 }
