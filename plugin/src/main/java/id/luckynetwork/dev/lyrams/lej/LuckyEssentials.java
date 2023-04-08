@@ -143,9 +143,9 @@ public class LuckyEssentials extends JavaPlugin {
                     break;
                 }
                 default: {
-                    this.getLogger().severe("Unsupported server version!");
-                    Bukkit.getPluginManager().disablePlugin(this);
-                    return;
+                    support = Class.forName("id.luckynetwork.dev.lyrams.lej.versionsupport.v1_19_R1.v1_19_R1");
+                    this.getLogger().severe("Unknown server version! Using v1_19_R1 as fallback...");
+                    break;
                 }
             }
 

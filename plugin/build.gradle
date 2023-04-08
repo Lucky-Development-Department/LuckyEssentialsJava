@@ -6,7 +6,7 @@ plugins {
 
 def pluginName = 'LuckyEssentials'
 group 'id.luckynetwork.dev.lyrams.lej'
-version '0.7.0-SNAPSHOT'
+version '0.7.0-RELEASE'
 
 repositories {
     mavenCentral()
@@ -19,7 +19,6 @@ repositories {
 
 configurations {
     extraLibs
-    commandFramework
 }
 
 dependencies {
@@ -41,7 +40,6 @@ dependencies {
     extraLibs project(":version-support1_18")
     extraLibs project(":version-support1_19")
     configurations.compileOnly.extendsFrom(configurations.extraLibs)
-    configurations.compileOnly.extendsFrom(configurations.commandFramework)
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -54,15 +52,6 @@ jar {
     }
 }
 
-task jarCommandFramework(type: Jar) {
-    archiveFileName = "LuckyEssentials-Libs.jar"
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    from {
-        configurations.commandFramework.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
 processResources {
     filter ReplaceTokens, tokens: [
             "version"  : project.version.toString(),
@@ -72,5 +61,3 @@ processResources {
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
-
-assemble.dependsOn(jarCommandFramework)

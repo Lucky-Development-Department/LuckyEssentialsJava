@@ -26,9 +26,3 @@ This to bypass the Java 16 and Java 17 illegal reflective access issue due to de
 
 ### Wiki
 - [Soon™](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-
-### Credits
-- [Cloud Command Framework](https://github.com/Incendo/cloud)
-- [Dependency Helper](https://github.com/Alviannn/DependencyHelper)
-- [Adventure Platform](https://github.com/KyoriPowered/adventure-platform)
-- [Adventure](https://github.com/KyoriPowered/adventure)
