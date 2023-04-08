@@ -8,6 +8,7 @@ public class NoPickupCommand extends TrollCommand {
 
     public NoPickupCommand() {
         super("nopickup");
+        this.registerCommandInfo("nopickup", "Toggles the nopickup troll for a player");
     }
 
     @Override

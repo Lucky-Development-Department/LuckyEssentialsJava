@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 public class FakePlaceCommand extends TrollCommand {
     public FakePlaceCommand() {
         super("fakeplace");
+        this.registerCommandInfo("fakeplace", "Toggles the fakeplace troll for a player");
     }
 
     @Override

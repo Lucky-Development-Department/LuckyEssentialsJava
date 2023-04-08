@@ -14,6 +14,7 @@ public class ExplodeCommand extends TrollCommand {
 
     public ExplodeCommand() {
         super("explode");
+        this.registerCommandInfo("explode", "Spawns an explosion at a location");
     }
 
     @Override

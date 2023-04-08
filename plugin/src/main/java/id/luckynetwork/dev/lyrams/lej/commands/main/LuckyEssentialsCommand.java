@@ -121,11 +121,11 @@ public class LuckyEssentialsCommand extends CommandClass {
         }
 
         List<CommandInfo> commandsClone = commands;
-        int maxPage = (int) Math.ceil(commandsClone.size() / 5.0);
+        int maxPage = (int) Math.ceil(commandsClone.size() / 10.0);
         page = Math.min(Math.max(page, 1), maxPage);
 
-        int from = page > 1 ? 5 * page - 5 : 0;
-        int to = page > 0 ? 5 * page : 5;
+        int from = page > 1 ? 10 * page - 10 : 0;
+        int to = page > 0 ? 10 * page : 10;
         if (to > commandsClone.size()) {
             to -= (to - commandsClone.size());
         }

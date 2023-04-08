@@ -8,6 +8,7 @@ public class NoHitCommand extends TrollCommand {
 
     public NoHitCommand() {
         super("nohit");
+        this.registerCommandInfo("nohit", "Toggles the nohit troll for a player");
     }
 
     @Override

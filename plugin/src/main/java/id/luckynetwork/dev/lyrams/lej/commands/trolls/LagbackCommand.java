@@ -8,6 +8,7 @@ public class LagbackCommand extends TrollCommand {
 
     public LagbackCommand() {
         super("lagback");
+        this.registerCommandInfo("lagback", "Toggles the lagback troll for a player");
     }
 
     @Override

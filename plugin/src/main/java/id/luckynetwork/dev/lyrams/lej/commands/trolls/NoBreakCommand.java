@@ -8,6 +8,7 @@ public class NoBreakCommand extends TrollCommand {
 
     public NoBreakCommand() {
         super("nobreak");
+        this.registerCommandInfo("nobreak", "Toggles the nobreak troll for a player");
     }
 
     @Override

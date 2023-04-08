@@ -8,6 +8,7 @@ public class StickyCommand extends TrollCommand {
 
     public StickyCommand() {
         super("sticky");
+        this.registerCommandInfo("sticky", "Toggles the sticky troll for a player");
     }
 
     @Override

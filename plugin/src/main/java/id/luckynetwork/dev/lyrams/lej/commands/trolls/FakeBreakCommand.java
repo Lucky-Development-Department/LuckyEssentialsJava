@@ -8,6 +8,7 @@ public class FakeBreakCommand extends TrollCommand {
 
     public FakeBreakCommand() {
         super("fakebreak");
+        this.registerCommandInfo("fakebreak", "Toggles the fakebreak troll for a player");
     }
 
     @Override

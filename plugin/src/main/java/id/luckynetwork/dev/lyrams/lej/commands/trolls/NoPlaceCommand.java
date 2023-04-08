@@ -8,6 +8,7 @@ public class NoPlaceCommand extends TrollCommand {
 
     public NoPlaceCommand() {
         super("noplace");
+        this.registerCommandInfo("noplace", "Toggles the noplace troll for a player");
     }
 
     @Override

@@ -8,6 +8,7 @@ public class OnetapCommand extends TrollCommand {
 
     public OnetapCommand() {
         super("onetap");
+        this.registerCommandInfo("onetap", "Toggles the onetap troll for a player");
     }
 
     @Override

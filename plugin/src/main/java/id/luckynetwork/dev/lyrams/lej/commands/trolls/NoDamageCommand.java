@@ -8,6 +8,7 @@ public class NoDamageCommand extends TrollCommand {
 
     public NoDamageCommand() {
         super("nodamage");
+        this.registerCommandInfo("nodamage", "Toggles the nodamage troll for a player");
     }
 
     @Override

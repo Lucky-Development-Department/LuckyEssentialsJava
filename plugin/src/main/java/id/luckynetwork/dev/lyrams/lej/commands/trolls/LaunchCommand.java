@@ -11,6 +11,7 @@ public class LaunchCommand extends TrollCommand {
 
     public LaunchCommand() {
         super("launch");
+        this.registerCommandInfo("launch", "Launches a player into the air");
     }
 
     @Override

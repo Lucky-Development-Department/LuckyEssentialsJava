@@ -8,6 +8,7 @@ public class NoInteractCommand extends TrollCommand {
 
     public NoInteractCommand() {
         super("nointeract");
+        this.registerCommandInfo("nointeract", "Toggles the nointeract troll for a player");
     }
 
     @Override
