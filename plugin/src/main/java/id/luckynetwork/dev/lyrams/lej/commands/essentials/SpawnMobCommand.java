@@ -27,10 +27,16 @@ public class SpawnMobCommand extends CommandClass {
         for (EntityType type : EntityType.values()) {
             if (type.name().equalsIgnoreCase(targetOrMob)) {
                 entityType = type;
+                break;
             }
         }
 
-        if (!(sender instanceof Player) || entityType == null) {
+        if (entityType == null) {
+            sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown mob: §l" + mobOrAmount + "§c!");
+            return;
+        }
+
+        if (!(sender instanceof Player)) {
             // /spawnmob LyraMS zombie [1]
             TargetsCallback targets = this.getTargets(sender, targetOrMob);
             if (targets.notifyIfEmpty()) {
@@ -42,17 +48,6 @@ public class SpawnMobCommand extends CommandClass {
 
             if (mobOrAmount == null) {
                 sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cPlease enter the mob type!");
-                return;
-            }
-
-            for (EntityType type : EntityType.values()) {
-                if (type.name().equalsIgnoreCase(mobOrAmount)) {
-                    entityType = type;
-                }
-            }
-
-            if (entityType == null) {
-                sender.sendMessage(plugin.getMainConfigManager().getPrefix() + "§cUnknown mob: §l" + mobOrAmount + "§c!");
                 return;
             }
 

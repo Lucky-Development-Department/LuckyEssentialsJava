@@ -125,11 +125,15 @@ public class TeleportPositionCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "teleport.position")) {
+        if (!Utils.checkPermission(sender, "teleport.position", true)) {
             return null;
         }
 
-        return this.players(args[0]);
+        if (args.length == 1) {
+            return this.players(args[0]);
+        }
+
+        return null;
     }
 
     private String beautifyLocation(Location location) {

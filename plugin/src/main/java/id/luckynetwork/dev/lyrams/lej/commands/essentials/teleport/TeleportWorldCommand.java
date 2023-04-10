@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TeleportWorldCommand extends CommandClass {
 
@@ -58,6 +59,16 @@ public class TeleportWorldCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (!Utils.checkPermission(sender, "teleport.world", true)) {
+            return null;
+        }
+
+        if (args.length == 1) {
+            return Bukkit.getWorlds().stream().map(World::getName)
+                    .filter(worldName -> worldName.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
         return null;
     }
 

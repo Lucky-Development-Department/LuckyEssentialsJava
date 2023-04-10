@@ -69,7 +69,7 @@ public class TeleportHereCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "teleport.here")) {
+        if (!Utils.checkPermission(sender, "teleport.here", true)) {
             return null;
         }
 

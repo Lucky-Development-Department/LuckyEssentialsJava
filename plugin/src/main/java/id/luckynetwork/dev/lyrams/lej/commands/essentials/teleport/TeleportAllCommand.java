@@ -75,7 +75,7 @@ public class TeleportAllCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "teleport.all")) {
+        if (!Utils.checkPermission(sender, "teleport.all", true)) {
             return null;
         }
 
