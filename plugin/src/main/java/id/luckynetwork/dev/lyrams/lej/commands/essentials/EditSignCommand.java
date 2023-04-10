@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EditSignCommand extends CommandClass {
 
@@ -114,6 +116,23 @@ public class EditSignCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (Utils.checkPermission(sender, "editsign", true)) {
+            if (args.length == 1) {
+                return Stream.of("set", "clear")
+                        .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                        .collect(Collectors.toList());
+            } else if (args.length == 2) {
+                if (args[0].equalsIgnoreCase("set")) {
+                    return Stream.of("0", "1", "2", "3")
+                            .filter(s -> s.toLowerCase().startsWith(args[1].toLowerCase()))
+                            .collect(Collectors.toList());
+                } else if (args[0].equalsIgnoreCase("clear")) {
+                    return Stream.of("-1", "0", "1", "2", "3")
+                            .filter(s -> s.toLowerCase().startsWith(args[1].toLowerCase()))
+                            .collect(Collectors.toList());
+                }
+            }
+        }
         return null;
     }
 }

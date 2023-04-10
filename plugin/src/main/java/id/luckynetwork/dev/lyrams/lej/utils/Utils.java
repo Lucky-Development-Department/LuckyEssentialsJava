@@ -60,6 +60,14 @@ public class Utils {
      * see {@link Utils#checkPermission(CommandSender, String, boolean, boolean, boolean, String)}
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public boolean checkPermission(CommandSender sender, String permission, boolean silent) {
+        return Utils.checkPermission(sender, permission, false, false, silent, null);
+    }
+
+    /**
+     * see {@link Utils#checkPermission(CommandSender, String, boolean, boolean, boolean, String)}
+     */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean checkPermission(CommandSender sender, boolean others, String permission) {
         return Utils.checkPermission(sender, permission, others, false, false, null);
     }

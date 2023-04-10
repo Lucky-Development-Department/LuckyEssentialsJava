@@ -335,7 +335,7 @@ public class ExpCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "exp")) {
+        if (!Utils.checkPermission(sender, "exp", true)) {
             return null;
         }
 
@@ -343,9 +343,7 @@ public class ExpCommand extends CommandClass {
             return Stream.of("add", "remove", "set", "check")
                     .filter(it -> it.toLowerCase().startsWith(args[0]))
                     .collect(Collectors.toList());
-        } else if (args.length == 0) {
-            return this.players(args[0]);
-        } else if (args.length == 0 && !args[0].equalsIgnoreCase("check")) {
+        } else if (!args[0].equalsIgnoreCase("check")) {
             return Stream.of("-s")
                     .filter(it -> it.toLowerCase().startsWith(args[0]))
                     .collect(Collectors.toList());

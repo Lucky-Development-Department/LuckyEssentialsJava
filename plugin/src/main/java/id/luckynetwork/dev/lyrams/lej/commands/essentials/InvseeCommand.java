@@ -63,7 +63,7 @@ public class InvseeCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "invsee")) {
+        if (!Utils.checkPermission(sender, "invsee", true)) {
             return null;
         }
 

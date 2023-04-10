@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HealCommand extends CommandClass {
 
@@ -83,12 +85,16 @@ public class HealCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "heal")) {
+        if (!Utils.checkPermission(sender, "heal", true)) {
             return null;
         }
 
         if (args.length == 1) {
             return this.players(args[0]);
+        } else if (args.length == 2) {
+            return Stream.of("-s")
+                    .filter(it -> it.toLowerCase().startsWith(args[1]))
+                    .collect(Collectors.toList());
         }
 
         return null;

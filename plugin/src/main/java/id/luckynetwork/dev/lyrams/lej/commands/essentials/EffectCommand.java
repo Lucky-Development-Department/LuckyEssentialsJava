@@ -274,7 +274,7 @@ public class EffectCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "effect")) {
+        if (!Utils.checkPermission(sender, "effect", true)) {
             return null;
         }
 
@@ -307,7 +307,9 @@ public class EffectCommand extends CommandClass {
                     .filter(s -> s.toLowerCase().startsWith(args[3].toLowerCase()))
                     .collect(Collectors.toList());
         } else if (args.length == 5) {
-            return Collections.singletonList("-s");
+            return Stream.of("-s")
+                    .filter(s -> s.toLowerCase().startsWith(args[4].toLowerCase()))
+                    .collect(Collectors.toList());
         }
 
         return null;

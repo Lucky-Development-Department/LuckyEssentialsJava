@@ -393,7 +393,7 @@ public class WhitelistCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "whitelist")) {
+        if (!Utils.checkPermission(sender, "whitelist", true)) {
             return null;
         }
 

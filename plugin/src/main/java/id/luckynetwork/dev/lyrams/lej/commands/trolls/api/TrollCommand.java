@@ -20,7 +20,7 @@ public abstract class TrollCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "trolls." + alias)) {
+        if (!Utils.checkPermission(sender, "trolls." + alias, true)) {
             return null;
         }
 

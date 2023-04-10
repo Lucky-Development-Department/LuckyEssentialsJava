@@ -82,14 +82,10 @@ public class SpeedCommand extends CommandClass {
             return;
         }
 
-        String targetName = "self";
+        String targetName = args[0];
         String typeOrSpeed = "walking";
         Float speed = null;
         boolean silent = String.join(" ", args).contains("-s");
-
-        if (args.length >= 1) {
-            typeOrSpeed = args[0];
-        }
 
         if (args.length >= 2) {
             SpeedType speedType = SpeedType.getType(sender, typeOrSpeed);
@@ -125,14 +121,20 @@ public class SpeedCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "speed")) {
+        if (!Utils.checkPermission(sender, "speed", true)) {
             return null;
         }
 
         if (args.length == 1) {
             return this.players(args[0]);
         } else if (args.length == 2) {
-            return Stream.of("walking", "flying").filter(it -> it.toLowerCase().startsWith(args[1])).collect(Collectors.toList());
+            return Stream.of("walking", "flying")
+                    .filter(it -> it.toLowerCase().startsWith(args[1]))
+                    .collect(Collectors.toList());
+        } else if (args.length == 3) {
+            return Stream.of("-s")
+                    .filter(it -> it.toLowerCase().startsWith(args[2]))
+                    .collect(Collectors.toList());
         }
 
         return null;

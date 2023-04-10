@@ -118,7 +118,7 @@ public class GodCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "god")) {
+        if (!Utils.checkPermission(sender, "god", true)) {
             return null;
         }
 
@@ -127,6 +127,10 @@ public class GodCommand extends CommandClass {
         } else if (args.length == 2) {
             return Stream.of("on", "off", "toggle")
                     .filter(it -> it.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
+        } else if (args.length == 3) {
+            return Stream.of("-s")
+                    .filter(it -> it.toLowerCase().startsWith(args[2]))
                     .collect(Collectors.toList());
         }
 

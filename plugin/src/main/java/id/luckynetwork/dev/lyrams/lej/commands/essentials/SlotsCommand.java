@@ -150,7 +150,7 @@ public class SlotsCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "slots")) {
+        if (!Utils.checkPermission(sender, "slots", true)) {
             return null;
         }
 

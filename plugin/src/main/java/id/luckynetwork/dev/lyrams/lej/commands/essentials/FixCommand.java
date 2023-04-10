@@ -160,10 +160,7 @@ public class FixCommand extends CommandClass {
         }
 
         // /fix [target/scope] [scope] -s [silent]
-        if (args.length >= 1) {
-            targetName = args[0];
-        }
-
+        targetName = args[0];
         if (args.length >= 2) {
             type = args[1];
         }
@@ -184,7 +181,7 @@ public class FixCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "fix")) {
+        if (!Utils.checkPermission(sender, "fix", true)) {
             return null;
         }
 
@@ -198,6 +195,10 @@ public class FixCommand extends CommandClass {
         } else if (args.length == 2) {
             return Stream.of("all", "hand", "armor")
                     .filter(it -> it.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
+        } else if (args.length == 3) {
+            return Stream.of("-s")
+                    .filter(it -> it.toLowerCase().startsWith(args[2]))
                     .collect(Collectors.toList());
         }
 

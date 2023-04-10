@@ -7,6 +7,8 @@ import id.luckynetwork.dev.lyrams.lej.utils.Utils;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DeathKickCommand extends CommandClass {
 
@@ -87,6 +89,20 @@ public class DeathKickCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
+        if (Utils.checkPermission(sender, "deathkick", true)) {
+            if (args.length == 1) {
+                return Stream.of("info", "toggle")
+                        .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                        .collect(Collectors.toList());
+            } else if (args.length == 2) {
+                if (args[0].equalsIgnoreCase("toggle")) {
+                    return Stream.of("toggle", "on", "off")
+                            .filter(s -> s.toLowerCase().startsWith(args[1].toLowerCase()))
+                            .collect(Collectors.toList());
+                }
+            }
+        }
+
         return null;
     }
 }

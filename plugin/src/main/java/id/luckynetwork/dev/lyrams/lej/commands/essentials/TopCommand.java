@@ -71,10 +71,10 @@ public class TopCommand extends CommandClass {
         boolean silent = false;
         if (args.length > 0) {
             targetName = args[0];
-        }
 
-        if (args[args.length - 1].equalsIgnoreCase("-s")) {
-            silent = true;
+            if (args[args.length - 1].equalsIgnoreCase("-s")) {
+                silent = true;
+            }
         }
 
         this.topCommand(sender, targetName, silent);
@@ -90,7 +90,7 @@ public class TopCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "top")) {
+        if (!Utils.checkPermission(sender, "top", true)) {
             return null;
         }
 
@@ -102,10 +102,12 @@ public class TopCommand extends CommandClass {
             suggestions.addAll(this.players(args[0]));
 
             return suggestions;
+        } else if (args.length == 2) {
+            return Stream.of("-s")
+                    .filter(it -> it.toLowerCase().startsWith(args[1]))
+                    .collect(Collectors.toList());
         }
 
-        return Stream.of("-s")
-                .filter(s -> s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-                .collect(Collectors.toList());
+        return null;
     }
 }

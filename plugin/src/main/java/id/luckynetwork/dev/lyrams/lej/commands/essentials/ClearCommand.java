@@ -136,7 +136,7 @@ public class ClearCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "clear")) {
+        if (!Utils.checkPermission(sender, "clear", true)) {
             return null;
         }
 
@@ -150,6 +150,10 @@ public class ClearCommand extends CommandClass {
             case 3:
                 return Stream.of("true", "false")
                         .filter(it -> it.toLowerCase().startsWith(args[2].toLowerCase()))
+                        .collect(Collectors.toList());
+            case 4:
+                return Stream.of("-s")
+                        .filter(it -> it.toLowerCase().startsWith(args[3].toLowerCase()))
                         .collect(Collectors.toList());
         }
 

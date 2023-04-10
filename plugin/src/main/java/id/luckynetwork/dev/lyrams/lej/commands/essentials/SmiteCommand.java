@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SmiteCommand extends CommandClass {
 
@@ -85,12 +86,16 @@ public class SmiteCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "smite")) {
+        if (!Utils.checkPermission(sender, "smite", true)) {
             return null;
         }
 
         if (args.length == 1) {
             return this.players(args[0]);
+        } else if (args.length == 2) {
+            return Stream.of("-s")
+                    .filter(it -> it.toLowerCase().startsWith(args[1]))
+                    .collect(Collectors.toList());
         }
 
         return null;

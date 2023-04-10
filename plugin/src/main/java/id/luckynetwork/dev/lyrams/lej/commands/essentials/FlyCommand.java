@@ -121,7 +121,7 @@ public class FlyCommand extends CommandClass {
 
     @Override
     public List<String> getTabSuggestions(CommandSender sender, String alias, String[] args) {
-        if (!Utils.checkPermission(sender, "fly")) {
+        if (!Utils.checkPermission(sender, "fly", true)) {
             return null;
         }
 
@@ -137,8 +137,6 @@ public class FlyCommand extends CommandClass {
                     .collect(Collectors.toList());
         }
 
-        return Stream.of("-s")
-                .filter(s -> s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-                .collect(Collectors.toList());
+        return null;
     }
 }
